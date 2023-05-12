@@ -1,0 +1,10 @@
+RewriteEngine On
+RewriteRule ^home/?$ index.php [NC,L]
+RewriteRule ^category/([^/\.]+)/?$ category.php?cat=$1 [NC,L]
+
+RewriteRule ^chair/([^/\.]+)/?$ subcategory.php?subcat=$1 [NC,L]
+RewriteRule ^sofa/([^/\.]+)/?$ subcategory.php?subcat=$1 [NC,L]
+RewriteRule ^bedroom/([^/\.]+)/?$ subcategory.php?subcat=$1 [NC,L]
+RewriteRule ^dining/([^/\.]+)/?$ subcategory.php?subcat=$1 [NC,L]
+
+RewriteRule ^([0-9a-zA_Z_-]+)$ product-page.php?slug=$1 [NC,L]
