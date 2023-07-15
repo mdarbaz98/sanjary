@@ -12,7 +12,7 @@ $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https"
 <meta content="Themesbrand" name="author" />
 
     <?php if(strpos($actual_link, 'localhost')) {?>
-      <base href="http://localhost/hos/hos-admin/">
+      <base href="http://localhost/sanjary/sanjary-admin/">
     <?php
       }else {
     ?>

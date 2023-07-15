@@ -23,7 +23,7 @@ $('#product_form').validate({
         console.log(data);
         if (data.includes("inserted")) {
           var id = data.substr(8);
-       //   window.location.href = "product_update.php?id=" + id + "&status=add";
+          window.location.href = "product_update.php?id=" + id + "&status=add";
         } else {
           alert("Enter Valid " + data);
           $('#' + data).focus();
