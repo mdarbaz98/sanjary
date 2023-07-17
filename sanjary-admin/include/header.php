@@ -16,7 +16,7 @@ $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https"
     <?php
       }else {
     ?>
-      <base href="<?php echo $actual_link; ?>">
+      <base href="<?php echo $actual_link; ?>/">
     <?php
       }
     ?>
