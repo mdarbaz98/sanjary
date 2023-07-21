@@ -2,7 +2,7 @@
 date_default_timezone_set('Asia/Kolkata');
 session_start(); //to ensure you are using same session
 session_destroy(); //destroy the session
-header("location:/https://admin.sanjaryfurniture.com"); //to redirect back to "index.php" after logging out
+header("location:/"); //to redirect back to "index.php" after logging out
 exit();
 
 ?>

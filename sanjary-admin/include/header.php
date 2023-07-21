@@ -1,6 +1,7 @@
-<?php session_start();
-session_regenerate_id();
+<?php 
 $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]";
+session_start();
+session_regenerate_id();
 ?>
 <!doctype html>
 <html lang="en">
