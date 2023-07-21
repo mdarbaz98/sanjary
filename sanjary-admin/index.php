@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8" />
-	<title>HOS PANEL</title>
+	<title>Sanjary PANEL</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta content="AUGS Admin & Dashboard" name="description" />
 	<meta content="Themesbrand" name="author" />
@@ -49,7 +49,7 @@
 					<div class="row">
 						<div class="col-sm-4 p-0">
 						<div class="auth-full-page-content p-4" id="login_section">
-							<h3 class="text-center"><img src="../images/logo.jpg" alt="HOS Logo" class="logo_design"></h3>				
+							<h3 class="text-center"><img src="../images/logo.jpg" alt="Sanjary Logo" class="logo_design"></h3>				
 						<form id="login_form" class="mt-5">			
 										<div class="mb-3">
 										<label for="formemail" class="form-label">Username</label>

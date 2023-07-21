@@ -3,7 +3,7 @@ include('include/header.php');
 include('include/sidenav.php');
 include('include/config.php');
 ?>
-<?php if (!empty ($_SESSION['admin_is_login'])){ ?>
+<?php// if (!empty ($_SESSION['admin_is_login'])){ ?>
 	<div class="main-content">
 		<div class="page-content">
 			<div class="container-fluid product_page">
@@ -141,7 +141,7 @@ include('include/config.php');
 	</script>
 	<?php
     include('include/footer.php');
-						}else{
-	echo "<script>window.location='https://admin.sanjaryfurniture.com'</script>";
-	}
+	// 					}else{
+	// echo "<script>window.location='https://admin.sanjaryfurniture.com'</script>";
+	// }
  ?>
