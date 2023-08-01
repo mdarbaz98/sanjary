@@ -132,7 +132,7 @@ include("include/header.php") ?>
                     while ($row = $product->fetch(PDO::FETCH_ASSOC)){
                         $prod_id = $row['id'];
                     $stmt_img = $conn->prepare("SELECT * FROM `images` WHERE status=1 AND id=?");
-					$stmt_img->execute([$row['front_img']]);
+					$stmt_img->execute([$row['img_id']]);
 					$img_data = $stmt_img->fetchAll(PDO::FETCH_ASSOC);
 					if(!empty($img_data)) {
 						$image = $img_data[0]['path']; 
@@ -461,7 +461,7 @@ include("include/header.php") ?>
                                                     while ($row = $product->fetch(PDO::FETCH_ASSOC)){
                                                         $prod_id = $row['id'];
                                                     $stmt_img = $conn->prepare("SELECT * FROM `images` WHERE status=1 AND id=?");
-                                                    $stmt_img->execute([$row['front_img']]);
+                                                    $stmt_img->execute([$row['img_id']]);
                                                     $img_data = $stmt_img->fetchAll(PDO::FETCH_ASSOC);
                                                     if(!empty($img_data)) {
                                                         $image = $img_data[0]['path']; 
@@ -527,7 +527,7 @@ include("include/header.php") ?>
                                                     while ($row = $product->fetch(PDO::FETCH_ASSOC)){
                                                         $prod_id = $row['id'];
                                                     $stmt_img = $conn->prepare("SELECT * FROM `images` WHERE status=1 AND id=?");
-                                                    $stmt_img->execute([$row['front_img']]);
+                                                    $stmt_img->execute([$row['img_id']]);
                                                     $img_data = $stmt_img->fetchAll(PDO::FETCH_ASSOC);
                                                     if(!empty($img_data)) {
                                                         $image = $img_data[0]['path']; 
@@ -591,7 +591,7 @@ include("include/header.php") ?>
                                                     while ($row = $product->fetch(PDO::FETCH_ASSOC)){
                                                         $prod_id = $row['id'];
                                                     $stmt_img = $conn->prepare("SELECT * FROM `images` WHERE status=1 AND id=?");
-                                                    $stmt_img->execute([$row['front_img']]);
+                                                    $stmt_img->execute([$row['img_id']]);
                                                     $img_data = $stmt_img->fetchAll(PDO::FETCH_ASSOC);
                                                     if(!empty($img_data)) {
                                                         $image = $img_data[0]['path']; 
@@ -655,7 +655,7 @@ include("include/header.php") ?>
                                                     while ($row = $product->fetch(PDO::FETCH_ASSOC)){
                                                         $prod_id = $row['id'];
                                                     $stmt_img = $conn->prepare("SELECT * FROM `images` WHERE status=1 AND id=?");
-                                                    $stmt_img->execute([$row['front_img']]);
+                                                    $stmt_img->execute([$row['img_id']]);
                                                     $img_data = $stmt_img->fetchAll(PDO::FETCH_ASSOC);
                                                     if(!empty($img_data)) {
                                                         $image = $img_data[0]['path']; 
