@@ -24,7 +24,7 @@
         <?php
       if(strpos($actual_link, 'localhost')) {
     ?>
-      <base href="http://localhost/hos/">
+      <base href="http://localhost/sanjary/">
     <?php
       }else {
     ?>
