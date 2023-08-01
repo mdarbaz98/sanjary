@@ -1,6 +1,6 @@
 <?php 
-include('./include/config.php');
-include("./include/header.php") ?>
+include('include/config.php');
+include("include/header.php") ?>
 <!-- SLIDER-AREA START  -->
 			<section class="slider-area slider-style-2">
 				<div class="bend niceties preview-2">
