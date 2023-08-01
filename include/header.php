@@ -1,3 +1,7 @@
+<?php $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]"; 
+//include('include/database.php');
+
+?>
 <!doctype html>
 <html class="no-js" lang="en">
 	
@@ -15,6 +19,19 @@
 		<!-- Google Font -->
 		<link href='https://fonts.googleapis.com/css?family=Lato:400,700,900' rel='stylesheet' type='text/css'>
 		<link href='https://fonts.googleapis.com/css?family=Bree+Serif' rel='stylesheet' type='text/css'>
+
+
+        <?php
+      if(strpos($actual_link, 'localhost')) {
+    ?>
+      <base href="http://localhost/hos/">
+    <?php
+      }else {
+    ?>
+      <base href="<?php echo $actual_link; ?>">
+    <?php
+      }
+      ?>
 
 		<!-- all css here -->
 		<!-- bootstrap v3.3.6 css -->

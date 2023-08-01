@@ -1,4 +1,7 @@
-<?php session_start(); ?>
+<?php session_start();
+echo $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]";
+
+?>
 <!doctype html>
 <html lang="en">
 <head>
