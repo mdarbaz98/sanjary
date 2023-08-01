@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8" />
-	<title>Sanjary PANEL</title>
+	<title>Sanjary PANEL mehtab</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta content="AUGS Admin & Dashboard" name="description" />
 	<meta content="Themesbrand" name="author" />
