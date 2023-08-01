@@ -20,6 +20,8 @@ try
 }
 catch(PDOEXCEPTION $e)
 {
-	$e->getMessage();
+	echo "not connect";	
+	echo $e->getMessage();
+
 }
 ?>
