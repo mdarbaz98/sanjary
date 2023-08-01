@@ -16,12 +16,9 @@ try
 {
 	$conn=new PDO("mysql:host={$db_host};dbname={$db_name};port=3306",$db_user,$db_password);
 	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-	echo "connected";
 }
 catch(PDOEXCEPTION $e)
 {
-	echo "not connect";	
 	echo $e->getMessage();
-
 }
 ?>
