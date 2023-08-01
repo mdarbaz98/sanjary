@@ -7,9 +7,9 @@ if(strpos($actual_link, 'localhost')) {
 	$db_password="";
 }else {
 	$db_host="localhost"; 
-	$db_user="sanjaryf_admin_sanjary";
-	$db_name="sanjaryf_admin_sanjary";
-	$db_password="}bDf6hr7}QfI";
+	$db_user="sanjaryf_sanjaryf_final_user";
+	$db_name="sanjaryf_final_database";
+	$db_password="4FIK3ck2mP@P";
 }
 
 try
