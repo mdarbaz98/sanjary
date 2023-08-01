@@ -1,5 +1,5 @@
 <?php 
-include('sanjary-admin/include/config.php');
+include('./include/config.php');
 include("./include/header.php") ?>
 <!-- SLIDER-AREA START  -->
 			<section class="slider-area slider-style-2">
