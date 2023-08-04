@@ -80,6 +80,7 @@ if($_POST['btn']=='deleteCategory_id'){
     $stmt = $conn->prepare("INSERT INTO product(img_id, product_name, slug, category, description, product_color, PostDate, status) VALUES(?,?,?,?,?,?,?,?)");
     if($stmt->execute([$img_id, $name, $slug, $cat, $description, $color, $PostDate, 1])){
                 $last_pro_id = $conn->lastInsertId();
+                if(!empty($_POST['size'][0])){ 
                 $total_price = count($_POST['size']);
                 if(!empty($total_price)){    
                 for($i=0;$i<$total_price;$i++){ 
@@ -92,6 +93,9 @@ if($_POST['btn']=='deleteCategory_id'){
                       }
                 }
               }
+            }
+
+
               echo "inserted".$last_pro_id;
 
 
@@ -121,6 +125,7 @@ if($_POST['btn']=='deleteCategory_id'){
     $stmt = $conn->prepare("UPDATE product SET img_id=?, front_img=?, product_name=?, slug=?, category=?, description=?, product_color=? WHERE id=?");
     if($stmt->execute([$img_id, $front_img, $name, $slug, $cat, $desc, $color, $product_id])){
     
+      if(!empty($_POST['size'][0])){ 
       $total_price = count($_POST['size']);
       if(!empty($total_price)){    
       for($i=0;$i<$total_price;$i++){ 
@@ -133,6 +138,7 @@ if($_POST['btn']=='deleteCategory_id'){
             }
       }
     }
+  }
 
      
       echo "updated";
@@ -143,6 +149,13 @@ if($_POST['btn']=='uploadProduct_id'){
     $update = $conn->prepare('UPDATE product SET status=1 WHERE id=?');
     $update->execute([$_POST['uploadProduct_id']]);
     echo 'uploaded';
+    }
+
+      // Trash product
+  if($_POST['btn']=='trashProductprice_id'){
+    $update = $conn->prepare('DELETE FROM product_price WHERE id=?');
+    $update->execute([$_POST['trashProductprice_id']]);
+    echo 'deleted';
     }
   // Trash product
   if($_POST['btn']=='trashProduct_id'){
@@ -206,6 +219,29 @@ if($_POST['btn']=='uploadPost_id'){
     echo 'uploaded';
     }
 
+    if($_POST['btn']=="productPriceupdate"){
+    
+
+      $getAddress=$conn->prepare("SELECT * FROM product_price WHERE id=?");
+      $getAddress->execute([$_POST['productPriceupdate']]);
+      while($row=$getAddress->fetch(PDO::FETCH_ASSOC)){
+          echo json_encode(array(
+              "price"=>$row['price'],
+              "dprice"=>$row['d_price'],
+              "size"=>$row['size'],
+              "updateProductprice_id"=>$row['id'],
+          ));    
+      }
+  }
+
+  if($_POST['btn']=='updateProductprice'){
+    $update = $conn->prepare('UPDATE product_price SET size=?, price=?, d_price=? WHERE id=?');
+    $update->execute([$_POST['size'], $_POST['price'], $_POST['dprice'], $_POST['updateProductprice_id']]);
+    echo 'updated';
+    }
+
+  
+    
    
 // trash post
 if($_POST['btn']=='trashPost_id'){

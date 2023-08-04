@@ -151,6 +151,55 @@
   </div>
 </div>
 
+<div class="modal fade" id="priceUpdatemodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div  class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Upload And Set Feature Image</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+      <form id="update_Productprice">
+									<div class="row">
+									    
+
+									  <div class="form-group mt-1">
+										<label for="cat">Size</label>
+										<input type="text" class="form-control add_cat_inputs" id="productPrice_size" name="size"> 
+                    </div>
+                                    
+                    <div class="form-group">
+                                        <label for="cat_slug">Price</label>
+										<input type="text" class="form-control add_cat_inputs" id="productPrice_price" name="price" value="">
+                      </div>
+
+										<div class="form-group">
+                                        <label for="cat_slug">Discount Price</label>
+										<input type="text" class="form-control add_cat_inputs" id="productPrice_dprice" name="dprice">   
+                  </div>
+										
+                                     
+                </div>						 
+					
+									<div class="submit-btns justify-content-end">
+										<input type="hidden" name="btn" value="updateProductprice">
+										<input type="hidden" name="updateProductprice_id" id="updateProductprice_id">
+										<input type="submit" class="post-btn float-right justify-content-center" value="Update">
+                  </div>
+								</form>
+
+      </div>
+      <div class="modal-footer">
+        <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <!-- JAVASCRIPT -->
 <!-- <script src="assets/libs/jquery/jquery.min.js"></script> -->
@@ -260,7 +309,43 @@ $("#draft").change(function(){
         success: function (data) {
           if (data == 'updated') {
             alert('Category Updated Successfully')
-            location.reload()
+            location.reload();
+          } else {
+            alert('Some Technical Issue')
+          }
+        },
+      })
+    },
+  });
+
+
+  $('#update_Productprice').validate({
+    rules: {
+      price: 'required',
+      dprice: 'required',
+      size: 'required',
+    },
+    message: {
+      price: 'required',
+      dprice: 'required',
+      size: 'required',
+    },
+    submitHandler: function (form) {
+      // alert("validated");
+
+      $.ajax({
+        url: 'action.php',
+        type: 'post',
+        data: new FormData(form),
+        contentType: false,
+        cache: false,
+        processData: false,
+        success: function (data) {
+          
+          if (data == 'updated') {
+            alert('Price Updated Successfully')
+            $('#priceUpdatemodal').modal('hide');
+            location.reload();
           } else {
             alert('Some Technical Issue')
           }

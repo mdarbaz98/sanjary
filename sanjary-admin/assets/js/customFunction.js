@@ -349,6 +349,52 @@ function trashProduct(id) {
     })
   }
 }
+function deleteProductprice(id) {
+  var x = confirm('Are you sure you want to delete this?')
+  if (x) {
+    $.ajax({
+      type: 'POST',
+      url: 'action.php',
+      dataType: 'html',
+      data: {
+        trashProductprice_id: id,
+        btn: 'trashProductprice_id',
+      },
+      success: function (data) {
+        if (data == 'deleted') {
+          alert('Product Size Price Successfully Deleted')
+          location.reload()
+        }
+      },
+    })
+  }
+}
+
+function productPriceupdate(id){
+    $.ajax({
+    type: 'POST',
+    url: 'action.php',
+    dataType: 'json',
+    data: {
+      productPriceupdate: id,
+      btn: 'productPriceupdate',
+    },
+    success: function (data) {
+
+      var json = $.parseJSON(JSON.stringify(data));
+      var price = json.price;
+      var dprice = json.dprice;
+      var size = json.size;
+      var updateProductprice_id = json.updateProductprice_id;
+
+      $("#productPrice_price").val(price);
+      $("#productPrice_dprice").val(dprice);
+      $("#productPrice_size").val(size);
+      $("#updateProductprice_id").val(updateProductprice_id);
+    },
+  })
+  $('#priceUpdatemodal').modal('show');
+}
 //Permanent Delete product
 function deleteProduct(id) {
   var x = confirm('Are you sure you want to permanent delete this?')

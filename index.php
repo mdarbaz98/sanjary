@@ -125,7 +125,6 @@ include("include/header.php") ?>
 							</div>
 							<div class="product-slider style-2 arrow-left-right">
 		<?php    
-        
                  $product=$conn->prepare("SELECT * FROM product order by id desc limit 10");
                  $product->execute();
                  $i=0;
