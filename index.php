@@ -1,6 +1,6 @@
 <?php 
 include('include/config.php');
-include("include/header.php") ?>
+include("include/header.php"); ?>
 <!-- SLIDER-AREA START  -->
 			<section class="slider-area slider-style-2">
 				<div class="bend niceties preview-2">
@@ -167,11 +167,11 @@ include("include/header.php") ?>
 										<div class="product-img">
 											<span class="pro-label new-label">new</span>
 											<span class="pro-price-2">$ <?php echo $price ?></span>
-											<a href="single-product.html"><img src="sanjary-admin/<?php echo $image ?>" alt="<?php echo $image ?>" /></a>
+											<a href="<?php echo $row['slug']; ?>"><img src="sanjary-admin/<?php echo $image ?>" alt="<?php echo $image ?>" /></a>
 										</div>
 										<div class="product-info clearfix text-center">
 											<div class="fix">
-												<h4 class="post-title"><a href="#"><?php echo $row['product_name']; ?></a></h4>
+												<h4 class="post-title"><a href="<?php echo $row['slug']; ?>"><?php echo $row['product_name']; ?></a></h4>
 											</div>
 											<div class="fix">
 												<span class="pro-rating">
