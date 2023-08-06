@@ -123,8 +123,8 @@ message:{
             success: function(data){
               if(data=='done'){				
               alert("Login Successfully");
-							 window.location = "https://admin.sanjaryfurniture.com/home.php";
-							 //window.location = "http://localhost/sanjary/sanjary-admin/home.php";
+							// window.location = "https://admin.sanjaryfurniture.com/home.php";
+							window.location = "http://localhost/sanjary/sanjary-admin/home.php";
 							}
 							else{
 								alert("Wrong Credentials")

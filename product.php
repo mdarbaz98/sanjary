@@ -13,6 +13,18 @@ while ($row = $product->fetch(PDO::FETCH_ASSOC)){
 	$description= $row['description'];
 	$price= $row['prc'];
 	$product_name= $row['product_name'];
+
+	$stmt_pro_price = $conn->prepare("SELECT * FROM `product_price` WHERE status=1 AND product_id=?");
+	$stmt_pro_price->execute([$row['id']]);
+	$stmt_pro_price_data = $stmt_pro_price->fetchAll(PDO::FETCH_ASSOC);
+	if(!empty($stmt_pro_price_data)) {
+		$size = $stmt_pro_price_data[0]['size']; 
+		$price = $stmt_pro_price_data[0]['price'];
+	}else{
+		$size="Not Found";
+		$price="Not Found";
+		}
+
 }
 
 ?>
@@ -30,6 +42,7 @@ while ($row = $product->fetch(PDO::FETCH_ASSOC)){
                                                     $stmt_img = $conn->prepare("SELECT * FROM `images` WHERE status=1 AND id=?");
                                                     $stmt_img->execute([$image_id]);
                                                     while($img_data = $stmt_img->fetch(PDO::FETCH_ASSOC)){
+														$pro_image = $img_data['path']
                                             ?>
 									<div>
 										<img src="sanjary-admin/<?php echo $img_data['path'] ?>" alt="" />
@@ -53,7 +66,7 @@ while ($row = $product->fetch(PDO::FETCH_ASSOC)){
 										</span>
 									</div>
 									<div class="fix mb-20">
-										<span class="pro-price">$ 56.20</span>
+										<span class="pro-price">INR <?php echo $price ?></span>
 									</div>
 									<div class="product-description">
 										<p><?php echo $description ?></p>
@@ -74,11 +87,7 @@ while ($row = $product->fetch(PDO::FETCH_ASSOC)){
 									<div class="size-filter single-pro-size mb-35 clearfix">
 										<ul>
 											<li><span class="color-title text-capitalize">size</span></li>
-											<li><a href="#">M</a></li>
-											<li><a class="active" href="#">S</a></li>
-											<li><a href="#">L</a></li>
-											<li><a href="#">SL</a></li>
-											<li><a href="#">XL</a></li>
+											<li><a class="active" href="#"><?php echo $size ?></a></li>
 										</ul>
 									</div>
 									<!-- Size end -->
@@ -90,7 +99,8 @@ while ($row = $product->fetch(PDO::FETCH_ASSOC)){
 											<a href="wishlist.html" data-bs-toggle="tooltip" data-placement="top" title="Wishlist"><i class="zmdi zmdi-favorite-outline"></i></a>
 											<a href="#" data-bs-toggle="modal"  data-bs-target="#productModal" title="Quick View"><i class="zmdi zmdi-zoom-in"></i></a>
 											<a href="#" data-bs-toggle="tooltip" data-placement="top" title="Compare"><i class="zmdi zmdi-refresh"></i></a>
-											<a href="cart.html" data-bs-toggle="tooltip" data-placement="top" title="Add To Cart"><i class="zmdi zmdi-shopping-cart-plus"></i></a>
+											<a href="javascript:void(0)" onclick="addProductToCart(this)" data-pro_name="<?php echo $product_name ?>" data-category="<?php echo $category ?>"
+											data-image="<?php echo $pro_image ?>" data-price="<?php echo $price ?>" data-size="<?php echo $size ?>"  data-bs-toggle="tooltip" data-placement="top" title="Add To Cart"><i class="zmdi zmdi-shopping-cart-plus"></i></a>
 										</div>
 									</div>
 									<!-- Single-pro-slider Small-photo start -->

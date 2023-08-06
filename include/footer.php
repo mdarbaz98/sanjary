@@ -289,6 +289,7 @@
 		<script src="js/plugins.js"></script>
 		<!-- main js -->
 		<script src="js/main.min.js"></script>
+		<script src="js/functionCustome.js"></script>
 	</body>
 
 <!-- Mirrored from template.hasthemes.com/hurst-v1/hurst/index-2.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 31 Jul 2023 18:48:43 GMT -->
