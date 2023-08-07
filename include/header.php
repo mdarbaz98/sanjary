@@ -104,7 +104,7 @@ if(!isset($_COOKIE["userID"])) {
 						<div class="row">
 							<div class="col-md-4 offset-md-4 col-7">
 								<div class="logo text-md-center">
-									<a href="index.html"><img src="img/logo/logo.png" alt="" /></a>
+									<a href="/"><img src="img/logo/logo.png" alt="" /></a>
 								</div>
 							</div>
 							<div class="col-md-4 col-5">
@@ -167,11 +167,11 @@ if(!isset($_COOKIE["userID"])) {
 				<div class="main-menu  d-none d-md-block">
 					<nav>
 						<ul>
-							<li><a href="index.html">home</a>
+							<li><a href="/">home</a>
 								<div class="sub-menu menu-scroll">
 									<ul>
 										<li class="menu-title">Page's</li>
-										<li><a href="index.html">Home Version 1</a></li>
+										<li><a href="/">Home Version 1</a></li>
 										<li><a href="index-2.html">Home Version 2</a></li>
 									</ul>
 								</div>
@@ -286,9 +286,9 @@ if(!isset($_COOKIE["userID"])) {
 							<div class="mobile-menu">
 								<nav id="dropdown">
 									<ul>
-										<li><a href="index.html">home</a>
+										<li><a href="/">home</a>
 											<ul>
-												<li><a href="index.html">Home Version 1</a></li>
+												<li><a href="/">Home Version 1</a></li>
 												<li><a href="index-2.html">Home Version 2</a></li>
 											</ul>
 										</li>
