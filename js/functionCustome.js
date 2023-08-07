@@ -31,17 +31,17 @@ function getSizeprice(x){
         success: function(data) {
                 console.log(data)
                 if(data){
-                  var success_cart_btn =`
-                  <a class="add_to_cart" href="cart.php" id="setaddProductToCart" />Checkout</a>`;
+                  // var success_cart_btn =`
+                  // <a class="add_to_cart" href="cart.php" id="setaddProductToCart" />Checkout</a>`;
   
-                  $(`#setaddProductToCart`).parent().attr("onclick", "").html(success_cart_btn);
+                  // $(`#setaddProductToCart`).parent().attr("onclick", "").html(success_cart_btn);
   
-                  $(`[data-quantitycode=${data}]`).attr('data-cart',"yes");
+                  // $(`[data-quantitycode=${data}]`).attr('data-cart',"yes");
                   
-                  $(".content").css("opacity", 1);
-                  $(".btn-ring-addtocart").hide();
+                  // $(".content").css("opacity", 1);
+                  // $(".btn-ring-addtocart").hide();
                   
-                  load_cart();
+                  //load_cart();
                   count_cart();
                   getCart()
                   
@@ -202,7 +202,6 @@ function getSizeprice(x){
     load_for_active_class_call();
 
     function count_cart() {
-     
       var btn = "count_cart";
       $.ajax({
         url: "action.php",

@@ -111,7 +111,7 @@ if(!isset($_COOKIE["userID"])) {
 								<div class="mini-cart text-end">
 									<ul>
 										<li>
-											<a class="cart-icon" href="#">
+											<a class="cart-icon" href="cart">
 												<i class="zmdi zmdi-shopping-cart"></i>
 												<span class="total-item-cart">0</span>
 											</a>
