@@ -46,24 +46,61 @@ if ($_POST['btn'] == "load_maincart_data") {
             $pro_img = $row['pro_img'];
             $pro_qty = $row['pro_qty'];
             $sub_total = $row['sub_total'];
+            $total = $row['total'];
 
-            $cart_product .= '<div class="card_p">
-                                   <div class="left__div">
-                                    <img src="https://admin.houseofsneakers.in/'.$pro_img.'" alt="'.$pro_img.'">
-                                        <div>
-                                            <p>Adidas T-Shirt</p><span> '.$pro_name.' </span>
-                                        </div>
-                                    </div>
-                                    <div class="right__div">
-                                        <div class="qty"><span>'.$pro_qty.'</span>
-                                            <div><i class="fa-solid fa-caret-down"></i>
-                                                <i class="fa-solid fa-caret-down"></i>
-                                            </div>
-                                        </div>
-                                        <div class="price">'.$sub_total.'</div>
-                                            <i class="fa-regular fa-trash-can" onclick="deleteCartproduct('.$cartId.')"></i>
-                                    </div>
-                                </div>';
+            $cart_product.='<tr>
+                                                                
+            <td class="product-thumbnail  text-left">
+                <div class="single-product">
+                    <div class="product-img">
+                        <a href="single-product.html"><img src="sanjary-admin/'.$pro_img.'" alt="" /></a>
+                    </div>
+                    <div class="product-info">
+                        <h4 class="post-title"><a class="text-light-black" href="#">'.$pro_name.'</a></h4>
+                        <p class="mb-0">Color :  Black</p>
+                        <p class="mb-0">Size :     '.$size.'</p>
+                    </div>
+                </div>                
+            </td>
+            <td class="product-price">INR '.$pro_price.'</td>
+            <td class="product-quantity">
+                <div class="cart-plus-minus">
+                    <input type="text" value="01" name="qtybutton" class="cart-plus-minus-box">
+                </div>
+            </td>
+            <td class="product-subtotal">INR '.$total.'</td>
+            <td class="product-remove">
+                <a href="javascript:void(0)" onclick="deleteCartproduct('.$cartId.')"><i class="zmdi zmdi-close"></i></a>
+            </td>
+        </tr>';
+
+
+
+
+
+
+
+
+
+
+
+            // $cart_product .= '<div class="card_p">
+            //                        <div class="left__div">
+            //                         <img src="https://admin.houseofsneakers.in/'.$pro_img.'" alt="'.$pro_img.'">
+            //                             <div>
+            //                                 <p>Adidas T-Shirt</p><span> '.$pro_name.' </span>
+            //                             </div>
+            //                         </div>
+            //                         <div class="right__div">
+            //                             <div class="qty"><span>'.$pro_qty.'</span>
+            //                                 <div><i class="fa-solid fa-caret-down"></i>
+            //                                     <i class="fa-solid fa-caret-down"></i>
+            //                                 </div>
+            //                             </div>
+            //                             <div class="price">'.$sub_total.'</div>
+            //                                 <i class="fa-regular fa-trash-can" onclick="deleteCartproduct('.$cartId.')"></i>
+            //                         </div>
+            //                     </div>';
 
     }
 
@@ -83,12 +120,10 @@ if ($_POST['btn'] == "load_maincart_data") {
                 $finalTotal = number_format(($finalTotal),2);
                 // echo $total_saving_amount;
 
-
     $arr_data1 = array('datahtml' => $cart_product, 'product_calculation' => $finalTotal, 'cart_product_count' => $count, 'subtotal_CartPrice'=> $totalCartPrice, 
     'shipping_total_price'=> $shipping_charge, 'finalTotal'=> $finalTotal);
     header('Content-Type: application/json; charset=utf-8');
     echo json_encode($arr_data1);
-
 }
 // update cart pop up start work
 if ($_POST['btn'] == 'updateCartproduct') {

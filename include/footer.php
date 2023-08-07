@@ -263,6 +263,9 @@
 		<!-- all js here -->
 		<!-- jquery latest version -->
 		<script src="js/vendor/jquery-3.6.0.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+
 		<script src="js/vendor/jquery-migrate-3.3.2.min.js"></script>
 		<!-- bootstrap js -->
 		<script src="js/bootstrap.bundle.min.js"></script>

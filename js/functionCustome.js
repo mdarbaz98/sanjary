@@ -80,10 +80,10 @@ function getSizeprice(x){
             }
   
           $(".cart_total_product").html(cart_product_count);
-          $(".products__container").html(htmldata);
-          $(".product_subtotal").html(product_calculation);
+          $(".cartProductlisting").html(htmldata);
+          $(".cart_subtotal").html("INR "+product_calculation);
           $(".product_shipping").html(shipping_total_price);
-          $(".final_total_amount").html(finalTotal);
+          $(".final_cartTotal").html("INR "+finalTotal);
           
           // $(".loader-bg").hide();
         },
@@ -213,3 +213,108 @@ function getSizeprice(x){
       });
     }
     count_cart();
+
+    // register for validation 
+$(function() {
+  $("form[name='userOrderplace']").validate({
+    // Specify validation rules
+    rules: {
+      name: {
+        minlength: 3,
+                    maxlength: 30,
+                    pattern: "^[a-zA-Z_]*$",
+                    required: true
+      },
+      email: {
+        required: true,
+        email: true
+      },
+      phone: {
+        required: true,
+        minlength: 10,
+        maxlength: 10,
+      },
+      address: {
+        minlength: 3,
+                    maxlength: 30,
+                    pattern: "^[a-zA-Z_]*$",
+                    required: true
+      },pincode: {
+        minlength: 3,
+                    maxlength: 30,
+                    pattern: "^[a-zA-Z_]*$",
+                    required: true
+      },state: {
+        minlength: 3,
+                    maxlength: 30,
+                    pattern: "^[a-zA-Z_]*$",
+                    required: true
+      },
+      city: {
+        minlength: 3,
+                    maxlength: 30,
+                    pattern: "^[a-zA-Z_]*$",
+                    required: true
+      },
+    },
+    // Specify validation error messages
+    messages: {
+      name: {
+        minlength:"min length should be 3",
+        maxlength:"min length should be 30",
+        pattern: "should be alphabet",
+        required:"Please enter your first name"
+      },
+      lname: {
+        minlength:"min length should be 3",
+        maxlength:"min length should be 30",
+        pattern: "should be alphabet",
+        required:"Please enter your last name"
+      },
+      email: "Please enter a valid email address",
+      password: {
+        required: "Please provide a password",
+        minlength: "Your password must be at least 6 characters long"
+      },
+    },
+
+    submitHandler: function(form) {
+      console.log(phone.classList.contains("success-input"))
+      console.log(email.classList.contains("success-input"))
+        if(email.classList.contains("success-input") && phone.classList.contains("success-input")){
+            var codepin = $(
+            "#addAddressBox .iti__selected-flag .iti__selected-dial-code"
+          ).html();
+          var formData = new FormData(form);
+          var url = window.location.href;
+          formData.append("codepin", codepin);
+  
+          formData.append("url", url);
+          $.ajax({
+            url: "action.php",
+            type: "post",
+            data: formData,
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: function (data) {
+              if(data == "existed"){
+                $("form[name='signup-tab'] .sign_email_error").show().html("Already Exist! Please check mail for direct login");
+                $("form[name='signup-tab'] .signup__email").focus();
+              }else{
+                window.location.replace(url);
+              }
+        
+            },
+          });
+        } else{
+          if(!phone.classList.contains("success-input")){
+            $(`form[name='signup-tab'] .phone1 .pError`).show().html("Please enter valid number");
+          } else if(!email.classList.contains("success-input")){
+            $("form[name='signup-tab'] .sign_email_error").show().html("Please enter valid email");
+          }
+        }
+      
+    }
+  });
+});
