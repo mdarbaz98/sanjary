@@ -114,6 +114,7 @@
 													</div>
 												</div>
 											</div>
+											<input type="hidden" name="btn" value="addUseraddress"/>
 										</form>											
 									</div>
 									<!-- check-out end -->

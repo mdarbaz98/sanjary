@@ -99,7 +99,7 @@ while ($row = $product->fetch(PDO::FETCH_ASSOC)){
 											<a href="wishlist.html" data-bs-toggle="tooltip" data-placement="top" title="Wishlist"><i class="zmdi zmdi-favorite-outline"></i></a>
 											<a href="#" data-bs-toggle="modal"  data-bs-target="#productModal" title="Quick View"><i class="zmdi zmdi-zoom-in"></i></a>
 											<a href="#" data-bs-toggle="tooltip" data-placement="top" title="Compare"><i class="zmdi zmdi-refresh"></i></a>
-											<a href="javascript:void(0)" onclick="addProductToCart(this)" data-pro_name="<?php echo $product_name ?>" data-category="<?php echo $category ?>"
+											<a href="javascript:void(0)" onclick="addProductToCart(this)" data-pro_id="<?php echo $pro_id ?>" data-pro_name="<?php echo $product_name ?>" data-category="<?php echo $category ?>"
 											data-image="<?php echo $pro_image ?>" data-price="<?php echo $price ?>" data-size="<?php echo $size ?>"  data-bs-toggle="tooltip" data-placement="top" title="Add To Cart"><i class="zmdi zmdi-shopping-cart-plus"></i></a>
 										</div>
 									</div>

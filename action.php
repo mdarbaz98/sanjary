@@ -7,6 +7,7 @@ if ($_POST['btn'] == 'addToCartproduct') {
     $category = test_input($_POST['category']);
     $size = test_input($_POST['size']);
     $price = test_input($_POST['price']);
+    $pro_id = test_input($_POST['pro_id']);
     $discounted_price = 0.0;
     $shipping_charge = 0.0;
    // $priceWithoutCommas = str_replace(",", "", $price);    
@@ -14,8 +15,8 @@ if ($_POST['btn'] == 'addToCartproduct') {
     $price = floatval($price);
     $shipping_charge = floatval($shipping_charge);
     //  echo "<br>" .gettype($cart_save_amount);         
-    $select_stmt2=$conn->prepare("INSERT INTO cart(pro_name, size, pro_category, pro_price, pro_img, pro_qty, sub_total, total, shipping_charge, discounted_price, userid, wishlist) value(?,?,?,?,?,?,?,?,?,?,?,?)");
-    $select_stmt2->execute([$name, $size, $category, $price, $image, 1, $price, $price, $shipping_charge, $discounted_price, $userid, 0]);
+    $select_stmt2=$conn->prepare("INSERT INTO cart(pro_id, pro_name, size, pro_category, pro_price, pro_img, pro_qty, sub_total, total, shipping_charge, discounted_price, userid, wishlist) value(?,?,?,?,?,?,?,?,?,?,?,?,?)");
+    $select_stmt2->execute([$pro_id, $name, $size, $category, $price, $image, 1, $price, $price, $shipping_charge, $discounted_price, $userid, 0]);
     if($select_stmt2) {
 //        echo $cart_quantitycode;
         echo "done";
@@ -308,10 +309,67 @@ if($_POST['btn']=="count_cart") {
     echo $count;
 }
 
+// add user address
+
+
+
+if ($_POST['btn'] == 'addUseraddress') {
+    $name = test_input($_POST['name']);
+    $email = test_input($_POST['email']);
+    $phone = test_input($_POST['phone']);
+    $address = test_input($_POST['address']);
+    $pincode = test_input($_POST['pincode']);
+    $city = test_input($_POST['city']);
+    $state = test_input($_POST['state']);
+
+    $select_stmt2=$conn->prepare("INSERT INTO address(name, email, phone, address, pincode, city, state) value(?,?,?,?,?,?,?)");
+    $select_stmt2->execute([$name, $email, $phone, $address, $pincode, $city, $state]);
+    if($select_stmt2) {
+    $orderId = "INV-" . date("ymdhis");
+    $selectCartProduct = $conn->prepare("SELECT * FROM cart WHERE userId= '$userid' && wishlist=0");
+    $selectCartProduct->execute();
+    while ($row = $selectCartProduct->fetch(PDO::FETCH_ASSOC))
+    {
+        $pro_id = $row['pro_id'];
+        $pro_name = $row['pro_name'];
+        $size = $row['size'];
+        $pro_category = $row['pro_category'];
+        $pro_price = $row['pro_price'];
+        $pro_img = $row['pro_img'];
+        $pro_qty = $row['pro_qty'];
+        $sub_total = $row['sub_total'];
+        $total = $row['total'];
+        $shipping_charge = $row['shipping_charge'];
+        $discounted_price = $row['discounted_price'];
+        $insertProduct = $conn->prepare("INSERT into orderproduct(orderid, pro_name, size, pro_category, pro_price, pro_img, pro_qty, sub_total,
+        total, shipping_charge, discounted_price, userid) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)");
+        $insertProduct->execute([$orderId, $pro_name, $size, $pro_category, $pro_price, $pro_img, $pro_qty, $sub_total, $total, $shipping_charge, $discounted_price, $userid]);
+    }
+    $allProductPrice = $conn->prepare("SELECT SUM(total) AS totalPrice, SUM(discounted_price) AS discount  FROM cart WHERE userID='$userid' && wishlist=0");
+    $allProductPrice->execute();
+    while ($priceTotal = $allProductPrice->fetch(PDO::FETCH_ASSOC))
+    {
+        $totalCartPrice = $priceTotal['totalPrice'];
+        $discount = $priceTotal['discount'];
+    }
+    $insertOrderDetails = $conn->prepare("INSERT INTO order_details(orderid, userid, totalPrice, discount, name, email, phone, address, pincode, city, state) VALUES(?,?,?,?,?,?,?,?,?,?,?)");
+    $insertOrderDetails->execute([$orderId, $userid, $totalCartPrice, $discount, $name, $email, $phone, $address, $pincode, $city, $state]);
+    if ($insertOrderDetails)
+    {
+        $deleteFromCart = $conn->prepare("DELETE FROM cart WHERE userid=? && wishlist=0");
+        $deleteFromCart->execute([$userid]);
+    }
+    echo "done";
+  }
+
+}
+
+
 function test_input($data) {
     $data = trim($data);
     $data = stripslashes($data);
     $data = htmlspecialchars($data);
     return $data;
   }
+
 ?>

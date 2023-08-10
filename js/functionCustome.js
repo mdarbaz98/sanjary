@@ -12,6 +12,7 @@ function getSizeprice(x){
       var category = $(x).data('category');
       var price = $(x).data('price');
       var size = $(x).data('size');
+      var pro_id = $(x).data('pro_id');
       var btn = 'addToCartproduct';
       $.ajax ({
         url: 'action.php',
@@ -22,7 +23,8 @@ function getSizeprice(x){
                'name':name,
                'category':category,
                'price':price,
-               'size':size
+               'size':size,
+               'pro_id':pro_id
                 },
                 beforeSend: function () {
                   $(".content").css("opacity", 0.5);
@@ -222,7 +224,7 @@ $(function() {
       name: {
         minlength: 3,
                     maxlength: 30,
-                    pattern: "^[a-zA-Z_]*$",
+                    //pattern: "^[a-zA-Z_]*$",
                     required: true
       },
       email: {
@@ -237,23 +239,23 @@ $(function() {
       address: {
         minlength: 3,
                     maxlength: 30,
-                    pattern: "^[a-zA-Z_]*$",
+                    //pattern: "^[a-zA-Z_]*$",
                     required: true
       },pincode: {
         minlength: 3,
                     maxlength: 30,
-                    pattern: "^[a-zA-Z_]*$",
+                    //pattern: "^[a-zA-Z_]*$",
                     required: true
       },state: {
-        minlength: 3,
-                    maxlength: 30,
-                    pattern: "^[a-zA-Z_]*$",
+                    //minlength: 3,
+                    //maxlength: 30,
+                    //pattern: "^[a-zA-Z_]*$",
                     required: true
       },
       city: {
-        minlength: 3,
-                    maxlength: 30,
-                    pattern: "^[a-zA-Z_]*$",
+                    //minlength: 3,
+                    //maxlength: 30,
+                    //pattern: "^[a-zA-Z_]*$",
                     required: true
       },
     },
@@ -262,13 +264,13 @@ $(function() {
       name: {
         minlength:"min length should be 3",
         maxlength:"min length should be 30",
-        pattern: "should be alphabet",
+        //pattern: "should be alphabet",
         required:"Please enter your first name"
       },
       lname: {
         minlength:"min length should be 3",
         maxlength:"min length should be 30",
-        pattern: "should be alphabet",
+        //pattern: "should be alphabet",
         required:"Please enter your last name"
       },
       email: "Please enter a valid email address",
@@ -277,19 +279,9 @@ $(function() {
         minlength: "Your password must be at least 6 characters long"
       },
     },
-
     submitHandler: function(form) {
-      console.log(phone.classList.contains("success-input"))
-      console.log(email.classList.contains("success-input"))
-        if(email.classList.contains("success-input") && phone.classList.contains("success-input")){
-            var codepin = $(
-            "#addAddressBox .iti__selected-flag .iti__selected-dial-code"
-          ).html();
           var formData = new FormData(form);
           var url = window.location.href;
-          formData.append("codepin", codepin);
-  
-          formData.append("url", url);
           $.ajax({
             url: "action.php",
             type: "post",
@@ -298,23 +290,11 @@ $(function() {
             cache: false,
             processData: false,
             success: function (data) {
-              if(data == "existed"){
-                $("form[name='signup-tab'] .sign_email_error").show().html("Already Exist! Please check mail for direct login");
-                $("form[name='signup-tab'] .signup__email").focus();
-              }else{
-                window.location.replace(url);
-              }
-        
+            alert(data);
+   //             window.location.replace(url);
+            
             },
           });
-        } else{
-          if(!phone.classList.contains("success-input")){
-            $(`form[name='signup-tab'] .phone1 .pError`).show().html("Please enter valid number");
-          } else if(!email.classList.contains("success-input")){
-            $("form[name='signup-tab'] .sign_email_error").show().html("Please enter valid email");
-          }
         }
-      
-    }
   });
 });
