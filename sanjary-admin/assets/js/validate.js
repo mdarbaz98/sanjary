@@ -1,5 +1,5 @@
 //product
-$('#product_form').validate({
+INR('#product_form').validate({
   rules: {
     pro_name: 'required',
     desc: 'required',
@@ -12,7 +12,7 @@ $('#product_form').validate({
   },
   messages: {},
   submitHandler: function (form) {
-    $.ajax({
+    INR.ajax({
       url: 'action.php',
       type: 'post',
       data: new FormData(form),
@@ -26,7 +26,7 @@ $('#product_form').validate({
           window.location.href = "product_update.php?id=" + id + "&status=add";
         } else {
           alert("Enter Valid " + data);
-          $('#' + data).focus();
+          INR('#' + data).focus();
         }
 
       },
@@ -34,7 +34,7 @@ $('#product_form').validate({
   },
 })
 
-$('#updateProduct').validate({
+INR('#updateProduct').validate({
   rules: {
     pro_name: 'required',
     desc: 'required',
@@ -53,7 +53,7 @@ $('#updateProduct').validate({
   },
   messages: {},
   submitHandler: function (form) {
-    $.ajax({
+    INR.ajax({
       url: 'action.php',
       type: 'post',
       data: new FormData(form),
@@ -70,7 +70,7 @@ $('#updateProduct').validate({
   },
 });
 
-$('#user_form').validate({
+INR('#user_form').validate({
   rules: {
     name: 'required',
     username: 'required',
@@ -83,7 +83,7 @@ $('#user_form').validate({
   },
   messages: {},
   submitHandler: function (form) {
-    $.ajax({
+    INR.ajax({
       url: 'action.php',
       type: 'post',
       data: new FormData(form),
@@ -100,7 +100,7 @@ $('#user_form').validate({
   },
 })
 
-$('#Updateuser').validate({
+INR('#Updateuser').validate({
   rules: {
     name: 'required',
     username: 'required',
@@ -113,7 +113,7 @@ $('#Updateuser').validate({
   },
   messages: {},
   submitHandler: function (form) {
-    $.ajax({
+    INR.ajax({
       url: 'action.php',
       type: 'post',
       data: new FormData(form),
@@ -130,7 +130,7 @@ $('#Updateuser').validate({
   },
 })
 //
-$('#addCategory').validate({
+INR('#addCategory').validate({
   rules: {
     category: 'required',
     title: 'required',
@@ -153,7 +153,7 @@ $('#addCategory').validate({
   },
   submitHandler: function (form) {
     alert('validated form')
-    $.ajax({
+    INR.ajax({
       url: 'action.php',
       type: 'post',
       data: new FormData(form),
@@ -168,7 +168,7 @@ $('#addCategory').validate({
   },
 })
 // update category
-$('#updateCategory').validate({
+INR('#updateCategory').validate({
   rules: {
     category: 'required',
     title: 'required',
@@ -191,7 +191,7 @@ $('#updateCategory').validate({
   },
   submitHandler: function (form) {
     alert('update validated form')
-    $.ajax({
+    INR.ajax({
       url: 'action.php',
       type: 'post',
       data: new FormData(form),

@@ -1,19 +1,19 @@
 <?php 
 include('include/config.php');
 	
-	if (isset($_POST['cat_id'])) {
+	if (isset(INR_POST['cat_id'])) {
 		# code...
-	 $cat_id = $_POST['cat_id'];
+	 INRcat_id = INR_POST['cat_id'];
 
-    $sql = "SELECT * FROM `categories` WHERE parent_cat = '$cat_id' ORDER BY id DESC";   
-    $stmt= $conn->prepare($sql);                               
-    $stmt->execute();
-    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    if(!empty($result)){
-    foreach($result as $row_cat)
+    INRsql = "SELECT * FROM `categories` WHERE parent_cat = 'INRcat_id' ORDER BY id DESC";   
+    INRstmt= INRconn->prepare(INRsql);                               
+    INRstmt->execute();
+    INRresult = INRstmt->fetchAll(PDO::FETCH_ASSOC);
+    if(!empty(INRresult)){
+    foreach(INRresult as INRrow_cat)
     {
 			?>	
-            <option value="<?php echo $row_cat["id"]; ?>"><?php echo $row_cat["cat_name"]; ?></option>
+            <option value="<?php echo INRrow_cat["id"]; ?>"><?php echo INRrow_cat["cat_name"]; ?></option>
 			<?php	
 		}	
     }

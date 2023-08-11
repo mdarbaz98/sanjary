@@ -8,10 +8,10 @@
  *   http://www.opensource.org/licenses/mit-license.php
  */
 
-;(function($) {
+;(function(INR) {
 
 	// TODO rewrite as a widget, removing all the extra plugins
-	$.extend($.fn, {
+	INR.extend(INR.fn, {
 		swapClass: function(c1, c2) {
 			var c1Elements = this.filter('.' + c1);
 			this.filter('.' + c2).removeClass(c2).addClass(c1);
@@ -24,9 +24,9 @@
 		hoverClass: function(className) {
 			className = className || "hover";
 			return this.hover(function() {
-				$(this).addClass(className);
+				INR(this).addClass(className);
 			}, function() {
-				$(this).removeClass(className);
+				INR(this).removeClass(className);
 			});
 		},
 		heightToggle: function(animated, callback) {
@@ -62,8 +62,8 @@
 			this.filter(":has(>ul):not(:has(>a))").find(">span").unbind("click.treeview").bind("click.treeview", function(event) {
 				// don't handle click events on children, eg. checkboxes
 				if ( this == event.target )
-					toggler.apply($(this).next());
-			}).add( $("a", this) ).hoverClass();
+					toggler.apply(INR(this).next());
+			}).add( INR("a", this) ).hoverClass();
 
 			if (!settings.prerendered) {
 				// handle closed ones first
@@ -82,10 +82,10 @@
 					hitarea = this.prepend("<div class=\"" + CLASSES.hitarea + "\"/>").find("div." + CLASSES.hitarea);
 				hitarea.removeClass().addClass(CLASSES.hitarea).each(function() {
 					var classes = "";
-					$.each($(this).parent().attr("class").split(" "), function() {
+					INR.each(INR(this).parent().attr("class").split(" "), function() {
 						classes += this + "-hitarea ";
 					});
-					$(this).addClass( classes );
+					INR(this).addClass( classes );
 				})
 			}
 
@@ -94,14 +94,14 @@
 		},
 		treeview: function(settings) {
 
-			settings = $.extend({
+			settings = INR.extend({
 				cookieId: "treeview"
 			}, settings);
 
 			if ( settings.toggle ) {
 				var callback = settings.toggle;
 				settings.toggle = function() {
-					return callback.apply($(this).parent()[0], arguments);
+					return callback.apply(INR(this).parent()[0], arguments);
 				};
 			}
 
@@ -112,24 +112,24 @@
 					return function() {
 						// reuse toggle event handler, applying the elements to toggle
 						// start searching for all hitareas
-						toggler.apply( $("div." + CLASSES.hitarea, tree).filter(function() {
+						toggler.apply( INR("div." + CLASSES.hitarea, tree).filter(function() {
 							// for plain toggle, no filter is provided, otherwise we need to check the parent element
-							return filter ? $(this).parent("." + filter).length : true;
+							return filter ? INR(this).parent("." + filter).length : true;
 						}) );
 						return false;
 					};
 				}
 				// click on first element to collapse tree
-				$("a:eq(0)", control).click( handler(CLASSES.collapsable) );
+				INR("a:eq(0)", control).click( handler(CLASSES.collapsable) );
 				// click on second to expand tree
-				$("a:eq(1)", control).click( handler(CLASSES.expandable) );
+				INR("a:eq(1)", control).click( handler(CLASSES.expandable) );
 				// click on third to toggle tree
-				$("a:eq(2)", control).click( handler() );
+				INR("a:eq(2)", control).click( handler() );
 			}
 
 			// handle toggle event
 			function toggler() {
-				$(this)
+				INR(this)
 					.parent()
 					// swap classes for hitarea
 					.find(">.hitarea")
@@ -144,7 +144,7 @@
 					// toggle them
 					.heightToggle( settings.animated, settings.toggle );
 				if ( settings.unique ) {
-					$(this).parent()
+					INR(this).parent()
 						.siblings()
 						// swap classes for hitarea
 						.find(">.hitarea")
@@ -165,17 +165,17 @@
 				}
 				var data = [];
 				branches.each(function(i, e) {
-					data[i] = $(e).is(":has(>ul:visible)") ? 1 : 0;
+					data[i] = INR(e).is(":has(>ul:visible)") ? 1 : 0;
 				});
-				$.cookie(settings.cookieId, data.join(""), settings.cookieOptions );
+				INR.cookie(settings.cookieId, data.join(""), settings.cookieOptions );
 			}
 
 			function deserialize() {
-				var stored = $.cookie(settings.cookieId);
+				var stored = INR.cookie(settings.cookieId);
 				if ( stored ) {
 					var data = stored.split("");
 					branches.each(function(i, e) {
-						$(e).find(">ul")[ parseInt(data[i]) ? "show" : "hide" ]();
+						INR(e).find(">ul")[ parseInt(data[i]) ? "show" : "hide" ]();
 					});
 				}
 			}
@@ -222,7 +222,7 @@
 			// if control option is set, create the treecontroller and show it
 			if ( settings.control ) {
 				treeController(this, settings.control);
-				$(settings.control).show();
+				INR(settings.control).show();
 			}
 
 			return this;
@@ -231,8 +231,8 @@
 
 	// classes used by the plugin
 	// need to be styled via external stylesheet, see first example
-	$.treeview = {};
-	var CLASSES = ($.treeview.classes = {
+	INR.treeview = {};
+	var CLASSES = (INR.treeview.classes = {
 		open: "open",
 		closed: "closed",
 		expandable: "expandable",

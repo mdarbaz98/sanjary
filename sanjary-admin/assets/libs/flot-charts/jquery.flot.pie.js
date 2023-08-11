@@ -55,7 +55,7 @@ More detail and specific examples can be found in the included HTML file.
 
 */
 
-(function($) {
+(function(INR) {
 
 	// Maximum redraw attempts when fitting labels within the plot
 
@@ -154,7 +154,7 @@ More detail and specific examples can be found in the included HTML file.
 			if (!processed)	{
 				processed = true;
 				canvas = plot.getCanvas();
-				target = $(canvas).parent();
+				target = INR(canvas).parent();
 				options = plot.getOptions();
 				plot.setData(combine(plot.getData()));
 			}
@@ -181,12 +181,12 @@ More detail and specific examples can be found in the included HTML file.
 				// new one; this is more efficient and preserves any extra data
 				// that the user may have stored in higher indexes.
 
-				if ($.isArray(value) && value.length == 1) {
+				if (INR.isArray(value) && value.length == 1) {
     				value = value[0];
 				}
 
-				if ($.isArray(value)) {
-					// Equivalent to $.isNumeric() but compatible with jQuery < 1.7
+				if (INR.isArray(value)) {
+					// Equivalent to INR.isNumeric() but compatible with jQuery < 1.7
 					if (!isNaN(parseFloat(value[1])) && isFinite(value[1])) {
 						value[1] = +value[1];
 					} else {
@@ -225,7 +225,7 @@ More detail and specific examples can be found in the included HTML file.
 				var value = data[i].data[0][1];
 				if (numCombined < 2 || value / total > options.series.pie.combine.threshold) {
 					newdata.push(
-						$.extend(data[i], {     /* extend to allow keeping all other original data values
+						INR.extend(data[i], {     /* extend to allow keeping all other original data values
 						                           and using them e.g. in labelFormatter. */
 							data: [[1, value]],
 							color: data[i].color,
@@ -519,7 +519,7 @@ More detail and specific examples can be found in the included HTML file.
 							}
 
 							var pos = "top:" + labelTop + "px;left:" + labelLeft + "px;";
-							$("<div class='pieLabelBackground' style='position:absolute;width:" + label.width() + "px;height:" + label.height() + "px;" + pos + "background-color:" + c + ";'></div>")
+							INR("<div class='pieLabelBackground' style='position:absolute;width:" + label.width() + "px;height:" + label.height() + "px;" + pos + "background-color:" + c + ";'></div>")
 								.css("opacity", options.series.pie.label.background.opacity)
 								.insertBefore(label);
 						}
@@ -810,7 +810,7 @@ More detail and specific examples can be found in the included HTML file.
 		}
 	};
 
-	$.plot.plugins.push({
+	INR.plot.plugins.push({
 		init: init,
 		options: options,
 		name: "pie",

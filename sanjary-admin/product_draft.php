@@ -3,7 +3,7 @@ include('include/header.php');
 include('include/sidenav.php');
 include('include/config.php');
 ?>
-<?php if (!empty ($_SESSION['admin_is_login'])){ ?>
+<?php if (!empty (INR_SESSION['admin_is_login'])){ ?>
 	<div class="main-content">
 		<div class="page-content">
 			<div class="container-fluid">
@@ -58,80 +58,80 @@ include('include/config.php');
 											</thead>
 											<tbody>
 												<?php
-													  	$per_page = 10;
-															$stmt = $conn->prepare("SELECT * FROM `product` WHERE status=2 ORDER BY id DESC");
-															$stmt->execute();
-															$number_of_rows = $stmt->fetchColumn();
-															$page = ceil($number_of_rows/$per_page);
-															$start=0;	
-															$current_page=1;
-															if(isset($_GET['start'])){
-																$start= $_GET['start'];
-																$current_page=$start;	
-																$start--;
-																$start = $start*$per_page;
+													  	INRper_page = 10;
+															INRstmt = INRconn->prepare("SELECT * FROM `product` WHERE status=2 ORDER BY id DESC");
+															INRstmt->execute();
+															INRnumber_of_rows = INRstmt->fetchColumn();
+															INRpage = ceil(INRnumber_of_rows/INRper_page);
+															INRstart=0;	
+															INRcurrent_page=1;
+															if(isset(INR_GET['start'])){
+																INRstart= INR_GET['start'];
+																INRcurrent_page=INRstart;	
+																INRstart--;
+																INRstart = INRstart*INRper_page;
 															}
-                                $sql = "SELECT * FROM `product` WHERE status=2 ORDER BY id DESC LIMIT $start,$per_page";
-                                $stmt = $conn->prepare($sql);
-                                $stmt->execute();
-                                $i=1;
-                                $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                                if (!empty($data)) {
-                                foreach ($data as $data)
-                                {  $stmt1 = $conn->prepare("SELECT * FROM `images` WHERE id=?");
-                                   $stmt1->execute([$data['img_id']]);
-                                   $img_data = $stmt1->fetchAll(PDO::FETCH_ASSOC);?>
+                                INRsql = "SELECT * FROM `product` WHERE status=2 ORDER BY id DESC LIMIT INRstart,INRper_page";
+                                INRstmt = INRconn->prepare(INRsql);
+                                INRstmt->execute();
+                                INRi=1;
+                                INRdata = INRstmt->fetchAll(PDO::FETCH_ASSOC);
+                                if (!empty(INRdata)) {
+                                foreach (INRdata as INRdata)
+                                {  INRstmt1 = INRconn->prepare("SELECT * FROM `images` WHERE id=?");
+                                   INRstmt1->execute([INRdata['img_id']]);
+                                   INRimg_data = INRstmt1->fetchAll(PDO::FETCH_ASSOC);?>
 													<tr class="odd">
 														<td class="sorting_1 dtr-control" tabindex="0">
-															<?php echo $i; ?>
+															<?php echo INRi; ?>
 														</td>
-														<td><img src="<?php echo $img_data[0]['path']; ?>" alt="<?php echo $img_data[0]['alt']; ?>" class="custome_img"></td>
+														<td><img src="<?php echo INRimg_data[0]['path']; ?>" alt="<?php echo INRimg_data[0]['alt']; ?>" class="custome_img"></td>
 														<td>
-															<?php echo $data['name'] ?>
-														</td>
-														<td>
-															<?php echo $data['pro_desc'] ?>
+															<?php echo INRdata['name'] ?>
 														</td>
 														<td>
-															<?php echo $data['strnt'] ?>
+															<?php echo INRdata['pro_desc'] ?>
 														</td>
 														<td>
-															<?php echo $data['prc'] ?>
+															<?php echo INRdata['strnt'] ?>
 														</td>
 														<td>
-															<?php echo $data['disc'] ?>
+															<?php echo INRdata['prc'] ?>
 														</td>
 														<td>
-															<?php echo $data['link'] ?>
+															<?php echo INRdata['disc'] ?>
 														</td>
 														<td>
-															<?php echo $data['cat_id'] ?>
+															<?php echo INRdata['link'] ?>
+														</td>
+														<td>
+															<?php echo INRdata['cat_id'] ?>
 														</td>
 														
-                                                        <td><a class="btn btn-info" href="javascript:void(0)" onclick="uploadProduct(<?php echo $data['id']; ?>)"><i class="fa-solid fa-arrow-up-from-bracket"></i></a></td>
+                                                        <td><a class="btn btn-info" href="javascript:void(0)" onclick="uploadProduct(<?php echo INRdata['id']; ?>)"><i class="fa-solid fa-arrow-up-from-bracket"></i></a></td>
 
-														<td><a href="category_update.php?id=<?php echo $data['id']; ?>" class="btn btn-primary"><i class="fa-solid fa-eye"></i></td>
-															<td><a href="product_update.php?id=<?php echo $data['id']; ?>" class="btn btn-success"><i class="fas fa-edit"></i></td>                                   
-                                  <td><a class="btn btn-danger" href="javascript:void(0)" onclick="trashProduct(<?php echo $data['id']; ?>)"><i class="fas fa-trash-alt"></i></a></td>
+														<td><a href="category_update.php?id=<?php echo INRdata['id']; ?>" class="btn btn-primary"><i class="fa-solid fa-eye"></i></td>
+															<td><a href="product_update.php?id=<?php echo INRdata['id']; ?>" class="btn btn-success"><i class="fas fa-edit"></i></td>                                   
+                                  <td><a class="btn btn-danger" href="javascript:void(0)" onclick="trashProduct(<?php echo INRdata['id']; ?>)"><i class="fas fa-trash-alt"></i></a></td>
 													</tr>
-													<?php $i++; } }?>
+													<?php INRi++; } }?>
 											</tbody>
 										</table>
 									</div>
 									<p class="pagination_status">Showing 1 to 10 of 10 entries</p>
 									<ul class="pagination pagination justify-content-end mt-3">
-										<li class="page-item <?php if($current_page <= 1){ echo 'disabled'; } ?>"><a class="page-link" href="category_listing.php?start=<?php echo $current_page-1 ?>" class='button'>Previous</a></li>
-										<?php for($j=1; $j<=$page; $j++){
-													    $class="";
-													    if($current_page == $j){
-														  $class = "active";?>
-											<li class="page-item <?php echo $class; ?>">
-												<a class="page-link" href="category_listing.php?start=<?php echo $j; ?>">
-													<?php echo $j ?>
+										<li class="page-item <?php if(INRcurrent_page <= 1){ echo 'disabled'; } ?>"><a class="page-link" href="category_listing.php?start=<?php echo INRcurrent_page-1 ?>" class='button'>Previous</a></li>
+										<?php for(INRj=1; INRj<=INRpage; INRj++){
+													    INRclass="";
+													    if(INRcurrent_page == INRj){
+														  INRclass = "active";?>
+											<li class="page-item <?php echo INRclass; ?>">
+												<a class="page-link" href="category_listing.php?start=<?php echo INRj; ?>">
+													<?php echo INRj ?>
 												</a>
 											</li>
 											<?php } }?>
-												<li class="page-item <?php if($current_page >= $page) { echo 'disabled'; } ?>"><a class="page-link" href="category_listing.php?start=<?php echo $current_page+1 ?>" class='button'>NEXT</a></li>
+												<li class="page-item <?php if(INRcurrent_page >= INRpage) { echo 'disabled'; } ?>"><a class="page-link" href="category_listing.php?start=<?php echo INRcurrent_page+1 ?>" class='button'>NEXT</a></li>
 									</ul>
 								</div>
 							</div>

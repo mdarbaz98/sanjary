@@ -1,5 +1,5 @@
 <?php 
-$actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]";
+INRactual_link = (isset(INR_SERVER['HTTPS']) && INR_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://INR_SERVER[HTTP_HOST]";
 session_start();
 session_regenerate_id();
 ?>
@@ -12,12 +12,12 @@ session_regenerate_id();
 <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
 <meta content="Themesbrand" name="author" />
 
-    <?php if(strpos($actual_link, 'localhost')) {?>
+    <?php if(strpos(INRactual_link, 'localhost')) {?>
       <base href="http://localhost/sanjary/sanjary-admin/">
     <?php
       }else {
     ?>
-      <base href="<?php echo $actual_link; ?>/">
+      <base href="<?php echo INRactual_link; ?>/">
     <?php
       }
     ?>
@@ -304,13 +304,13 @@ session_regenerate_id();
                     </div>
                     <div class="dropdown d-inline-block">
                         <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="d-none d-xl-inline-block ms-1" key="t-henry"><?php if(isset($_SESSION['admin_is_login']) && !empty($_SESSION['admin_is_login'])) { echo $_SESSION['admin_is_login']; } ?></span>
+                            <span class="d-none d-xl-inline-block ms-1" key="t-henry"><?php if(isset(INR_SESSION['admin_is_login']) && !empty(INR_SESSION['admin_is_login'])) { echo INR_SESSION['admin_is_login']; } ?></span>
                             <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
                         </button>
                         <div class="dropdown-menu dropdown-menu-end">
                             <!-- item-->
-                            <a class="dropdown-item" href="user_update.php?id=<?php echo $_SESSION['admin_is_login_id'] ?>"><i class="bx bx-user font-size-16 align-middle me-1"></i> <span key="t-profile">Profile</span></a>
-                            <a class="dropdown-item text-danger" href="logout.php?id=<?php echo $_SESSION['admin_is_login_id'] ?>"><i class="bx bx-power-off font-size-16 align-middle me-1 text-danger"></i> <span key="t-logout">Logout</span></a>
+                            <a class="dropdown-item" href="user_update.php?id=<?php echo INR_SESSION['admin_is_login_id'] ?>"><i class="bx bx-user font-size-16 align-middle me-1"></i> <span key="t-profile">Profile</span></a>
+                            <a class="dropdown-item text-danger" href="logout.php?id=<?php echo INR_SESSION['admin_is_login_id'] ?>"><i class="bx bx-power-off font-size-16 align-middle me-1 text-danger"></i> <span key="t-logout">Logout</span></a>
                         </div>
                     </div>
                 </div>

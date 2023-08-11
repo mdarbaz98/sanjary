@@ -2,193 +2,193 @@
 date_default_timezone_set('Asia/Kolkata');
 ini_set('display_errors', 1);
 
-    if($_POST['btn']=="addBlog")
+    if(INR_POST['btn']=="addBlog")
         {
-             $content="";
-            if(isset($_POST['content'])){
-                $content = trim_data($_POST['content']);
+             INRcontent="";
+            if(isset(INR_POST['content'])){
+                INRcontent = trim_data(INR_POST['content']);
             }else{
-                $content="";
+                INRcontent="";
             }
-            $title="";
-            if(isset($_POST['blog_title'])){
-                $title = trim_data($_POST['blog_title']);
-            }
-            else{
-                $title="";
-            }
-            $seo_title="";
-            if(isset($_POST['blog_title_seo'])){
-                $seo_title = trim_data($_POST['blog_title_seo']);
+            INRtitle="";
+            if(isset(INR_POST['blog_title'])){
+                INRtitle = trim_data(INR_POST['blog_title']);
             }
             else{
-                $seo_title="";
+                INRtitle="";
             }
-            $blog_slug="";
-            if(isset($_POST['blog_slug'])){
-                $blog_slug = strtolower(str_replace(" ","-",$_POST['blog_slug']));
-            }
-            else{
-                $blog_slug="";
-            }
-            $meta_desc="";
-            if(isset($_POST['meta_desc'])){
-                $meta_desc = trim_data($_POST['meta_desc']);
+            INRseo_title="";
+            if(isset(INR_POST['blog_title_seo'])){
+                INRseo_title = trim_data(INR_POST['blog_title_seo']);
             }
             else{
-                $meta_desc="";
+                INRseo_title="";
             }
-            $author_name="";
-            if(isset($_POST['author_name'])) {
-                $author_name = ($_POST['author_name']);
-            }
-            $author_values="";
-            if(!empty($author_name)){
-                $author_values  = implode(",",$author_name);            
+            INRblog_slug="";
+            if(isset(INR_POST['blog_slug'])){
+                INRblog_slug = strtolower(str_replace(" ","-",INR_POST['blog_slug']));
             }
             else{
-                 $author_values = "0";
+                INRblog_slug="";
+            }
+            INRmeta_desc="";
+            if(isset(INR_POST['meta_desc'])){
+                INRmeta_desc = trim_data(INR_POST['meta_desc']);
+            }
+            else{
+                INRmeta_desc="";
+            }
+            INRauthor_name="";
+            if(isset(INR_POST['author_name'])) {
+                INRauthor_name = (INR_POST['author_name']);
+            }
+            INRauthor_values="";
+            if(!empty(INRauthor_name)){
+                INRauthor_values  = implode(",",INRauthor_name);            
+            }
+            else{
+                 INRauthor_values = "0";
             }
 
-            $review="";
-            if(isset($_POST['review'])){
-            $review = ($_POST['review']);
+            INRreview="";
+            if(isset(INR_POST['review'])){
+            INRreview = (INR_POST['review']);
             }
-                $review_value="";
-                if(!empty($review)){
-                    $review_value  = implode(",",$review);            
+                INRreview_value="";
+                if(!empty(INRreview)){
+                    INRreview_value  = implode(",",INRreview);            
                 }
                 else{
-                    $review_value = "0";
+                    INRreview_value = "0";
                 }
 
-            if(isset($_POST['bot_robot'])){
-                $bot_robot = ($_POST['bot_robot']);
+            if(isset(INR_POST['bot_robot'])){
+                INRbot_robot = (INR_POST['bot_robot']);
             }
-            $bot_robot_value="";
-            if(!empty($bot_robot)){
-                $bot_robot_value  = implode(", ",$bot_robot);            
-            }
-            else{
-                $bot_robot_value = "0";
-            }
-            if(isset($_POST['max_snippet'])){
-                $max_snippet = $_POST['max_snippet'];
+            INRbot_robot_value="";
+            if(!empty(INRbot_robot)){
+                INRbot_robot_value  = implode(", ",INRbot_robot);            
             }
             else{
-                 $max_snippet = "max-snippet:";
+                INRbot_robot_value = "0";
             }
-            if(isset($_POST['max_video'])){
-            $max_video =($_POST['max_video']);
+            if(isset(INR_POST['max_snippet'])){
+                INRmax_snippet = INR_POST['max_snippet'];
             }
             else{
-                $max_video = "max-video:";
+                 INRmax_snippet = "max-snippet:";
+            }
+            if(isset(INR_POST['max_video'])){
+            INRmax_video =(INR_POST['max_video']);
+            }
+            else{
+                INRmax_video = "max-video:";
             }
 
-            if(isset($_POST['max_image'])){
-            $max_image=$_POST['max_image'];
+            if(isset(INR_POST['max_image'])){
+            INRmax_image=INR_POST['max_image'];
             }
             else{
-                $max_image="max-image:";
+                INRmax_image="max-image:";
             }
-                $max_snippet_value =$_POST['max_snippet_value'];   
-                $concat_snippet = $max_snippet.$max_snippet_value;
-                $max_video_value =$_POST['max_video_value'];
-                $concat_video = $max_video.$max_video_value;    
-                $max_image_value =$_POST['max_image_value'];
-                $concat_image = $max_image.$max_image_value;
+                INRmax_snippet_value =INR_POST['max_snippet_value'];   
+                INRconcat_snippet = INRmax_snippet.INRmax_snippet_value;
+                INRmax_video_value =INR_POST['max_video_value'];
+                INRconcat_video = INRmax_video.INRmax_video_value;    
+                INRmax_image_value =INR_POST['max_image_value'];
+                INRconcat_image = INRmax_image.INRmax_image_value;
 
-                $advance_bot = $bot_robot_value.", ".$concat_snippet.", ".$concat_video.", ".$concat_image;
+                INRadvance_bot = INRbot_robot_value.", ".INRconcat_snippet.", ".INRconcat_video.", ".INRconcat_image;
                 
-                $focus_key="";
-                if(isset($_POST['focus_keyword'])){
-                    $focus_key=trim_data($_POST['focus_keyword']);
+                INRfocus_key="";
+                if(isset(INR_POST['focus_keyword'])){
+                    INRfocus_key=trim_data(INR_POST['focus_keyword']);
                 }
                 else{
-                    $focus_key="";
+                    INRfocus_key="";
                 }
 
-                $category="";
-                if(isset($_POST['category'])){
-                    $category = trim_data($_POST['category']);
+                INRcategory="";
+                if(isset(INR_POST['category'])){
+                    INRcategory = trim_data(INR_POST['category']);
                 }
                 else{
-                    $category="";
+                    INRcategory="";
                 }
-                $sub_category="";
-                if(isset($_POST['sub_category'])){
-                $sub_category = trim_data($_POST['sub_category']);
+                INRsub_category="";
+                if(isset(INR_POST['sub_category'])){
+                INRsub_category = trim_data(INR_POST['sub_category']);
                 }
-                $sub_category_value="";
-                if(!empty($sub_category)){
-                    $sub_category_value  = implode(",",$sub_category);            
+                INRsub_category_value="";
+                if(!empty(INRsub_category)){
+                    INRsub_category_value  = implode(",",INRsub_category);            
                 }
                 else{
-                    $sub_category_value="";
+                    INRsub_category_value="";
                 }
 
-                $draft=0;
-                if(isset($_POST['draft'])){
-                    $draft = $_POST['draft'];
+                INRdraft=0;
+                if(isset(INR_POST['draft'])){
+                    INRdraft = INR_POST['draft'];
                 }
                 else{
-                    $draft = 0;
+                    INRdraft = 0;
                 }
-                $message="";
-                if(isset($_POST['message'])){
-                    $message = trim_data($_POST['message']);
-                }
-                else{
-                    $message="";
-                }
-                $filename="";
-                if(isset($_FILES["img"]["name"])){
-                    $filename = trim_data($_FILES["img"]["name"]);
-                    $tempname = $_FILES["img"]["tmp_name"];
+                INRmessage="";
+                if(isset(INR_POST['message'])){
+                    INRmessage = trim_data(INR_POST['message']);
                 }
                 else{
-                    $filename="";
+                    INRmessage="";
                 }
-                $img_alt="";
-                if(isset($_POST['img_alt'])){
-                    $img_alt = trim_data($_POST['img_alt']);
-                }
-                else{
-                    $img_alt="";
-                }
-                $img_title="";
-                if(isset($_POST['img_title'])){
-                    $img_title = trim_data($_POST['img_title']);
+                INRfilename="";
+                if(isset(INR_FILES["img"]["name"])){
+                    INRfilename = trim_data(INR_FILES["img"]["name"]);
+                    INRtempname = INR_FILES["img"]["tmp_name"];
                 }
                 else{
-                    $img_title="";
+                    INRfilename="";
                 }
-                $blogPostDate="";
-                if(isset($_POST['blogPostDate'])){
-                    $blogPostDate = date("Y-m-d H:i", strtotime($_POST['blogPostDate']));
-                    // $blogPostDate = trim_data($_POST['blogPostDate']);
+                INRimg_alt="";
+                if(isset(INR_POST['img_alt'])){
+                    INRimg_alt = trim_data(INR_POST['img_alt']);
                 }
                 else{
-                    $blogPostDate="";
+                    INRimg_alt="";
                 }
-                $folder = "../assets/upload/".$filename;
-                if (move_uploaded_file($tempname, $folder))
+                INRimg_title="";
+                if(isset(INR_POST['img_title'])){
+                    INRimg_title = trim_data(INR_POST['img_title']);
+                }
+                else{
+                    INRimg_title="";
+                }
+                INRblogPostDate="";
+                if(isset(INR_POST['blogPostDate'])){
+                    INRblogPostDate = date("Y-m-d H:i", strtotime(INR_POST['blogPostDate']));
+                    // INRblogPostDate = trim_data(INR_POST['blogPostDate']);
+                }
+                else{
+                    INRblogPostDate="";
+                }
+                INRfolder = "../assets/upload/".INRfilename;
+                if (move_uploaded_file(INRtempname, INRfolder))
                 {
-                    //$msg = "Image uploaded successfully";
+                    //INRmsg = "Image uploaded successfully";
                 }
                 
                 
                 
-                $sql ="INSERT INTO `blog`(`blog_id`, `post_author`, `post_review`, `post_content`, `post_title`, `post_name`, `parent_category`, `category`, `description`, `featured_image`, `img_alt`, `img_title`, `title_slug`, `slug_title`, `focus_keyword`, `meta_desc`, `bot_meta_data`, `PostDate`, `status`) 
-                    VALUES (0,'$author_values','$review_value',?,'$title','$title','$category','$sub_category_value','$message','$filename','$img_alt','$img_title','$seo_title','$blog_slug','$focus_key','$meta_desc','$advance_bot','$blogPostDate',$draft)";
+                INRsql ="INSERT INTO `blog`(`blog_id`, `post_author`, `post_review`, `post_content`, `post_title`, `post_name`, `parent_category`, `category`, `description`, `featured_image`, `img_alt`, `img_title`, `title_slug`, `slug_title`, `focus_keyword`, `meta_desc`, `bot_meta_data`, `PostDate`, `status`) 
+                    VALUES (0,'INRauthor_values','INRreview_value',?,'INRtitle','INRtitle','INRcategory','INRsub_category_value','INRmessage','INRfilename','INRimg_alt','INRimg_title','INRseo_title','INRblog_slug','INRfocus_key','INRmeta_desc','INRadvance_bot','INRblogPostDate',INRdraft)";
 
-                    $stmt1 = $conn->prepare($sql);
-                    if($stmt1->execute([$content]))
+                    INRstmt1 = INRconn->prepare(INRsql);
+                    if(INRstmt1->execute([INRcontent]))
                     {
-                        $last_blog_id = $conn->lastInsertId();
-                        $sql1 = "UPDATE `blog` SET `blog_id`='$last_blog_id' WHERE id='$last_blog_id'";
-                        $stmt2 = $conn->prepare($sql1);
-                        if($stmt2->execute()){
+                        INRlast_blog_id = INRconn->lastInsertId();
+                        INRsql1 = "UPDATE `blog` SET `blog_id`='INRlast_blog_id' WHERE id='INRlast_blog_id'";
+                        INRstmt2 = INRconn->prepare(INRsql1);
+                        if(INRstmt2->execute()){
                                 echo "inserted";
                                 }   
                     }
@@ -199,212 +199,212 @@ ini_set('display_errors', 1);
                 
             
     // trash blog id
-        if($_POST['btn']=="blog_id_trash")
+        if(INR_POST['btn']=="blog_id_trash")
         {
 
-            $blog_id = $_POST['blog_id_trash'];
-            $sql=$conn->prepare("UPDATE `blog` SET `status`='1' WHERE `id`=?");            
-            $sql->execute([$blog_id]);
+            INRblog_id = INR_POST['blog_id_trash'];
+            INRsql=INRconn->prepare("UPDATE `blog` SET `status`='1' WHERE `id`=?");            
+            INRsql->execute([INRblog_id]);
             echo "Trashed";
            
         }
 
     // blog permenant delete
 
-        if($_POST['btn']=="blogPermenetDelete_id")
+        if(INR_POST['btn']=="blogPermenetDelete_id")
         {
-            $blogPermenetDelete = $_POST['blogPermenetDelete_id'];
-            $sql=$conn->prepare("DELETE FROM `blog` WHERE `id`=?");            
-            $sql->execute([$blogPermenetDelete]);
+            INRblogPermenetDelete = INR_POST['blogPermenetDelete_id'];
+            INRsql=INRconn->prepare("DELETE FROM `blog` WHERE `id`=?");            
+            INRsql->execute([INRblogPermenetDelete]);
             echo "Deleted";
            
         }
 
         // blog restore data
-        if($_POST['btn']=="blog_id_restore")
+        if(INR_POST['btn']=="blog_id_restore")
         {
-           $blog_id_restore = $_POST['blog_id_restore'];
-           $sql=$conn->prepare("UPDATE `blog` SET `status`='0' WHERE `id`=?");            
-           $sql->execute([$blog_id_restore]);
+           INRblog_id_restore = INR_POST['blog_id_restore'];
+           INRsql=INRconn->prepare("UPDATE `blog` SET `status`='0' WHERE `id`=?");            
+           INRsql->execute([INRblog_id_restore]);
             echo "Restored";
                     
         }
 
             // blog upload data
-            if($_POST['btn']=="blogUploadRows_id")
+            if(INR_POST['btn']=="blogUploadRows_id")
             {
-                $blogUploadRows_id = $_POST['blogUploadRows_id'];
-                $sql=$conn->prepare("UPDATE `blog` SET `status`='0' WHERE `id`=?");            
-                $sql->execute([$blogUploadRows_id]);
+                INRblogUploadRows_id = INR_POST['blogUploadRows_id'];
+                INRsql=INRconn->prepare("UPDATE `blog` SET `status`='0' WHERE `id`=?");            
+                INRsql->execute([INRblogUploadRows_id]);
                 echo "Uploaded";
              
             }
             
         // trash quotes data
-        if($_POST['btn']=="quotesTrashRows_id")
+        if(INR_POST['btn']=="quotesTrashRows_id")
         {
 
-            $quotesTrashRows_id = $_POST['quotesTrashRows_id'];
-            $sql=$conn->prepare("UPDATE `quotes` SET `status`='1' WHERE `id`=?");            
-            $sql->execute([$quotesTrashRows_id]);
+            INRquotesTrashRows_id = INR_POST['quotesTrashRows_id'];
+            INRsql=INRconn->prepare("UPDATE `quotes` SET `status`='1' WHERE `id`=?");            
+            INRsql->execute([INRquotesTrashRows_id]);
             echo "Trashed";
          
         }
 
                 // permanent delete quotes data
-                if($_POST['btn']=="quotesPermenetDelete_id")
+                if(INR_POST['btn']=="quotesPermenetDelete_id")
                 {
         
-                    $quotesPermenetDelete_id = $_POST['quotesPermenetDelete_id'];
-                    $sql=$conn->prepare("DELETE FROM `quotes` WHERE `id`=?");            
-                    $sql->execute([$quotesPermenetDelete_id]);
+                    INRquotesPermenetDelete_id = INR_POST['quotesPermenetDelete_id'];
+                    INRsql=INRconn->prepare("DELETE FROM `quotes` WHERE `id`=?");            
+                    INRsql->execute([INRquotesPermenetDelete_id]);
                     echo "Deleted";
                  
                 }
 
     //page trash here
     
-        if($_POST['btn']=="page_id_trash")
+        if(INR_POST['btn']=="page_id_trash")
         {
 
-            $page_id = $_POST['page_id_trash'];
-            $sql=$conn->prepare("UPDATE `page` SET `status`='1' WHERE `id`=?");            
-            $sql->execute([$page_id]);
+            INRpage_id = INR_POST['page_id_trash'];
+            INRsql=INRconn->prepare("UPDATE `page` SET `status`='1' WHERE `id`=?");            
+            INRsql->execute([INRpage_id]);
             echo "Trashed";
            
         }
         
         // page restore data
-        if($_POST['btn']=="page_id_restore")
+        if(INR_POST['btn']=="page_id_restore")
         {
-           $page_id_restore = $_POST['page_id_restore'];
-           $sql=$conn->prepare("UPDATE `page` SET `status`='0' WHERE `id`=?");            
-           $sql->execute([$page_id_restore]);
+           INRpage_id_restore = INR_POST['page_id_restore'];
+           INRsql=INRconn->prepare("UPDATE `page` SET `status`='0' WHERE `id`=?");            
+           INRsql->execute([INRpage_id_restore]);
             echo "Restored";
                     
         }
         // author trash
-        if($_POST['btn']=="authorTrashRow_id")
+        if(INR_POST['btn']=="authorTrashRow_id")
         {
 
-            $author_id = $_POST['authorTrashRow_id'];
-            $sql=$conn->prepare("UPDATE `author` SET `status`='1' WHERE `id`=?");            
-            $sql->execute([$author_id]);
+            INRauthor_id = INR_POST['authorTrashRow_id'];
+            INRsql=INRconn->prepare("UPDATE `author` SET `status`='1' WHERE `id`=?");            
+            INRsql->execute([INRauthor_id]);
             echo "Trashed";
            
         }
         // author restore
-        if($_POST['btn']=="authorRestoreRows_id")
+        if(INR_POST['btn']=="authorRestoreRows_id")
         {  
-           $authorRestoreRows_id = $_POST['authorRestoreRows_id'];
-           $sql=$conn->prepare("UPDATE `author` SET `status`='0' WHERE `id`=?");            
-           $sql->execute([$authorRestoreRows_id]);
+           INRauthorRestoreRows_id = INR_POST['authorRestoreRows_id'];
+           INRsql=INRconn->prepare("UPDATE `author` SET `status`='0' WHERE `id`=?");            
+           INRsql->execute([INRauthorRestoreRows_id]);
            echo "Restored";
         }
         
-        if($_POST['btn']=="deleteAuthor_id")
+        if(INR_POST['btn']=="deleteAuthor_id")
         {
-        $deleteAuthor_id = $_POST['deleteAuthor_id'];
-        $sql=$conn->prepare("DELETE FROM `author` WHERE `id`=?");            
-        $sql->execute([$deleteAuthor_id]);
+        INRdeleteAuthor_id = INR_POST['deleteAuthor_id'];
+        INRsql=INRconn->prepare("DELETE FROM `author` WHERE `id`=?");            
+        INRsql->execute([INRdeleteAuthor_id]);
         echo "Deleted";
     }
     
-            if($_POST['btn']=="imageDelete_id")
+            if(INR_POST['btn']=="imageDelete_id")
             {
-                $id = $_POST['imageDelete_id'];
-                $selectAuthor=$conn->prepare("SELECT * FROM author WHERE id = '$id'");
-                $selectAuthor->execute();
-                while($row=$selectAuthor->fetch(PDO::FETCH_ASSOC)){
-                    $filename = $row['image'];
-                    $path = '../assets/upload/authorProfile/'.$filename;
-                    if(file_exists($path)) {
-                        unlink($path);
-                        $sql=$conn->prepare("UPDATE `author` SET `image`='' WHERE `id`=?");            
-                        $sql->execute([$id]);
+                INRid = INR_POST['imageDelete_id'];
+                INRselectAuthor=INRconn->prepare("SELECT * FROM author WHERE id = 'INRid'");
+                INRselectAuthor->execute();
+                while(INRrow=INRselectAuthor->fetch(PDO::FETCH_ASSOC)){
+                    INRfilename = INRrow['image'];
+                    INRpath = '../assets/upload/authorProfile/'.INRfilename;
+                    if(file_exists(INRpath)) {
+                        unlink(INRpath);
+                        INRsql=INRconn->prepare("UPDATE `author` SET `image`='' WHERE `id`=?");            
+                        INRsql->execute([INRid]);
                         echo "Updated";
                         } 
                   
                 }
         }
         
-            if($_POST['btn']=="imageblogDelete_id")
+            if(INR_POST['btn']=="imageblogDelete_id")
             {
-                $id = $_POST['imageblogDelete_id'];
-                $selectAuthor=$conn->prepare("SELECT * FROM blog WHERE id = '$id'");
-                $selectAuthor->execute();
-                while($row=$selectAuthor->fetch(PDO::FETCH_ASSOC)){
-                    $filename = $row['featured_image'];
-                    $path = '../assets/upload/'.$filename;
-                    if(file_exists($path)) {
-                        unlink($path);
-                        $sql=$conn->prepare("UPDATE `blog` SET `featured_image`='' WHERE `id`=?");            
-                        $sql->execute([$id]);
+                INRid = INR_POST['imageblogDelete_id'];
+                INRselectAuthor=INRconn->prepare("SELECT * FROM blog WHERE id = 'INRid'");
+                INRselectAuthor->execute();
+                while(INRrow=INRselectAuthor->fetch(PDO::FETCH_ASSOC)){
+                    INRfilename = INRrow['featured_image'];
+                    INRpath = '../assets/upload/'.INRfilename;
+                    if(file_exists(INRpath)) {
+                        unlink(INRpath);
+                        INRsql=INRconn->prepare("UPDATE `blog` SET `featured_image`='' WHERE `id`=?");            
+                        INRsql->execute([INRid]);
                         echo "Updated";
                         } 
                   
                 }
             }
             
-            if($_POST['btn']=="imagepageDelete_id")
+            if(INR_POST['btn']=="imagepageDelete_id")
             {
-                $id = $_POST['imagepageDelete_id'];
-                $selectAuthor=$conn->prepare("SELECT * FROM page WHERE id = '$id'");
-                $selectAuthor->execute();
-                while($row=$selectAuthor->fetch(PDO::FETCH_ASSOC)){
-                    $filename = $row['featured_image'];
-                    $path = '../assets/upload/'.$filename;
-                    if(file_exists($path)) {
-                        unlink($path);
-                        $sql=$conn->prepare("UPDATE `page` SET `featured_image`='' WHERE `id`=?");            
-                        $sql->execute([$id]);
+                INRid = INR_POST['imagepageDelete_id'];
+                INRselectAuthor=INRconn->prepare("SELECT * FROM page WHERE id = 'INRid'");
+                INRselectAuthor->execute();
+                while(INRrow=INRselectAuthor->fetch(PDO::FETCH_ASSOC)){
+                    INRfilename = INRrow['featured_image'];
+                    INRpath = '../assets/upload/'.INRfilename;
+                    if(file_exists(INRpath)) {
+                        unlink(INRpath);
+                        INRsql=INRconn->prepare("UPDATE `page` SET `featured_image`='' WHERE `id`=?");            
+                        INRsql->execute([INRid]);
                         echo "Updated";
                         } 
                   
                 }
             }
-            if($_POST['btn']=="imagequoteDelete_id")
+            if(INR_POST['btn']=="imagequoteDelete_id")
             {
-                $id = $_POST['imagequoteDelete_id'];
-                $selectAuthor=$conn->prepare("SELECT * FROM quotes WHERE id = '$id'");
-                $selectAuthor->execute();
-                while($row=$selectAuthor->fetch(PDO::FETCH_ASSOC)){
-                    $filename = $row['image'];
-                    $path = '../assets/upload/quotes/'.$filename;
-                    if(file_exists($path)) {
-                        unlink($path);
-                        $sql=$conn->prepare("UPDATE `quotes` SET `image`='' WHERE `id`=?");            
-                        $sql->execute([$id]);
-                        echo "Updated";
-                        } 
-                  
-                }
-            }
-            
-        if($_POST['btn']=="imagequoteDataDelete_id")
-            {
-                $id = $_POST['imagequoteDataDelete_id'];
-                $selectAuthor=$conn->prepare("SELECT * FROM quotes_data WHERE id = '$id'");
-                $selectAuthor->execute();
-                while($row=$selectAuthor->fetch(PDO::FETCH_ASSOC)){
-                    $filename = $row['author_image'];
-                    $path = '../assets/upload/quotes/'.$filename;
-                    if(file_exists($path)) {
-                        unlink($path);
-                        $sql=$conn->prepare("UPDATE `quotes_data` SET `author_image`='' WHERE `id`=?");            
-                        $sql->execute([$id]);
+                INRid = INR_POST['imagequoteDelete_id'];
+                INRselectAuthor=INRconn->prepare("SELECT * FROM quotes WHERE id = 'INRid'");
+                INRselectAuthor->execute();
+                while(INRrow=INRselectAuthor->fetch(PDO::FETCH_ASSOC)){
+                    INRfilename = INRrow['image'];
+                    INRpath = '../assets/upload/quotes/'.INRfilename;
+                    if(file_exists(INRpath)) {
+                        unlink(INRpath);
+                        INRsql=INRconn->prepare("UPDATE `quotes` SET `image`='' WHERE `id`=?");            
+                        INRsql->execute([INRid]);
                         echo "Updated";
                         } 
                   
                 }
             }
             
-            if($_POST['btn']=="commentCheckid")
+        if(INR_POST['btn']=="imagequoteDataDelete_id")
             {
-                        $status = $_POST['commentVal'];    
-                        $id = $_POST['commentCheckid'];
-                        $sql=$conn->prepare("UPDATE `tbl_comment` SET `status`=? WHERE `comment_id`=?");            
-                        $sql->execute([$status, $id]);
+                INRid = INR_POST['imagequoteDataDelete_id'];
+                INRselectAuthor=INRconn->prepare("SELECT * FROM quotes_data WHERE id = 'INRid'");
+                INRselectAuthor->execute();
+                while(INRrow=INRselectAuthor->fetch(PDO::FETCH_ASSOC)){
+                    INRfilename = INRrow['author_image'];
+                    INRpath = '../assets/upload/quotes/'.INRfilename;
+                    if(file_exists(INRpath)) {
+                        unlink(INRpath);
+                        INRsql=INRconn->prepare("UPDATE `quotes_data` SET `author_image`='' WHERE `id`=?");            
+                        INRsql->execute([INRid]);
+                        echo "Updated";
+                        } 
+                  
+                }
+            }
+            
+            if(INR_POST['btn']=="commentCheckid")
+            {
+                        INRstatus = INR_POST['commentVal'];    
+                        INRid = INR_POST['commentCheckid'];
+                        INRsql=INRconn->prepare("UPDATE `tbl_comment` SET `status`=? WHERE `comment_id`=?");            
+                        INRsql->execute([INRstatus, INRid]);
                         echo "updated";
             }
             
@@ -412,96 +412,96 @@ ini_set('display_errors', 1);
 
 // Category Delete here 
 
-if($_POST['btn']=="deleteCategory_id")
+if(INR_POST['btn']=="deleteCategory_id")
 {
 
-    $deleteCategory_id = $_POST['deleteCategory_id'];
-    $sql=$conn->prepare("DELETE FROM `categories` WHERE `id`=?");            
-    $sql->execute([$deleteCategory_id]);
+    INRdeleteCategory_id = INR_POST['deleteCategory_id'];
+    INRsql=INRconn->prepare("DELETE FROM `categories` WHERE `id`=?");            
+    INRsql->execute([INRdeleteCategory_id]);
     echo "Deleted";
  
 }
 // Quotes Category Delete here 
 
-if($_POST['btn']=="deletequotesCategory_id")
+if(INR_POST['btn']=="deletequotesCategory_id")
 {
 
-    $deletequotesCategory_id = $_POST['deletequotesCategory_id'];
-    $sql=$conn->prepare("DELETE FROM `quotescat` WHERE `id`=?");            
-    $sql->execute([$deletequotesCategory_id]);
+    INRdeletequotesCategory_id = INR_POST['deletequotesCategory_id'];
+    INRsql=INRconn->prepare("DELETE FROM `quotescat` WHERE `id`=?");            
+    INRsql->execute([INRdeletequotesCategory_id]);
     echo "Deleted";
  
 }
 
 
         // quotes restore
-        if($_POST['btn']=="quoteRestoreRows_id")
+        if(INR_POST['btn']=="quoteRestoreRows_id")
         {
-            $quoteRestoreRows_id = $_POST['quoteRestoreRows_id'];
-            $sql=$conn->prepare("UPDATE `quotes` SET `status`='0' WHERE `id`=?");            
-            $sql->execute([$quoteRestoreRows_id]);
+            INRquoteRestoreRows_id = INR_POST['quoteRestoreRows_id'];
+            INRsql=INRconn->prepare("UPDATE `quotes` SET `status`='0' WHERE `id`=?");            
+            INRsql->execute([INRquoteRestoreRows_id]);
             echo "Restored";
             
         }
         // quotes upload draft data
 
         
-        if($_POST['btn']=="uploadDraftdata_id")
+        if(INR_POST['btn']=="uploadDraftdata_id")
         {
-            $uploadDraftdata_id = $_POST['uploadDraftdata_id'];
-            $sql=$conn->prepare("UPDATE `quotes` SET `status`='0' WHERE `id`=?");            
-            $sql->execute([$uploadDraftdata_id]);
+            INRuploadDraftdata_id = INR_POST['uploadDraftdata_id'];
+            INRsql=INRconn->prepare("UPDATE `quotes` SET `status`='0' WHERE `id`=?");            
+            INRsql->execute([INRuploadDraftdata_id]);
             echo "Uploaded";
         
         }
 
         
-        if($_POST['btn']=="addCategory")
+        if(INR_POST['btn']=="addCategory")
     {
-        $cat="";
-        if(isset($_POST['cat'])){
-            $cat = trim_data($_POST['cat']);
+        INRcat="";
+        if(isset(INR_POST['cat'])){
+            INRcat = trim_data(INR_POST['cat']);
         }
-        $cat_slug="";
-        if(isset($_POST['cat_slug'])){
-            $cat_slug = trim_data($_POST['cat_slug']);
+        INRcat_slug="";
+        if(isset(INR_POST['cat_slug'])){
+            INRcat_slug = trim_data(INR_POST['cat_slug']);
         }
-        $cat_desc="";
-        if(isset($_POST['description'])){
-            $cat_desc = trim_data($_POST['description']);
+        INRcat_desc="";
+        if(isset(INR_POST['description'])){
+            INRcat_desc = trim_data(INR_POST['description']);
         }
-        $cat_title="";
-        if(isset($_POST['cat_title'])){
-            $cat_title = trim_data($_POST['cat_title']);
+        INRcat_title="";
+        if(isset(INR_POST['cat_title'])){
+            INRcat_title = trim_data(INR_POST['cat_title']);
         }
-        $meta_desc="";
-        if(isset($_POST['meta_desc'])){
-            $meta_desc = trim_data($_POST['meta_desc']);
+        INRmeta_desc="";
+        if(isset(INR_POST['meta_desc'])){
+            INRmeta_desc = trim_data(INR_POST['meta_desc']);
         }
         
-        $parent_cat="";
-        if(isset($_POST['parent_cat'])){
-            $parent_cat = $_POST['parent_cat'];
+        INRparent_cat="";
+        if(isset(INR_POST['parent_cat'])){
+            INRparent_cat = INR_POST['parent_cat'];
         }
-        // if($parent_cat==0){
+        // if(INRparent_cat==0){
             
         // }
         
         
-         $sql = "INSERT INTO `categories`
+         INRsql = "INSERT INTO `categories`
         (`cat_id`, `cat_name`, `cat_slug`, `cat_desc`, `cat_title`, `meta_desc`, `status`)
-        VALUES ('0','$cat','$cat_slug','$cat_desc',
-        '$cat_title','$meta_desc','$parent_cat')";
+        VALUES ('0','INRcat','INRcat_slug','INRcat_desc',
+        'INRcat_title','INRmeta_desc','INRparent_cat')";
 
-        $stmt = $conn->prepare($sql);
-        if($stmt->execute()){
+        INRstmt = INRconn->prepare(INRsql);
+        if(INRstmt->execute()){
 
-            $last_id = $conn->lastInsertId();
-            if(!empty($last_id))
+            INRlast_id = INRconn->lastInsertId();
+            if(!empty(INRlast_id))
             {
-                $sql = "UPDATE `categories` SET `cat_id`='$last_id' WHERE id='$last_id'";
-                $stmt = $conn->prepare($sql);
-                if($stmt->execute()){
+                INRsql = "UPDATE `categories` SET `cat_id`='INRlast_id' WHERE id='INRlast_id'";
+                INRstmt = INRconn->prepare(INRsql);
+                if(INRstmt->execute()){
                 echo "inserted";
             }
         }
@@ -509,43 +509,43 @@ if($_POST['btn']=="deletequotesCategory_id")
 
   
 }
-        if($_POST['btn']=="updateCategory")
+        if(INR_POST['btn']=="updateCategory")
         {
-        $cat_id="";
-        if(isset($_POST['cat_id'])){
-            $cat_id = $_POST['cat_id'];
+        INRcat_id="";
+        if(isset(INR_POST['cat_id'])){
+            INRcat_id = INR_POST['cat_id'];
         }
         
-        $cat="";
-        if(isset($_POST['cat'])){
-            $cat = trim_data($_POST['cat']);
+        INRcat="";
+        if(isset(INR_POST['cat'])){
+            INRcat = trim_data(INR_POST['cat']);
         }
-        $cat_slug="";
-        if(isset($_POST['cat_slug'])){
-            $cat_slug = trim_data($_POST['cat_slug']);
+        INRcat_slug="";
+        if(isset(INR_POST['cat_slug'])){
+            INRcat_slug = trim_data(INR_POST['cat_slug']);
         }
-        $cat_desc="";
-        if(isset($_POST['description'])){
-            $cat_desc = trim_data($_POST['description']);
+        INRcat_desc="";
+        if(isset(INR_POST['description'])){
+            INRcat_desc = trim_data(INR_POST['description']);
         }
-        $cat_title="";
-        if(isset($_POST['cat_title'])){
-            $cat_title = trim_data($_POST['cat_title']);
+        INRcat_title="";
+        if(isset(INR_POST['cat_title'])){
+            INRcat_title = trim_data(INR_POST['cat_title']);
         }
-        $meta_desc="";
-        if(isset($_POST['meta_desc'])){
-            $meta_desc = trim_data($_POST['meta_desc']);
-        }
-        
-        $parent_cat="";
-        if(isset($_POST['parent_cat'])){
-            $parent_cat = $_POST['parent_cat'];
+        INRmeta_desc="";
+        if(isset(INR_POST['meta_desc'])){
+            INRmeta_desc = trim_data(INR_POST['meta_desc']);
         }
         
-        $sql = "UPDATE `categories` SET `cat_name`='$cat',`cat_slug`='$cat_slug',`cat_desc`='$cat_desc',`cat_title`='$cat_title',`meta_desc`='$meta_desc',`status`='$parent_cat' WHERE `id`='$cat_id'";
+        INRparent_cat="";
+        if(isset(INR_POST['parent_cat'])){
+            INRparent_cat = INR_POST['parent_cat'];
+        }
+        
+        INRsql = "UPDATE `categories` SET `cat_name`='INRcat',`cat_slug`='INRcat_slug',`cat_desc`='INRcat_desc',`cat_title`='INRcat_title',`meta_desc`='INRmeta_desc',`status`='INRparent_cat' WHERE `id`='INRcat_id'";
 
-        $stmt = $conn->prepare($sql);
-        if($stmt->execute()){
+        INRstmt = INRconn->prepare(INRsql);
+        if(INRstmt->execute()){
         echo "updated";
         }
     
@@ -553,231 +553,231 @@ if($_POST['btn']=="deletequotesCategory_id")
 
 
 
-        if($_POST['btn']=="addQuotescategory")
+        if(INR_POST['btn']=="addQuotescategory")
     {
-        $cat="";
-        if(isset($_POST['cat'])){
-            $cat = trim_data($_POST['cat']);
+        INRcat="";
+        if(isset(INR_POST['cat'])){
+            INRcat = trim_data(INR_POST['cat']);
         }
-        $cat_slug="";
-        if(isset($_POST['cat_slug'])){
-            $cat_slug = trim_data($_POST['cat_slug']);
+        INRcat_slug="";
+        if(isset(INR_POST['cat_slug'])){
+            INRcat_slug = trim_data(INR_POST['cat_slug']);
         }
-        $cat_desc="";
-        if(isset($_POST['description'])){
-            $cat_desc = trim_data($_POST['description']);
+        INRcat_desc="";
+        if(isset(INR_POST['description'])){
+            INRcat_desc = trim_data(INR_POST['description']);
         }
-        $cat_title="";
-        if(isset($_POST['cat_title'])){
-            $cat_title = trim_data($_POST['cat_title']);
+        INRcat_title="";
+        if(isset(INR_POST['cat_title'])){
+            INRcat_title = trim_data(INR_POST['cat_title']);
         }
-        $meta_desc="";
-        if(isset($_POST['meta_desc'])){
-            $meta_desc = trim_data($_POST['meta_desc']);
+        INRmeta_desc="";
+        if(isset(INR_POST['meta_desc'])){
+            INRmeta_desc = trim_data(INR_POST['meta_desc']);
         }
         
-         $sql = "INSERT INTO `quotescat`(`categoryName`, `slug`, `title`, `meta_desc`, `description`, `status`)
-         VALUES('$cat','$cat_slug','$cat_title','$meta_desc','$cat_desc',1)";
+         INRsql = "INSERT INTO `quotescat`(`categoryName`, `slug`, `title`, `meta_desc`, `description`, `status`)
+         VALUES('INRcat','INRcat_slug','INRcat_title','INRmeta_desc','INRcat_desc',1)";
 
-        $stmt = $conn->prepare($sql);
-        if($stmt->execute()){
+        INRstmt = INRconn->prepare(INRsql);
+        if(INRstmt->execute()){
         echo "inserted";
 
         }
     }
         
-        if($_POST['btn']=="updateQuotescategory")
+        if(INR_POST['btn']=="updateQuotescategory")
         {
-            $cat_id="";
-            if(isset($_POST['cat_id'])){
-                $cat_id = $_POST['cat_id'];
+            INRcat_id="";
+            if(isset(INR_POST['cat_id'])){
+                INRcat_id = INR_POST['cat_id'];
             }
-            $cat="";
-            if(isset($_POST['cat'])){
-                $cat = trim_data($_POST['cat']);
+            INRcat="";
+            if(isset(INR_POST['cat'])){
+                INRcat = trim_data(INR_POST['cat']);
             }
-            $cat_slug="";
-            if(isset($_POST['cat_slug'])){
-                $cat_slug = trim_data($_POST['cat_slug']);
+            INRcat_slug="";
+            if(isset(INR_POST['cat_slug'])){
+                INRcat_slug = trim_data(INR_POST['cat_slug']);
             }
-            $cat_desc="";
-            if(isset($_POST['description'])){
-                $cat_desc = trim_data($_POST['description']);
+            INRcat_desc="";
+            if(isset(INR_POST['description'])){
+                INRcat_desc = trim_data(INR_POST['description']);
             }
-            $cat_title="";
-            if(isset($_POST['cat_title'])){
-                $cat_title = trim_data($_POST['cat_title']);
+            INRcat_title="";
+            if(isset(INR_POST['cat_title'])){
+                INRcat_title = trim_data(INR_POST['cat_title']);
             }
-            $meta_desc="";
-            if(isset($_POST['meta_desc'])){
-                $meta_desc = trim_data($_POST['meta_desc']);
+            INRmeta_desc="";
+            if(isset(INR_POST['meta_desc'])){
+                INRmeta_desc = trim_data(INR_POST['meta_desc']);
             }
         
         
         
-        $sql = "UPDATE `quotescat` SET `categoryName`='$cat',`slug`='$cat_slug',`title`='$cat_title',`meta_desc`='$meta_desc',`description`='$cat_desc',`status`=1 WHERE `id`='$cat_id'";
-        $stmt = $conn->prepare($sql);
-        if($stmt->execute()){
+        INRsql = "UPDATE `quotescat` SET `categoryName`='INRcat',`slug`='INRcat_slug',`title`='INRcat_title',`meta_desc`='INRmeta_desc',`description`='INRcat_desc',`status`=1 WHERE `id`='INRcat_id'";
+        INRstmt = INRconn->prepare(INRsql);
+        if(INRstmt->execute()){
         echo "updated";
         }
     
     }
         
         
-        if($_POST['btn']=="addQuotes")
+        if(INR_POST['btn']=="addQuotes")
         {
-            $title="";
-            if(isset($_POST['quote_title'])){
-                $title = trim_data($_POST['quote_title']);
+            INRtitle="";
+            if(isset(INR_POST['quote_title'])){
+                INRtitle = trim_data(INR_POST['quote_title']);
             }
             else{
-                $title="";
+                INRtitle="";
             }
-            $seo_title="";
-            if(isset($_POST['quote_title_seo'])){
-                $seo_title = trim_data($_POST['quote_title_seo']);
+            INRseo_title="";
+            if(isset(INR_POST['quote_title_seo'])){
+                INRseo_title = trim_data(INR_POST['quote_title_seo']);
             }
             else{
-                $seo_title="";
+                INRseo_title="";
             }
 
-            $slug="";
-            if(isset($_POST['quote_slug'])){
-                $slug = strtolower(str_replace(" ","-",$_POST['quote_slug']));
+            INRslug="";
+            if(isset(INR_POST['quote_slug'])){
+                INRslug = strtolower(str_replace(" ","-",INR_POST['quote_slug']));
             }
             else{
-                $slug="";
+                INRslug="";
             }
 
-            $meta_desc="";
-            if(isset($_POST['meta_desc'])){
-                $meta_desc = trim_data($_POST['meta_desc']);
+            INRmeta_desc="";
+            if(isset(INR_POST['meta_desc'])){
+                INRmeta_desc = trim_data(INR_POST['meta_desc']);
             }
             else{
-                $meta_desc="";
+                INRmeta_desc="";
             }
 
-            $content="";
-            if(isset($_POST['content'])){
-                $content =$_POST['content'];
+            INRcontent="";
+            if(isset(INR_POST['content'])){
+                INRcontent =INR_POST['content'];
             }
             else{
-                 $content="";
+                 INRcontent="";
             }
            
 
-            if(isset($_POST['bot_robot'])){
-            $bot_robot = ($_POST['bot_robot']);
+            if(isset(INR_POST['bot_robot'])){
+            INRbot_robot = (INR_POST['bot_robot']);
             }
-            $bot_robot_value="";
-            if(!empty($bot_robot)){
-                $bot_robot_value  = implode(", ",$bot_robot);            
-            }
-            else{
-                $bot_robot_value = "0";
-            }
-            if(isset($_POST['max_snippet'])){
-                $max_snippet = $_POST['max_snippet'];
+            INRbot_robot_value="";
+            if(!empty(INRbot_robot)){
+                INRbot_robot_value  = implode(", ",INRbot_robot);            
             }
             else{
-                 $max_snippet = "max-snippet:";
+                INRbot_robot_value = "0";
             }
-            if(isset($_POST['max_video'])){
-            $max_video =($_POST['max_video']);
+            if(isset(INR_POST['max_snippet'])){
+                INRmax_snippet = INR_POST['max_snippet'];
             }
             else{
-                $max_video = "max-video:";
+                 INRmax_snippet = "max-snippet:";
+            }
+            if(isset(INR_POST['max_video'])){
+            INRmax_video =(INR_POST['max_video']);
+            }
+            else{
+                INRmax_video = "max-video:";
             }
 
-            if(isset($_POST['max_image'])){
-            $max_image=$_POST['max_image'];
+            if(isset(INR_POST['max_image'])){
+            INRmax_image=INR_POST['max_image'];
             }
             else{
-                $max_image="max-image:";
+                INRmax_image="max-image:";
             }
-                $max_snippet_value =$_POST['max_snippet_value'];   
-                $concat_snippet = $max_snippet.$max_snippet_value;
-                $max_video_value =$_POST['max_video_value'];
-                $concat_video = $max_video.$max_video_value;    
-                $max_image_value =$_POST['max_image_value'];
-                $concat_image = $max_image.$max_image_value;
-                $advance_bot = $bot_robot_value.", ".$concat_snippet.", ".$concat_video.", ".$concat_image;
-                $content=trim_data($_POST['content']);
-                $focus_key=trim_data($_POST['focus_keyword']);
-                $category = trim_data($_POST['category']);
+                INRmax_snippet_value =INR_POST['max_snippet_value'];   
+                INRconcat_snippet = INRmax_snippet.INRmax_snippet_value;
+                INRmax_video_value =INR_POST['max_video_value'];
+                INRconcat_video = INRmax_video.INRmax_video_value;    
+                INRmax_image_value =INR_POST['max_image_value'];
+                INRconcat_image = INRmax_image.INRmax_image_value;
+                INRadvance_bot = INRbot_robot_value.", ".INRconcat_snippet.", ".INRconcat_video.", ".INRconcat_image;
+                INRcontent=trim_data(INR_POST['content']);
+                INRfocus_key=trim_data(INR_POST['focus_keyword']);
+                INRcategory = trim_data(INR_POST['category']);
 
 
-                $message="";
-                if(isset($_POST['message'])){
-                    $message = trim_data($_POST['message']);
+                INRmessage="";
+                if(isset(INR_POST['message'])){
+                    INRmessage = trim_data(INR_POST['message']);
                 }
                 else{
-                    $message="";
+                    INRmessage="";
                 }
-                $filename="";
-                if(isset($_FILES["img"]["name"])){
-                    $filename = $_FILES["img"]["name"];
-                    $tempname = $_FILES["img"]["tmp_name"];
-                    $folder = "../assets/upload/quotes/".$filename;
-                    if (move_uploaded_file($tempname, $folder))
+                INRfilename="";
+                if(isset(INR_FILES["img"]["name"])){
+                    INRfilename = INR_FILES["img"]["name"];
+                    INRtempname = INR_FILES["img"]["tmp_name"];
+                    INRfolder = "../assets/upload/quotes/".INRfilename;
+                    if (move_uploaded_file(INRtempname, INRfolder))
                     {
-                        //$msg = "Image uploaded successfully";
+                        //INRmsg = "Image uploaded successfully";
                     }     
                 }
                 else{
-                    $filename="";
+                    INRfilename="";
                 }
-                $img_alt="";
-                if(isset($_POST['img_alt'])){
-                    $img_alt = trim_data($_POST['img_alt']);
-                }
-                else{
-                    $img_alt="";
-                }
-                $img_title="";
-                if(isset($_POST['img_title'])){
-                    $img_title = trim_data($_POST['img_title']);
+                INRimg_alt="";
+                if(isset(INR_POST['img_alt'])){
+                    INRimg_alt = trim_data(INR_POST['img_alt']);
                 }
                 else{
-                    $img_title="";
+                    INRimg_alt="";
+                }
+                INRimg_title="";
+                if(isset(INR_POST['img_title'])){
+                    INRimg_title = trim_data(INR_POST['img_title']);
+                }
+                else{
+                    INRimg_title="";
                 }
 
-                $draft=0;
-                if(isset($_POST['draft'])){
-                    $draft = $_POST['draft'];
+                INRdraft=0;
+                if(isset(INR_POST['draft'])){
+                    INRdraft = INR_POST['draft'];
                 }
                 else{
-                    $draft = 0;
+                    INRdraft = 0;
                 }
    
 
-        $sql ="INSERT INTO `quotes`(`title`, `cat_id`, `content`, `image`, `seo_title`, `slug`, `focus_keyword`, `meta_desc`, `img_alt`, `img_title`, `rank_math_bot`, `quotes_desc`, `status`) VALUES
-        ('$title','$category','$content','$filename','$seo_title','$slug','$focus_key','$meta_desc','$img_alt','$img_title','$advance_bot','$message',$draft)";
+        INRsql ="INSERT INTO `quotes`(`title`, `cat_id`, `content`, `image`, `seo_title`, `slug`, `focus_keyword`, `meta_desc`, `img_alt`, `img_title`, `rank_math_bot`, `quotes_desc`, `status`) VALUES
+        ('INRtitle','INRcategory','INRcontent','INRfilename','INRseo_title','INRslug','INRfocus_key','INRmeta_desc','INRimg_alt','INRimg_title','INRadvance_bot','INRmessage',INRdraft)";
 
-                    $stmt_quotes = $conn->prepare($sql);
-                    if($stmt_quotes->execute())
+                    INRstmt_quotes = INRconn->prepare(INRsql);
+                    if(INRstmt_quotes->execute())
                     {
 
-                        $last_quote_id = $conn->lastInsertId();
-                        if(!empty($last_quote_id)){
+                        INRlast_quote_id = INRconn->lastInsertId();
+                        if(!empty(INRlast_quote_id)){
                 
-                            $totalAuthor = count($_POST['authorname']);
-                            for($i=0;$i<$totalAuthor;$i++){
-                                    $name = trim_data($_POST['authorname'][$i]);
-                                    $image_alt = trim_data($_POST['image_alt'][$i]);
-                                    $content = trim_data($_POST['quote'][$i]);
-                                    $image = $_FILES["author_image"]["name"][$i];
-                                    $image_temp = $_FILES["author_image"]["tmp_name"][$i];
+                            INRtotalAuthor = count(INR_POST['authorname']);
+                            for(INRi=0;INRi<INRtotalAuthor;INRi++){
+                                    INRname = trim_data(INR_POST['authorname'][INRi]);
+                                    INRimage_alt = trim_data(INR_POST['image_alt'][INRi]);
+                                    INRcontent = trim_data(INR_POST['quote'][INRi]);
+                                    INRimage = INR_FILES["author_image"]["name"][INRi];
+                                    INRimage_temp = INR_FILES["author_image"]["tmp_name"][INRi];
                 
-                                    $folder_author = "../assets/upload/quotes/".$image;
-                                    if (move_uploaded_file($image_temp, $folder_author))
+                                    INRfolder_author = "../assets/upload/quotes/".INRimage;
+                                    if (move_uploaded_file(INRimage_temp, INRfolder_author))
                                     {
-                                        //$msg = "Image uploaded successfully author";
+                                        //INRmsg = "Image uploaded successfully author";
                                     }
-                                    $sql = "INSERT INTO `quotes_data`(`quotes_id`, `author_name`, `author_content`, `author_image`,`alt_image`) 
-                                    VALUES ('$last_quote_id','$name','$content','$image','$image_alt')";
-                                    $stmt = $conn->prepare($sql);
-                                    if($stmt->execute()){
+                                    INRsql = "INSERT INTO `quotes_data`(`quotes_id`, `author_name`, `author_content`, `author_image`,`alt_image`) 
+                                    VALUES ('INRlast_quote_id','INRname','INRcontent','INRimage','INRimage_alt')";
+                                    INRstmt = INRconn->prepare(INRsql);
+                                    if(INRstmt->execute()){
                                     echo "inserted";              
                                     }
                                 }
@@ -789,167 +789,167 @@ if($_POST['btn']=="deletequotesCategory_id")
         //add quotes end
 
         // edit quotes start here 
-        if($_POST['btn']=="editQuotes")
+        if(INR_POST['btn']=="editQuotes")
         {
 
-            $title="";
-            if(isset($_POST['quote_title'])){
-                $title = trim_data($_POST['quote_title']);
+            INRtitle="";
+            if(isset(INR_POST['quote_title'])){
+                INRtitle = trim_data(INR_POST['quote_title']);
             }
             else{
-                $title="";
+                INRtitle="";
             }
-            $seo_title="";
-            if(isset($_POST['quote_title_seo'])){
-                $seo_title = trim_data($_POST['quote_title_seo']);
+            INRseo_title="";
+            if(isset(INR_POST['quote_title_seo'])){
+                INRseo_title = trim_data(INR_POST['quote_title_seo']);
             }
             else{
-                $seo_title="";
+                INRseo_title="";
             }
 
-            $slug="";
-            if(isset($_POST['quote_slug'])){
-                $slug = strtolower(str_replace(" ","-",$_POST['quote_slug']));
+            INRslug="";
+            if(isset(INR_POST['quote_slug'])){
+                INRslug = strtolower(str_replace(" ","-",INR_POST['quote_slug']));
             }
             else{
-                $slug="";
+                INRslug="";
             }
 
-            $meta_desc="";
-            if(isset($_POST['meta_desc'])){
-                $meta_desc = trim_data($_POST['meta_desc']);
+            INRmeta_desc="";
+            if(isset(INR_POST['meta_desc'])){
+                INRmeta_desc = trim_data(INR_POST['meta_desc']);
             }
             else{
-                $meta_desc="";
+                INRmeta_desc="";
             }
 
-            $content="";
-            if(isset($_POST['content'])){
-                $content = $_POST['content'];
+            INRcontent="";
+            if(isset(INR_POST['content'])){
+                INRcontent = INR_POST['content'];
             }
             else{
-                $content="";
+                INRcontent="";
             }
 
-            $focus_key="";
-            if(isset($_POST['focus_keyword'])){
-                $focus_key = trim_data($_POST['focus_keyword']);
+            INRfocus_key="";
+            if(isset(INR_POST['focus_keyword'])){
+                INRfocus_key = trim_data(INR_POST['focus_keyword']);
             }
             else{
-                $focus_key="";
+                INRfocus_key="";
             }
-            $category="";
-            if(isset($_POST['category'])){
-                $category = trim_data($_POST['category']);
+            INRcategory="";
+            if(isset(INR_POST['category'])){
+                INRcategory = trim_data(INR_POST['category']);
             }
             else{
-                $category="";
+                INRcategory="";
             }
 
-            $img_path="";
-            if(isset($_POST['img_path_old'])){
-                $img_path = $_POST['img_path_old'];
+            INRimg_path="";
+            if(isset(INR_POST['img_path_old'])){
+                INRimg_path = INR_POST['img_path_old'];
             }
             else{
-                $img_path="";
+                INRimg_path="";
             }
 
-            if(isset($_POST['quotes_id'])){
-                $quotes_id = $_POST['quotes_id'];
+            if(isset(INR_POST['quotes_id'])){
+                INRquotes_id = INR_POST['quotes_id'];
             }
-            if(isset($_POST['bot_robot'])){
-            $bot_robot = ($_POST['bot_robot']);
+            if(isset(INR_POST['bot_robot'])){
+            INRbot_robot = (INR_POST['bot_robot']);
             }
-            $bot_robot_value="";
-            if(!empty($bot_robot)){
-                $bot_robot_value  = implode(", ",$bot_robot);            
-            }
-            else{
-                $bot_robot_value = "0";
-            }
-            if(isset($_POST['max_snippet'])){
-                $max_snippet = $_POST['max_snippet'];
+            INRbot_robot_value="";
+            if(!empty(INRbot_robot)){
+                INRbot_robot_value  = implode(", ",INRbot_robot);            
             }
             else{
-                 $max_snippet = "max-snippet:";
+                INRbot_robot_value = "0";
             }
-            if(isset($_POST['max_video'])){
-            $max_video =($_POST['max_video']);
+            if(isset(INR_POST['max_snippet'])){
+                INRmax_snippet = INR_POST['max_snippet'];
             }
             else{
-                $max_video = "max-video:";
+                 INRmax_snippet = "max-snippet:";
+            }
+            if(isset(INR_POST['max_video'])){
+            INRmax_video =(INR_POST['max_video']);
+            }
+            else{
+                INRmax_video = "max-video:";
             }
 
-            if(isset($_POST['max_image'])){
-            $max_image=$_POST['max_image'];
+            if(isset(INR_POST['max_image'])){
+            INRmax_image=INR_POST['max_image'];
             }
             else{
-                $max_image="max-image:";
+                INRmax_image="max-image:";
             }
-                $max_snippet_value =$_POST['max_snippet_value'];   
-                $concat_snippet = $max_snippet.$max_snippet_value;
-                $max_video_value =$_POST['max_video_value'];
-                $concat_video = $max_video.$max_video_value;    
-                $max_image_value =$_POST['max_image_value'];
-                $concat_image = $max_image.$max_image_value;
-                $advance_bot = $bot_robot_value.", ".$concat_snippet.", ".$concat_video.", ".$concat_image;
+                INRmax_snippet_value =INR_POST['max_snippet_value'];   
+                INRconcat_snippet = INRmax_snippet.INRmax_snippet_value;
+                INRmax_video_value =INR_POST['max_video_value'];
+                INRconcat_video = INRmax_video.INRmax_video_value;    
+                INRmax_image_value =INR_POST['max_image_value'];
+                INRconcat_image = INRmax_image.INRmax_image_value;
+                INRadvance_bot = INRbot_robot_value.", ".INRconcat_snippet.", ".INRconcat_video.", ".INRconcat_image;
               
               
-                $draft=0;
-                if(isset($_POST['draft'])){
-                    $draft = $_POST['draft'];
+                INRdraft=0;
+                if(isset(INR_POST['draft'])){
+                    INRdraft = INR_POST['draft'];
                 }
                 else{
-                    $draft = 0;
+                    INRdraft = 0;
                 }
-                $message="";
-                if(isset($_POST['message'])){
-                    $message = trim_data($_POST['message']);
-                }
-                else{
-                    $message="";
-                }
-                $img_alt="";
-                if(isset($_POST['img_alt'])){
-                    $img_alt = trim_data($_POST['img_alt']);
+                INRmessage="";
+                if(isset(INR_POST['message'])){
+                    INRmessage = trim_data(INR_POST['message']);
                 }
                 else{
-                    $img_alt="";
+                    INRmessage="";
                 }
-                $img_title="";
-                if(isset($_POST['img_title'])){
-                    $img_title = trim_data($_POST['img_title']);
+                INRimg_alt="";
+                if(isset(INR_POST['img_alt'])){
+                    INRimg_alt = trim_data(INR_POST['img_alt']);
                 }
                 else{
-                    $img_title="";
+                    INRimg_alt="";
                 }
-                $old_img_path="";
-                if(isset($_FILES["img"]["name"])){    
-                    $old_img_path = $_FILES["img"]["name"];
-                    $tempname = $_FILES["img"]["tmp_name"];
+                INRimg_title="";
+                if(isset(INR_POST['img_title'])){
+                    INRimg_title = trim_data(INR_POST['img_title']);
+                }
+                else{
+                    INRimg_title="";
+                }
+                INRold_img_path="";
+                if(isset(INR_FILES["img"]["name"])){    
+                    INRold_img_path = INR_FILES["img"]["name"];
+                    INRtempname = INR_FILES["img"]["tmp_name"];
                    }
                    else
                    {
-                    $old_img_path="";
+                    INRold_img_path="";
                    }
 
-                   if(empty($old_img_path)){
-                       $old_img_path = $img_path;
+                   if(empty(INRold_img_path)){
+                       INRold_img_path = INRimg_path;
                    }
                    else
                    {
-                       $folder = "../assets/upload/quotes/".$old_img_path;
-                          if (move_uploaded_file($tempname, $folder))
+                       INRfolder = "../assets/upload/quotes/".INRold_img_path;
+                          if (move_uploaded_file(INRtempname, INRfolder))
                           {
-                               $msg = "Image uploaded successfully";
+                               INRmsg = "Image uploaded successfully";
                           }
                       
                    }
-            $sql ="UPDATE `quotes` SET `title`='$title',`cat_id`='$category',`content`='$content',`image`='$old_img_path',`seo_title`='$seo_title',`slug`='$slug',`focus_keyword`='$focus_key',
-            `meta_desc`='$meta_desc',`img_alt`='$img_alt',`img_title`='$img_title',`rank_math_bot`='$advance_bot',`quotes_desc`='$message',`status`='0' WHERE `id`='$quotes_id'";
+            INRsql ="UPDATE `quotes` SET `title`='INRtitle',`cat_id`='INRcategory',`content`='INRcontent',`image`='INRold_img_path',`seo_title`='INRseo_title',`slug`='INRslug',`focus_keyword`='INRfocus_key',
+            `meta_desc`='INRmeta_desc',`img_alt`='INRimg_alt',`img_title`='INRimg_title',`rank_math_bot`='INRadvance_bot',`quotes_desc`='INRmessage',`status`='0' WHERE `id`='INRquotes_id'";
 
-                    $stmt_quotes = $conn->prepare($sql);
-                    if($stmt_quotes->execute())
+                    INRstmt_quotes = INRconn->prepare(INRsql);
+                    if(INRstmt_quotes->execute())
                     {
                         echo "updated";
                     }
@@ -958,282 +958,282 @@ if($_POST['btn']=="deletequotesCategory_id")
 
 
 // add author here
-    if($_POST['btn']=="addAuthor")
+    if(INR_POST['btn']=="addAuthor")
     {
-        $fname="";
-        if(isset($_POST['fname'])){
-            $fname = trim_data($_POST['fname']);
+        INRfname="";
+        if(isset(INR_POST['fname'])){
+            INRfname = trim_data(INR_POST['fname']);
         }
-        $lname="";
-        if(isset($_POST['lname'])){
-            $lname = trim_data($_POST['lname']);
+        INRlname="";
+        if(isset(INR_POST['lname'])){
+            INRlname = trim_data(INR_POST['lname']);
         }
-        $username="";
-        if(isset($_POST['username'])){
-            $username = trim_data($_POST['username']);
+        INRusername="";
+        if(isset(INR_POST['username'])){
+            INRusername = trim_data(INR_POST['username']);
         }
-        $pass="";
-        if(isset($_POST['pass'])){
-            $pass = trim_data($_POST['pass']);
+        INRpass="";
+        if(isset(INR_POST['pass'])){
+            INRpass = trim_data(INR_POST['pass']);
         }
-        $filename="";
-        if(isset($_FILES["img"]["name"])){
-            $filename = $_FILES["img"]["name"];
-            $tempname = $_FILES["img"]["tmp_name"];
+        INRfilename="";
+        if(isset(INR_FILES["img"]["name"])){
+            INRfilename = INR_FILES["img"]["name"];
+            INRtempname = INR_FILES["img"]["tmp_name"];
         }
-        $qualification="";
-        if(isset($_POST['qualification'])){
-            $qualification = trim_data($_POST['qualification']);
+        INRqualification="";
+        if(isset(INR_POST['qualification'])){
+            INRqualification = trim_data(INR_POST['qualification']);
         }
-        $title="";
-        if(isset($_POST['title'])){
-            $title = trim_data($_POST['title']);
+        INRtitle="";
+        if(isset(INR_POST['title'])){
+            INRtitle = trim_data(INR_POST['title']);
         }
-        $slug="";
-        if(isset($_POST['slug'])){
-            $slug = trim_data($_POST['slug']);
+        INRslug="";
+        if(isset(INR_POST['slug'])){
+            INRslug = trim_data(INR_POST['slug']);
         }
-        $img_title="";
-        if(isset($_POST['img_title'])){
-            $img_title = trim_data($_POST['img_title']);
+        INRimg_title="";
+        if(isset(INR_POST['img_title'])){
+            INRimg_title = trim_data(INR_POST['img_title']);
         }
-        $img_alt="";
-        if(isset($_POST['img_alt'])){
-            $img_alt = trim_data($_POST['img_alt']);
+        INRimg_alt="";
+        if(isset(INR_POST['img_alt'])){
+            INRimg_alt = trim_data(INR_POST['img_alt']);
         }
-        $meta_title="";
-        if(isset($_POST['meta_title'])){
-            $meta_title = trim_data($_POST['meta_title']);
+        INRmeta_title="";
+        if(isset(INR_POST['meta_title'])){
+            INRmeta_title = trim_data(INR_POST['meta_title']);
         }
-        $meta_desc="";
-        if(isset($_POST['meta_desc'])){
-            $meta_desc = trim_data($_POST['meta_desc']);
+        INRmeta_desc="";
+        if(isset(INR_POST['meta_desc'])){
+            INRmeta_desc = trim_data(INR_POST['meta_desc']);
         }
-        $position="";
-        if(isset($_POST['position'])){
-            $position = trim_data($_POST['position']);
+        INRposition="";
+        if(isset(INR_POST['position'])){
+            INRposition = trim_data(INR_POST['position']);
         }
-        $message="";
-        if(isset($_POST['text'])){
-            $message = trim_data($_POST['text']);
+        INRmessage="";
+        if(isset(INR_POST['text'])){
+            INRmessage = trim_data(INR_POST['text']);
         }
-        $highlights="";
-        if(isset($_POST['highlights'])){
-            $highlights = $_POST['highlights'];
+        INRhighlights="";
+        if(isset(INR_POST['highlights'])){
+            INRhighlights = INR_POST['highlights'];
         }
-        $experience="";
-        if(isset($_POST['experience'])){
-            $experience = $_POST['experience'];
+        INRexperience="";
+        if(isset(INR_POST['experience'])){
+            INRexperience = INR_POST['experience'];
         }
 
 
             // file move to image folder
-            $folder = "../assets/upload/authorProfile/".$filename;
-            if (move_uploaded_file($tempname, $folder))
+            INRfolder = "../assets/upload/authorProfile/".INRfilename;
+            if (move_uploaded_file(INRtempname, INRfolder))
             {
-                //$msg = "Image uploaded successfully";
+                //INRmsg = "Image uploaded successfully";
             }
             else{
-                //$msg = "Failed to upload image";
+                //INRmsg = "Failed to upload image";
                 }
             
-                $sql = "INSERT INTO `author`(`author_first_name`, `author_last_name`, `author_position`, `author_username`, `author_password`, `qualification`, `title`, `slug`, `meta_title`, `meta_desc`, `highlights`, `experience`, `image`, `img_alt`, `img_title`, `message`, `status`)
-                VALUES ('$fname','$lname','$position','$username','$pass','$qualification','$title','$slug','$meta_title','$meta_desc','$highlights','$experience','$filename','$img_title','$img_alt','$message',0)";
-            $stmt = $conn->prepare($sql);
-            if($stmt->execute()){
+                INRsql = "INSERT INTO `author`(`author_first_name`, `author_last_name`, `author_position`, `author_username`, `author_password`, `qualification`, `title`, `slug`, `meta_title`, `meta_desc`, `highlights`, `experience`, `image`, `img_alt`, `img_title`, `message`, `status`)
+                VALUES ('INRfname','INRlname','INRposition','INRusername','INRpass','INRqualification','INRtitle','INRslug','INRmeta_title','INRmeta_desc','INRhighlights','INRexperience','INRfilename','INRimg_title','INRimg_alt','INRmessage',0)";
+            INRstmt = INRconn->prepare(INRsql);
+            if(INRstmt->execute()){
                 echo "inserted";
             }    
 
     }
 
     // update author here
-    if($_POST['btn']=="updateAuthorUser")
+    if(INR_POST['btn']=="updateAuthorUser")
     {
-        if(isset($_POST['author_id'])){
-            $id = trim_data($_POST['author_id']);
+        if(isset(INR_POST['author_id'])){
+            INRid = trim_data(INR_POST['author_id']);
         }
-        $old_image="";
-        if(isset($_POST['old_image'])){
-            $old_image = $_POST['old_image'];
+        INRold_image="";
+        if(isset(INR_POST['old_image'])){
+            INRold_image = INR_POST['old_image'];
         }
-        $fname="";
-        if(isset($_POST['fname'])){
-            $fname = trim_data($_POST['fname']);
+        INRfname="";
+        if(isset(INR_POST['fname'])){
+            INRfname = trim_data(INR_POST['fname']);
         }
-        $lname="";
-        if(isset($_POST['lname'])){
-            $lname = trim_data($_POST['lname']);
+        INRlname="";
+        if(isset(INR_POST['lname'])){
+            INRlname = trim_data(INR_POST['lname']);
         }
-        $username="";
-        if(isset($_POST['username'])){
-            $username = trim_data($_POST['username']);
+        INRusername="";
+        if(isset(INR_POST['username'])){
+            INRusername = trim_data(INR_POST['username']);
         }
-        $pass="";
-        if(isset($_POST['pass'])){
-            $pass = trim_data($_POST['pass']);
+        INRpass="";
+        if(isset(INR_POST['pass'])){
+            INRpass = trim_data(INR_POST['pass']);
         }
-        $qualification="";
-        if(isset($_POST['qualification'])){
-            $qualification = trim_data($_POST['qualification']);
+        INRqualification="";
+        if(isset(INR_POST['qualification'])){
+            INRqualification = trim_data(INR_POST['qualification']);
         }
-         $title="";
-        if(isset($_POST['title'])){
-            $title = trim_data($_POST['title']);
+         INRtitle="";
+        if(isset(INR_POST['title'])){
+            INRtitle = trim_data(INR_POST['title']);
         }
-        $slug="";
-        if(isset($_POST['slug'])){
-            $slug = trim_data($_POST['slug']);
+        INRslug="";
+        if(isset(INR_POST['slug'])){
+            INRslug = trim_data(INR_POST['slug']);
         }
-        $img_title="";
-        if(isset($_POST['img_title'])){
-            $img_title = trim_data($_POST['img_title']);
+        INRimg_title="";
+        if(isset(INR_POST['img_title'])){
+            INRimg_title = trim_data(INR_POST['img_title']);
         }
-        $img_alt="";
-        if(isset($_POST['img_alt'])){
-            $img_alt = trim_data($_POST['img_alt']);
+        INRimg_alt="";
+        if(isset(INR_POST['img_alt'])){
+            INRimg_alt = trim_data(INR_POST['img_alt']);
         }
-        $meta_title="";
-        if(isset($_POST['meta_title'])){
-            $meta_title = trim_data($_POST['meta_title']);
+        INRmeta_title="";
+        if(isset(INR_POST['meta_title'])){
+            INRmeta_title = trim_data(INR_POST['meta_title']);
         }
-        $meta_desc="";
-        if(isset($_POST['meta_desc'])){
-            $meta_desc = trim_data($_POST['meta_desc']);
+        INRmeta_desc="";
+        if(isset(INR_POST['meta_desc'])){
+            INRmeta_desc = trim_data(INR_POST['meta_desc']);
         }
-        $position="";
-        if(isset($_POST['position'])){
-            $position = trim_data($_POST['position']);
+        INRposition="";
+        if(isset(INR_POST['position'])){
+            INRposition = trim_data(INR_POST['position']);
         }
-        $message="";
-        if(isset($_POST['text'])){
-            $message = trim_data($_POST['text']);
+        INRmessage="";
+        if(isset(INR_POST['text'])){
+            INRmessage = trim_data(INR_POST['text']);
         }
-        $highlights="";
-        if(isset($_POST['highlights'])){
-            $highlights = $_POST['highlights'];
+        INRhighlights="";
+        if(isset(INR_POST['highlights'])){
+            INRhighlights = INR_POST['highlights'];
         }
-        $experience="";
-        if(isset($_POST['experience'])){
-            $experience = $_POST['experience'];
+        INRexperience="";
+        if(isset(INR_POST['experience'])){
+            INRexperience = INR_POST['experience'];
         }
         
-        $filename="";
-        if(isset($_FILES["img"]["name"])){
-            $filename = $_FILES["img"]["name"];
-            $tempname = $_FILES["img"]["tmp_name"];
+        INRfilename="";
+        if(isset(INR_FILES["img"]["name"])){
+            INRfilename = INR_FILES["img"]["name"];
+            INRtempname = INR_FILES["img"]["tmp_name"];
         }
         else{
-            $filename = $old_image;
+            INRfilename = INRold_image;
         }
 
-        if(empty($filename)){
-            $filename = $old_image;
+        if(empty(INRfilename)){
+            INRfilename = INRold_image;
         }
         else
         {
-                $folder = "../assets/upload/authorProfile/".$filename;
-                if (move_uploaded_file($tempname, $folder))
+                INRfolder = "../assets/upload/authorProfile/".INRfilename;
+                if (move_uploaded_file(INRtempname, INRfolder))
                 {
-                    //$msg = "Image uploaded successfully";
+                    //INRmsg = "Image uploaded successfully";
                 }
                            
         }
-                 $sql = "UPDATE `author` SET `author_first_name`='$fname',`author_last_name`='$lname',`author_position`='$position',`author_username`='$username',`author_password`='$pass',
-                `qualification`='$qualification',`title`='$title',`slug`='$slug',`meta_title`='$meta_title',`meta_desc`='$meta_desc',`highlights`='$highlights',`experience`='$experience',`image`='$filename',`img_alt`='$img_alt',`img_title`='$img_title',`message`='$message',`status`='0' WHERE `id`='$id'";
+                 INRsql = "UPDATE `author` SET `author_first_name`='INRfname',`author_last_name`='INRlname',`author_position`='INRposition',`author_username`='INRusername',`author_password`='INRpass',
+                `qualification`='INRqualification',`title`='INRtitle',`slug`='INRslug',`meta_title`='INRmeta_title',`meta_desc`='INRmeta_desc',`highlights`='INRhighlights',`experience`='INRexperience',`image`='INRfilename',`img_alt`='INRimg_alt',`img_title`='INRimg_title',`message`='INRmessage',`status`='0' WHERE `id`='INRid'";
             
-            $stmt = $conn->prepare($sql);
-            if($stmt->execute()){
+            INRstmt = INRconn->prepare(INRsql);
+            if(INRstmt->execute()){
                 echo "updated";
             }    
 
     }
     // delete author data here 
     
-    if($_POST['btn']=="deleteFunctionAuthor_id")
+    if(INR_POST['btn']=="deleteFunctionAuthor_id")
     {
-        $deleteFunctionAuthor_id = $_POST['deleteFunctionAuthor_id'];
-        $sql=$conn->prepare("UPDATE `contact_enquiry` SET `status`='1' WHERE `id`=?");  
-        $sql->execute([$deleteFunctionAuthor_id]);
+        INRdeleteFunctionAuthor_id = INR_POST['deleteFunctionAuthor_id'];
+        INRsql=INRconn->prepare("UPDATE `contact_enquiry` SET `status`='1' WHERE `id`=?");  
+        INRsql->execute([INRdeleteFunctionAuthor_id]);
         echo "Trashed";
     }
     // user comment delete 
     
-    if($_POST['btn']=="deleteuserComment_id")
+    if(INR_POST['btn']=="deleteuserComment_id")
     {
-        $deleteuserComment_id = $_POST['deleteuserComment_id'];
-        $sql=$conn->prepare("Delete FROM `tbl_comment` WHERE `comment_id`=?");  
-        $sql->execute([$deleteuserComment_id]);
+        INRdeleteuserComment_id = INR_POST['deleteuserComment_id'];
+        INRsql=INRconn->prepare("Delete FROM `tbl_comment` WHERE `comment_id`=?");  
+        INRsql->execute([INRdeleteuserComment_id]);
         echo "deleted";
     }
     
-    if($_POST['btn']=="permanentdeleteFunctionAuthor_id")
+    if(INR_POST['btn']=="permanentdeleteFunctionAuthor_id")
     {
-        $permanentdeleteFunctionAuthor_id = $_POST['permanentdeleteFunctionAuthor_id'];
-        $sql=$conn->prepare("Delete FROM `contact_enquiry`WHERE `id`=?");  
-        $sql->execute([$permanentdeleteFunctionAuthor_id]);
+        INRpermanentdeleteFunctionAuthor_id = INR_POST['permanentdeleteFunctionAuthor_id'];
+        INRsql=INRconn->prepare("Delete FROM `contact_enquiry`WHERE `id`=?");  
+        INRsql->execute([INRpermanentdeleteFunctionAuthor_id]);
         echo "Deleted";
     }
 
-        if($_POST['btn'] === "add_image_quote")
+        if(INR_POST['btn'] === "add_image_quote")
         {
-            $old_imgPath = trim_data($_POST["quote_author_image"]);
-            $author_image="";
-            if(isset($_FILES["author_image"]["name"])){
-                $author_image = $_FILES["author_image"]["name"];
-                $author_image_temp = $_FILES["author_image"]["tmp_name"];
+            INRold_imgPath = trim_data(INR_POST["quote_author_image"]);
+            INRauthor_image="";
+            if(isset(INR_FILES["author_image"]["name"])){
+                INRauthor_image = INR_FILES["author_image"]["name"];
+                INRauthor_image_temp = INR_FILES["author_image"]["tmp_name"];
             }else
             {
-                $author_image = $old_imgPath;
+                INRauthor_image = INRold_imgPath;
             }
-            $img_alt="";
-            if(isset($_POST["img_alt"])){
-                $img_alt = trim_data($_POST["img_alt"]);    
+            INRimg_alt="";
+            if(isset(INR_POST["img_alt"])){
+                INRimg_alt = trim_data(INR_POST["img_alt"]);    
             }
             else{
-                $img_alt="";
+                INRimg_alt="";
             }
             
-            $id = $_POST['quote_author_id'];
+            INRid = INR_POST['quote_author_id'];
             
-            if(!empty($author_image)){
-            $folder = "../assets/upload/quotes/".$author_image;
-            if (move_uploaded_file($author_image_temp, $folder))
+            if(!empty(INRauthor_image)){
+            INRfolder = "../assets/upload/quotes/".INRauthor_image;
+            if (move_uploaded_file(INRauthor_image_temp, INRfolder))
                 {
-                    $msg = "Image uploaded successfully content";
+                    INRmsg = "Image uploaded successfully content";
                 }
             }else{
-                 $author_image = $old_imgPath;
+                 INRauthor_image = INRold_imgPath;
             }
             
-            $sql = "UPDATE `quotes_data` SET `author_image`='$author_image',`alt_image`='$img_alt' WHERE `id`='$id'";
-            $stmt = $conn->prepare($sql);
-            if($stmt->execute()){
+            INRsql = "UPDATE `quotes_data` SET `author_image`='INRauthor_image',`alt_image`='INRimg_alt' WHERE `id`='INRid'";
+            INRstmt = INRconn->prepare(INRsql);
+            if(INRstmt->execute()){
                 echo "updated";
             }
         }
     
-        if($_POST['btn']=="quotes_author_content_id")
+        if(INR_POST['btn']=="quotes_author_content_id")
         {
-                $quotes_author_content_id = $_POST['quotes_author_content_id'];
-                $stmt = $conn->prepare("SELECT * FROM `quotes_data` WHERE id = '$quotes_author_content_id'");
-                $stmt->execute();
-                $data = $stmt->fetchAll(PDO::FETCH_ASSOC);   
-                if (!empty($data)) {
-                    foreach ($data as $data)
+                INRquotes_author_content_id = INR_POST['quotes_author_content_id'];
+                INRstmt = INRconn->prepare("SELECT * FROM `quotes_data` WHERE id = 'INRquotes_author_content_id'");
+                INRstmt->execute();
+                INRdata = INRstmt->fetchAll(PDO::FETCH_ASSOC);   
+                if (!empty(INRdata)) {
+                    foreach (INRdata as INRdata)
                     {
                         echo"
                         <form id='update_author_data'>
                         <div class='mb-3'>
                         <label for='formmessage'>Author Name :</label>
-                        <input type='text' class='form-control' name='author_name' value='" .$data['author_name']. "'>
+                        <input type='text' class='form-control' name='author_name' value='" .INRdata['author_name']. "'>
                         </div>
                         <div class='mb-3'>
                         <label for='formmessage'>Author Content :</label>
-                        <textarea class='form-control' name='author_content' rows='3'> ".$data['author_content']." </textarea>
+                        <textarea class='form-control' name='author_content' rows='3'> ".INRdata['author_content']." </textarea>
                         </div>
                         <div class='submit-btns'>
                         <input type='hidden' value='update_author_quotes' name='btn'>
-                        <input type='hidden'  value='". $data['id'] ."' name='quote_author_id'>
+                        <input type='hidden'  value='". INRdata['id'] ."' name='quote_author_id'>
                         <input type='submit' name='add_image_quote' class='post-btn text-left' value='Save'> 
                         </div>
                         </form>";   
@@ -1241,57 +1241,57 @@ if($_POST['btn']=="deletequotesCategory_id")
                 }
         }
 
-        if($_POST['btn']=="update_author_quotes")
+        if(INR_POST['btn']=="update_author_quotes")
         {
-            $id = $_POST['quote_author_id'];
-            $author_name = trim_data($_POST["author_name"]);
-            $author_content = trim_data($_POST["author_content"]);
+            INRid = INR_POST['quote_author_id'];
+            INRauthor_name = trim_data(INR_POST["author_name"]);
+            INRauthor_content = trim_data(INR_POST["author_content"]);
 
-            $sql = "UPDATE `quotes_data` SET `author_name`='$author_name',`author_content`='$author_content' WHERE id='$id'";
-            $stmt = $conn->prepare($sql);
-            if($stmt->execute()){
+            INRsql = "UPDATE `quotes_data` SET `author_name`='INRauthor_name',`author_content`='INRauthor_content' WHERE id='INRid'";
+            INRstmt = INRconn->prepare(INRsql);
+            if(INRstmt->execute()){
                 echo "updated";
                 }
         }
 
 
-        if($_POST['btn'] == "filter_blog_data")
+        if(INR_POST['btn'] == "filter_blog_data")
         {
-                    $author_name = "";
-                    $category = "";
-                    $date = "";
-                    $error="";
-                    if(!empty($_POST['author_name']))
+                    INRauthor_name = "";
+                    INRcategory = "";
+                    INRdate = "";
+                    INRerror="";
+                    if(!empty(INR_POST['author_name']))
                     {
-                    echo $author_name = trim_data($_POST['author_name']);
+                    echo INRauthor_name = trim_data(INR_POST['author_name']);
                     }
                     else
                     {
-                        $error = "required";
+                        INRerror = "required";
                     }
-                    if(!empty($_POST['category_filter']))
+                    if(!empty(INR_POST['category_filter']))
                     {
-                    echo $category = trim_data($_POST['category_filter']);
-                    }
-                    else
-                    {
-                        $error = "required";
-                    }
-                    if(!empty($_POST['lastPostDate']))
-                    {
-                        echo $date = trim_data($_POST['lastPostDate']);
+                    echo INRcategory = trim_data(INR_POST['category_filter']);
                     }
                     else
                     {
-                        $error = "required";
+                        INRerror = "required";
                     }
-                    //echo $error;
-                    if(!empty($author_name || $category || $date))
+                    if(!empty(INR_POST['lastPostDate']))
                     {
-                        $sql = "SELECT * FROM `blog` WHERE post_author='$author_name' OR parent_category='$category' OR category='$category' OR publish_date='$date'";
-                        $stmt_aut = $conn->prepare($sql);
-                        $stmt_aut->execute();
-                        $aut_data = $stmt_aut->fetchAll(PDO::FETCH_ASSOC);
+                        echo INRdate = trim_data(INR_POST['lastPostDate']);
+                    }
+                    else
+                    {
+                        INRerror = "required";
+                    }
+                    //echo INRerror;
+                    if(!empty(INRauthor_name || INRcategory || INRdate))
+                    {
+                        INRsql = "SELECT * FROM `blog` WHERE post_author='INRauthor_name' OR parent_category='INRcategory' OR category='INRcategory' OR publish_date='INRdate'";
+                        INRstmt_aut = INRconn->prepare(INRsql);
+                        INRstmt_aut->execute();
+                        INRaut_data = INRstmt_aut->fetchAll(PDO::FETCH_ASSOC);
                                 echo '<table id="datatable" class="table table-bordered dt-responsive">
                                 <thead>
                                     <tr role="row">
@@ -1304,46 +1304,46 @@ if($_POST['btn']=="deletequotesCategory_id")
                                     </tr>
                                 </thead>
                                 <tbody>';
-                                if(!empty($aut_data))
+                                if(!empty(INRaut_data))
                                 {
-                                    foreach($aut_data as $author_row)
+                                    foreach(INRaut_data as INRauthor_row)
                                     {   
-                                        $category = $author_row['parent_category'];
-                                        $sub_category = $author_row['category'];
-                                        $cat_array = array($category,$sub_category);
-                                        $title = $author_row['post_title'];
-                                        $image = $author_row['featured_image'];
+                                        INRcategory = INRauthor_row['parent_category'];
+                                        INRsub_category = INRauthor_row['category'];
+                                        INRcat_array = array(INRcategory,INRsub_category);
+                                        INRtitle = INRauthor_row['post_title'];
+                                        INRimage = INRauthor_row['featured_image'];
                                         
-                                        $author = $author_row['post_author'];
-                                        $exploded_array = explode(',',$author);
+                                        INRauthor = INRauthor_row['post_author'];
+                                        INRexploded_array = explode(',',INRauthor);
                                         
-                                        $stmt_author = $conn->prepare("SELECT id, author_first_name FROM `author`");
-                                        $stmt_author->execute();
-                                        $author_data = $stmt_author->fetchAll(PDO::FETCH_ASSOC);
-                                        if(!empty($author_data))
+                                        INRstmt_author = INRconn->prepare("SELECT id, author_first_name FROM `author`");
+                                        INRstmt_author->execute();
+                                        INRauthor_data = INRstmt_author->fetchAll(PDO::FETCH_ASSOC);
+                                        if(!empty(INRauthor_data))
                                         {
-                                            foreach ($author_data as $author_data_val)
+                                            foreach (INRauthor_data as INRauthor_data_val)
                                             {
-                                                    if(in_array($author_data_val['id'], $exploded_array))
+                                                    if(in_array(INRauthor_data_val['id'], INRexploded_array))
                                                     {
-                                                            $author =  $author_data_val['author_first_name'].",";
+                                                            INRauthor =  INRauthor_data_val['author_first_name'].",";
                                     
                                                         
                                                     }
                                             }
                                         }
                                         
-                                        $cat="";
-                                        $stmt_cat = $conn->prepare("SELECT * FROM `categories`");
-                                        $stmt_cat->execute();
-                                        $cat_data = $stmt_cat->fetchAll(PDO::FETCH_ASSOC);
-                                        if (!empty($cat_data))
+                                        INRcat="";
+                                        INRstmt_cat = INRconn->prepare("SELECT * FROM `categories`");
+                                        INRstmt_cat->execute();
+                                        INRcat_data = INRstmt_cat->fetchAll(PDO::FETCH_ASSOC);
+                                        if (!empty(INRcat_data))
                                         {
-                                                foreach ($cat_data as $cat_data_val)
+                                                foreach (INRcat_data as INRcat_data_val)
                                                 {
-                                                    if(in_array($cat_data_val['cat_id'], $cat_array))
+                                                    if(in_array(INRcat_data_val['cat_id'], INRcat_array))
                                                     {
-                                                        $cat = $cat_data_val['cat_name'].",";
+                                                        INRcat = INRcat_data_val['cat_name'].",";
                                 
                                                        
                                                     }
@@ -1351,12 +1351,12 @@ if($_POST['btn']=="deletequotesCategory_id")
                                                 }
                                         }
                                         echo "<tr>";
-                                        echo "<td class='sorting_1 dtr-control' tabindex='0'><img src='../assets/upload/" .$image. "'/></td>";
-                                        echo "<td>" .$title. "</td>";
-                                        echo "<td>" . $author . "</td>";
-                                        echo "<td>" .$cat. "</td>";
-                                        echo "<td><a href='update_blog.php?id=".$author_row["id"]."' class='btn btn-success'><i class='fas fa-edit'></i></td>";
-                                        echo "<td><a href='javascript:void(0)' class='btn btn-danger' onclick='blogTrashRows(".$author_row['id'].")'><i class='fas fa-trash-alt'></i></td>";
+                                        echo "<td class='sorting_1 dtr-control' tabindex='0'><img src='../assets/upload/" .INRimage. "'/></td>";
+                                        echo "<td>" .INRtitle. "</td>";
+                                        echo "<td>" . INRauthor . "</td>";
+                                        echo "<td>" .INRcat. "</td>";
+                                        echo "<td><a href='update_blog.php?id=".INRauthor_row["id"]."' class='btn btn-success'><i class='fas fa-edit'></i></td>";
+                                        echo "<td><a href='javascript:void(0)' class='btn btn-danger' onclick='blogTrashRows(".INRauthor_row['id'].")'><i class='fas fa-trash-alt'></i></td>";
                                         echo "</tr>";
                                     }
                                 }
@@ -1370,28 +1370,28 @@ if($_POST['btn']=="deletequotesCategory_id")
 
 // quotes filter data here 
 
-if($_POST['btn'] == "filter_Quotesdata")
+if(INR_POST['btn'] == "filter_Quotesdata")
 {
-            $category = "";
-            $date = "";
-            $error="";
-            if(!empty($_POST['category_filter']))
+            INRcategory = "";
+            INRdate = "";
+            INRerror="";
+            if(!empty(INR_POST['category_filter']))
             {
-            echo $category = trim_data($_POST['category_filter']);
+            echo INRcategory = trim_data(INR_POST['category_filter']);
             }
            
-            if(!empty($_POST['date']))
+            if(!empty(INR_POST['date']))
             {
-                echo $date = trim_data($_POST['date']);
+                echo INRdate = trim_data(INR_POST['date']);
             }
           
-            //echo $error;
-            if(!empty($category || $date))
+            //echo INRerror;
+            if(!empty(INRcategory || INRdate))
             {
-                $sql = "SELECT * FROM `quotes` WHERE `cat_id`='$category' OR `date`='$date'";
-                $stmt_quo = $conn->prepare($sql);
-                $stmt_quo->execute();
-                $quo_data = $stmt_quo->fetchAll(PDO::FETCH_ASSOC);
+                INRsql = "SELECT * FROM `quotes` WHERE `cat_id`='INRcategory' OR `date`='INRdate'";
+                INRstmt_quo = INRconn->prepare(INRsql);
+                INRstmt_quo->execute();
+                INRquo_data = INRstmt_quo->fetchAll(PDO::FETCH_ASSOC);
                         echo '<table id="datatable" class="table table-bordered dt-responsive">
                         <thead>
                             <tr role="row">
@@ -1403,25 +1403,25 @@ if($_POST['btn'] == "filter_Quotesdata")
                             </tr>
                         </thead>
                         <tbody>';
-                        if(!empty($quo_data))
+                        if(!empty(INRquo_data))
                         {
-                            foreach($quo_data as $quo_data_val)
+                            foreach(INRquo_data as INRquo_data_val)
                             {   
-                                $category = $quo_data_val['cat_id'];
+                                INRcategory = INRquo_data_val['cat_id'];
                                 echo "<tr>";
-                                echo "<td><img src='upload/quotes/" . $quo_data_val['image'] . "' class='product_img_data'/></td>";
-                                echo "<td>" . $quo_data_val['title'] . "</td>";
-                                $stmt1 = $conn->prepare("SELECT * FROM `quotescat` WHERE id='$category'");
-                                $stmt1->execute();
+                                echo "<td><img src='upload/quotes/" . INRquo_data_val['image'] . "' class='product_img_data'/></td>";
+                                echo "<td>" . INRquo_data_val['title'] . "</td>";
+                                INRstmt1 = INRconn->prepare("SELECT * FROM `quotescat` WHERE id='INRcategory'");
+                                INRstmt1->execute();
                                 
-                                $data_cat = $stmt1->fetchAll(PDO::FETCH_ASSOC);	
-                                foreach ($data_cat as $data_cat_val)
+                                INRdata_cat = INRstmt1->fetchAll(PDO::FETCH_ASSOC);	
+                                foreach (INRdata_cat as INRdata_cat_val)
                                 {	
-                                    echo "<td>" .$data_cat_val['categoryName']. "</td>";
+                                    echo "<td>" .INRdata_cat_val['categoryName']. "</td>";
                                 }
                                 
-                                echo "<td><a href='updateQuote.php?id=".$quo_data_val["id"]."' class='btn btn-success'><i class='fas fa-edit'></i></td>";
-                                echo "<td><a href='javascript:void(0)' class='btn btn-danger' onclick='quotesTrashRows(".$quo_data_val['id'].")'><i class='fas fa-trash-alt'></i></td>";
+                                echo "<td><a href='updateQuote.php?id=".INRquo_data_val["id"]."' class='btn btn-success'><i class='fas fa-edit'></i></td>";
+                                echo "<td><a href='javascript:void(0)' class='btn btn-danger' onclick='quotesTrashRows(".INRquo_data_val['id'].")'><i class='fas fa-trash-alt'></i></td>";
                                 echo "</tr>";
                             }
                         }
@@ -1437,151 +1437,151 @@ if($_POST['btn'] == "filter_Quotesdata")
             }
     }
 
-    if($_POST['btn'] == "add_page")
+    if(INR_POST['btn'] == "add_page")
     {
-        $title = trim_data($_POST['i1']);
-        $seo_title = trim_data($_POST['i2']);
-        $slug = trim_data($_POST['i3']);
+        INRtitle = trim_data(INR_POST['i1']);
+        INRseo_title = trim_data(INR_POST['i2']);
+        INRslug = trim_data(INR_POST['i3']);
         
-        if(isset($_POST['author_name']))
+        if(isset(INR_POST['author_name']))
         {
     
-        $author_name = ($_POST['author_name']);
+        INRauthor_name = (INR_POST['author_name']);
         }
-        $author_values="";
-        if(!empty($author_name))
+        INRauthor_values="";
+        if(!empty(INRauthor_name))
         {
-            $author_values  = implode(",",$author_name);            
+            INRauthor_values  = implode(",",INRauthor_name);            
         }
         else
         {
-            echo $author_values = "1";
+            echo INRauthor_values = "1";
         }
         
     
-        if(isset($_POST['review']))
+        if(isset(INR_POST['review']))
         {
-        $review = ($_POST['review']);
+        INRreview = (INR_POST['review']);
         }
-        $review_value="";
-        if(!empty($review))
+        INRreview_value="";
+        if(!empty(INRreview))
         {
-            $review_value  = implode(",",$review);            
+            INRreview_value  = implode(",",INRreview);            
         }
         else
         {
-            echo $review_value = "1";
+            echo INRreview_value = "1";
         }
     
-        if(isset($_POST['bot_robot']))
+        if(isset(INR_POST['bot_robot']))
         {
-        $bot_robot = ($_POST['bot_robot']);
+        INRbot_robot = (INR_POST['bot_robot']);
         }
-        $bot_robot_value="";
-        if(!empty($bot_robot))
+        INRbot_robot_value="";
+        if(!empty(INRbot_robot))
         {
-            $bot_robot_value  = implode(", ",$bot_robot);            
+            INRbot_robot_value  = implode(", ",INRbot_robot);            
         }
         else
         {
-            echo $bot_robot_value = "0";
+            echo INRbot_robot_value = "0";
         }
     
-        if(isset($_POST['max_snippet']))
+        if(isset(INR_POST['max_snippet']))
         {
-            $max_snippet = $_POST['max_snippet'];
+            INRmax_snippet = INR_POST['max_snippet'];
         }
         else
         {
-            echo $max_snippet = "max-snippet:";
+            echo INRmax_snippet = "max-snippet:";
         }
-        if(isset($_POST['max_video']))
+        if(isset(INR_POST['max_video']))
         {
-        $max_video =($_POST['max_video']);
+        INRmax_video =(INR_POST['max_video']);
         }
         else
         {
-            echo $max_video = "max-video:";
+            echo INRmax_video = "max-video:";
         }
     
-        if(isset($_POST['max_image']))
+        if(isset(INR_POST['max_image']))
         {
-        $max_image=$_POST['max_image'];
+        INRmax_image=INR_POST['max_image'];
         }
         else
         {
-            echo $max_image="max-image:";
+            echo INRmax_image="max-image:";
         }
-            $max_snippet_value =$_POST['max_snippet_value'];   
-            $concat_snippet = $max_snippet.$max_snippet_value;
-            $max_video_value =$_POST['max_video_value'];
-            $concat_video = $max_video.$max_video_value;    
-            $max_image_value =$_POST['max_image_value'];
-            $concat_image = $max_image.$max_image_value;
+            INRmax_snippet_value =INR_POST['max_snippet_value'];   
+            INRconcat_snippet = INRmax_snippet.INRmax_snippet_value;
+            INRmax_video_value =INR_POST['max_video_value'];
+            INRconcat_video = INRmax_video.INRmax_video_value;    
+            INRmax_image_value =INR_POST['max_image_value'];
+            INRconcat_image = INRmax_image.INRmax_image_value;
             
-            echo $advance_bot = $bot_robot_value.", ".$concat_snippet.", ".$concat_video.", ".$concat_image;
+            echo INRadvance_bot = INRbot_robot_value.", ".INRconcat_snippet.", ".INRconcat_video.", ".INRconcat_image;
     
-            $content=trim_data($_POST['content']);
-            $focus_key=trim_data($_POST['focus_keyword']);
-            $date_publish=trim_data($_POST['date_publish']);
-            $category = trim_data($_POST['category']);
-            //$sub_category = trim_data($_POST['sub_category']);
+            INRcontent=trim_data(INR_POST['content']);
+            INRfocus_key=trim_data(INR_POST['focus_keyword']);
+            INRdate_publish=trim_data(INR_POST['date_publish']);
+            INRcategory = trim_data(INR_POST['category']);
+            //INRsub_category = trim_data(INR_POST['sub_category']);
     
-            if(isset($_POST['sub_category']))
+            if(isset(INR_POST['sub_category']))
             {
-            $sub_category = $_POST['sub_category'];
+            INRsub_category = INR_POST['sub_category'];
             }
-            $sub_category_value="";
-            if(!empty($sub_category))
+            INRsub_category_value="";
+            if(!empty(INRsub_category))
             {
-                $sub_category_value  = implode(",",$sub_category);            
+                INRsub_category_value  = implode(",",INRsub_category);            
             }
             else
             {
-                echo $sub_category_value = "no";
+                echo INRsub_category_value = "no";
             }
     
     
-            $message = trim_data($_POST['message']);
-            $date_publish = $_POST['date_publish'];
-            $date_modified = $_POST['date_modified'];
-            $filename = trim_data($_FILES["img"]["name"]);
-            $tempname = $_FILES["img"]["tmp_name"];
-            $date = date("Y-m-d");    
+            INRmessage = trim_data(INR_POST['message']);
+            INRdate_publish = INR_POST['date_publish'];
+            INRdate_modified = INR_POST['date_modified'];
+            INRfilename = trim_data(INR_FILES["img"]["name"]);
+            INRtempname = INR_FILES["img"]["tmp_name"];
+            INRdate = date("Y-m-d");    
             // file move to image folder
-            $folder = "upload/".$filename;
-            if (move_uploaded_file($tempname, $folder))
+            INRfolder = "upload/".INRfilename;
+            if (move_uploaded_file(INRtempname, INRfolder))
             {
-                $msg = "Image uploaded successfully";
+                INRmsg = "Image uploaded successfully";
             }
             else{
-                $msg = "Failed to upload image";
+                INRmsg = "Failed to upload image";
                 }
             
-                echo $sql = "INSERT INTO `page`(`post_author`, `post_review`, `post_content`, `post_title`, `post_name`, `parent_category`, `category`, `description`, `permalink`, `featured_image`, `publish_date`, `modified_date`, `title_slug`, `bot_meta_data`, `canonical_url`, `status`)
-                VALUES ('$author_values','$review_value','$content','$title','$title','$category','$sub_category_value','$message','','$filename','$date_publish','$date_modified','$slug','$advance_bot','',0)";
-                $stmt6 = $conn->prepare($sql);
-                if($stmt6->execute()){
+                echo INRsql = "INSERT INTO `page`(`post_author`, `post_review`, `post_content`, `post_title`, `post_name`, `parent_category`, `category`, `description`, `permalink`, `featured_image`, `publish_date`, `modified_date`, `title_slug`, `bot_meta_data`, `canonical_url`, `status`)
+                VALUES ('INRauthor_values','INRreview_value','INRcontent','INRtitle','INRtitle','INRcategory','INRsub_category_value','INRmessage','','INRfilename','INRdate_publish','INRdate_modified','INRslug','INRadvance_bot','',0)";
+                INRstmt6 = INRconn->prepare(INRsql);
+                if(INRstmt6->execute()){
                     echo "inserted page";    
                 }
              
     }
 
-            function trim_data($text) {
-               // $text = trim($data); //<-- LINE 31
-                if(is_array($text)) {
-                    return array_map('trim_data', $text);
+            function trim_data(INRtext) {
+               // INRtext = trim(INRdata); //<-- LINE 31
+                if(is_array(INRtext)) {
+                    return array_map('trim_data', INRtext);
                 }
 
-                $text = preg_replace("/(\r\n|\n|\r)/", "\n", $text); // cross-platform newlines
-                $text = preg_replace("/\n\n\n\n+/", "\n", $text); // take care of duplicates 
+                INRtext = preg_replace("/(\r\n|\n|\r)/", "\n", INRtext); // cross-platform newlines
+                INRtext = preg_replace("/\n\n\n\n+/", "\n", INRtext); // take care of duplicates 
                
-                $text = htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
-                $text = stripslashes($text);
+                INRtext = htmlspecialchars(INRtext, ENT_QUOTES, 'UTF-8');
+                INRtext = stripslashes(INRtext);
                
-                $text = str_replace ( "\n", " ", $text );
-                $text = str_replace ( "\t", " ", $text );
+                INRtext = str_replace ( "\n", " ", INRtext );
+                INRtext = str_replace ( "\t", " ", INRtext );
                
-                return $text;
+                return INRtext;
             }
     

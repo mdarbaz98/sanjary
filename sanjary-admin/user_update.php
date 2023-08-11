@@ -3,7 +3,7 @@ include('include/header.php');
 include('include/sidenav.php');
 include('include/config.php');
 ?>
-<?php if (!empty ($_SESSION['admin_is_login'])){ ?>
+<?php if (!empty (INR_SESSION['admin_is_login'])){ ?>
 	<div class="main-content">
 		<div class="page-content">
 			<div class="container-fluid product_page">
@@ -25,10 +25,10 @@ include('include/config.php');
 				<!-- end page title -->
 				<form id="Updateuser">
                 <?php 
-                $stmt= $conn->prepare("SELECT * FROM `user` WHERE id=?");                               
-                $stmt->execute([$_GET['id']]);
-                $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                foreach($result as $row)
+                INRstmt= INRconn->prepare("SELECT * FROM `user` WHERE id=?");                               
+                INRstmt->execute([INR_GET['id']]);
+                INRresult = INRstmt->fetchAll(PDO::FETCH_ASSOC);
+                foreach(INRresult as INRrow)
                 { ?>  
 					<div class="row">
 						<div class="card">
@@ -38,21 +38,21 @@ include('include/config.php');
 								<div class="d-flex  my-4">
 									<div class="form-group mx-3  w-100">
 										<label for="Title" class="form-label">Name</label>
-										<input type="text" class="form-control " id="name" name="name" value="<?php echo $row['name'] ?>"> </div>
+										<input type="text" class="form-control " id="name" name="name" value="<?php echo INRrow['name'] ?>"> </div>
 										<div class="form-group  mx-3 mt-2 w-100">
 										<label for="horizontal-firstname-input">UserName</label>
-										<input type="text" class="form-control" id="username" name="username" value="<?php echo $row['username'] ?>"> </div>
+										<input type="text" class="form-control" id="username" name="username" value="<?php echo INRrow['username'] ?>"> </div>
                                         </div>
 									
 								
 								<div class=" d-flex my-4">
 									<div class="form-group mx-3 w-50">
 										<label for="horizontal-firstname-input" class="col-form-label">Password</label>
-										<input type="password" class="form-control" id="pwd" name="pwd" value="<?php echo $row['password'] ?>">
+										<input type="password" class="form-control" id="pwd" name="pwd" value="<?php echo INRrow['password'] ?>">
 									</div>
 																	<!-- Drop Box -->
 								<div class="submit-btns clearfix d-flex">  
-                                <input type="hidden" name="user_id" value="<?php echo $row['id'] ?>">         
+                                <input type="hidden" name="user_id" value="<?php echo INRrow['id'] ?>">         
                 <input type="hidden" name="btn" value="updateUser">
                 <input type="submit" class="post-btn float-left" name="blog_publish" value="Update">
                 <!-- <button class="discard-btn" type="submit"> <i class="fa fa-trash" aria-hidden="true"></i>Discard</button> -->

@@ -167,13 +167,13 @@ options = {
   xaxis: {
     categories: ["Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct"],
   },
-  yaxis: { title: { text: "$ (thousands)", style: { fontWeight: "500" } } },
+  yaxis: { title: { text: "INR (thousands)", style: { fontWeight: "500" } } },
   grid: { borderColor: "#f1f1f1" },
   fill: { opacity: 1 },
   tooltip: {
     y: {
       formatter: function (e) {
-        return "$ " + e + " thousands";
+        return "INR " + e + " thousands";
       },
     },
   },

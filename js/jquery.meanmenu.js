@@ -24,9 +24,9 @@
 * Find more information at http://www.meanthemes.com/plugins/meanmenu/
 *
 */
-(function ($) {
+(function (INR) {
 	"use strict";
-		$.fn.meanmenu = function (options) {
+		INR.fn.meanmenu = function (options) {
 				var defaults = {
 						meanMenuTarget: jQuery(this), // Target the current HTML markup you wish to replace
 						meanMenuContainer: '.mobile-menu-area .container-fluid', // Choose where meanmenu will be placed within the HTML
@@ -47,7 +47,7 @@
 						meanDisplay: "block", // override display method for table cell based layouts e.g. table-cell
 						removeElements: "" // set to hide page elements
 				};
-				options = $.extend(defaults, options);
+				options = INR.extend(defaults, options);
 
 				// get browser width
 				var currentWidth = window.innerWidth || document.documentElement.clientWidth;
@@ -115,14 +115,14 @@
 						meanCentered();
 
 						// set all styles for mean-reveal
-						var $navreveal = "";
+						var INRnavreveal = "";
 
 						var meanInner = function() {
 								// get last class name
-								if (jQuery($navreveal).is(".meanmenu-reveal.meanclose")) {
-										$navreveal.html(meanMenuClose);
+								if (jQuery(INRnavreveal).is(".meanmenu-reveal.meanclose")) {
+										INRnavreveal.html(meanMenuClose);
 								} else {
-										$navreveal.html(meanMenuOpen);
+										INRnavreveal.html(meanMenuOpen);
 								}
 						};
 
@@ -173,7 +173,7 @@
 
 									// turn 'X' on or off
 									jQuery(meanRevealClass).html(meanMenuOpen);
-									$navreveal = jQuery(meanRevealClass);
+									INRnavreveal = jQuery(meanRevealClass);
 
 									//hide mean-nav ul
 									jQuery('.mean-nav ul').hide();
@@ -207,20 +207,20 @@
 
 									// add last class to tidy up borders
 									jQuery('.mean-nav ul li').last().addClass('mean-last');
-									$navreveal.removeClass("meanclose");
-									jQuery($navreveal).click(function(e){
+									INRnavreveal.removeClass("meanclose");
+									jQuery(INRnavreveal).click(function(e){
 										e.preventDefault();
 								if( menuOn === false ) {
-												$navreveal.css("text-align", "center");
-												$navreveal.css("text-indent", "0");
-												$navreveal.css("font-size", meanMenuCloseSize);
+												INRnavreveal.css("text-align", "center");
+												INRnavreveal.css("text-indent", "0");
+												INRnavreveal.css("font-size", meanMenuCloseSize);
 												jQuery('.mean-nav ul:first').slideDown();
 												menuOn = true;
 										} else {
 											jQuery('.mean-nav ul:first').slideUp();
 											menuOn = false;
 										}
-											$navreveal.toggleClass("meanclose");
+											INRnavreveal.toggleClass("meanclose");
 											meanInner();
 											jQuery(removeElements).addClass('mean-remove');
 									});
@@ -230,7 +230,7 @@
 										jQuery('.mean-nav ul > li > a:first-child').on( "click" , function () {
 											jQuery('.mean-nav ul:first').slideUp();
 											menuOn = false;
-											jQuery($navreveal).toggleClass("meanclose").html(meanMenuOpen);
+											jQuery(INRnavreveal).toggleClass("meanclose").html(meanMenuOpen);
 										});
 									}
 							} else {

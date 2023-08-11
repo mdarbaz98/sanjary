@@ -2,27 +2,27 @@
 include('include/config.php');
 include("include/header.php");
 
-$product_slug = $_GET['slug'];
-$product=$conn->prepare("SELECT * FROM product WHERE slug ='$product_slug'");
-$product->execute();
-while ($row = $product->fetch(PDO::FETCH_ASSOC)){
-	$product_name= $row['product_name'];
-	$pro_id= $row['id'];
-    $image_id=$row['img_id'];
-	$category= $row['category'];
-	$description= $row['description'];
-	$price= $row['prc'];
-	$product_name= $row['product_name'];
+INRproduct_slug = INR_GET['slug'];
+INRproduct=INRconn->prepare("SELECT * FROM product WHERE slug ='INRproduct_slug'");
+INRproduct->execute();
+while (INRrow = INRproduct->fetch(PDO::FETCH_ASSOC)){
+	INRproduct_name= INRrow['product_name'];
+	INRpro_id= INRrow['id'];
+    INRimage_id=INRrow['img_id'];
+	INRcategory= INRrow['category'];
+	INRdescription= INRrow['description'];
+	INRprice= INRrow['prc'];
+	INRproduct_name= INRrow['product_name'];
 
-	$stmt_pro_price = $conn->prepare("SELECT * FROM `product_price` WHERE status=1 AND product_id=?");
-	$stmt_pro_price->execute([$row['id']]);
-	$stmt_pro_price_data = $stmt_pro_price->fetchAll(PDO::FETCH_ASSOC);
-	if(!empty($stmt_pro_price_data)) {
-		$size = $stmt_pro_price_data[0]['size']; 
-		$price = $stmt_pro_price_data[0]['price'];
+	INRstmt_pro_price = INRconn->prepare("SELECT * FROM `product_price` WHERE status=1 AND product_id=?");
+	INRstmt_pro_price->execute([INRrow['id']]);
+	INRstmt_pro_price_data = INRstmt_pro_price->fetchAll(PDO::FETCH_ASSOC);
+	if(!empty(INRstmt_pro_price_data)) {
+		INRsize = INRstmt_pro_price_data[0]['size']; 
+		INRprice = INRstmt_pro_price_data[0]['price'];
 	}else{
-		$size="Not Found";
-		$price="Not Found";
+		INRsize="Not Found";
+		INRprice="Not Found";
 		}
 
 }
@@ -39,14 +39,14 @@ while ($row = $product->fetch(PDO::FETCH_ASSOC)){
 								<!-- Single-pro-slider Big-photo start -->
 								<div class="single-pro-slider single-big-photo view-lightbox slider-for">
                                 <?php
-                                                    $stmt_img = $conn->prepare("SELECT * FROM `images` WHERE status=1 AND id=?");
-                                                    $stmt_img->execute([$image_id]);
-                                                    while($img_data = $stmt_img->fetch(PDO::FETCH_ASSOC)){
-														$pro_image = $img_data['path']
+                                                    INRstmt_img = INRconn->prepare("SELECT * FROM `images` WHERE status=1 AND id=?");
+                                                    INRstmt_img->execute([INRimage_id]);
+                                                    while(INRimg_data = INRstmt_img->fetch(PDO::FETCH_ASSOC)){
+														INRpro_image = INRimg_data['path']
                                             ?>
 									<div>
-										<img src="sanjary-admin/<?php echo $img_data['path'] ?>" alt="" />
-										<a class="view-full-screen" href="sanjary-admin/<?php echo $img_data['path'] ?>"  data-lightbox="roadtrip" data-title="My caption">
+										<img src="sanjary-admin/<?php echo INRimg_data['path'] ?>" alt="" />
+										<a class="view-full-screen" href="sanjary-admin/<?php echo INRimg_data['path'] ?>"  data-lightbox="roadtrip" data-title="My caption">
 											<i class="zmdi zmdi-zoom-in"></i>
 										</a>
 									</div>
@@ -55,7 +55,7 @@ while ($row = $product->fetch(PDO::FETCH_ASSOC)){
 								<!-- Single-pro-slider Big-photo end -->								
 								<div class="product-info">
 									<div class="fix">
-										<h4 class="post-title floatleft"><?php echo $product_name ?></h4>
+										<h4 class="post-title floatleft"><?php echo INRproduct_name ?></h4>
 										<span class="pro-rating floatright">
 											<a href="#"><i class="zmdi zmdi-star"></i></a>
 											<a href="#"><i class="zmdi zmdi-star"></i></a>
@@ -66,10 +66,10 @@ while ($row = $product->fetch(PDO::FETCH_ASSOC)){
 										</span>
 									</div>
 									<div class="fix mb-20">
-										<span class="pro-price">INR <?php echo $price ?></span>
+										<span class="pro-price">INR <?php echo INRprice ?></span>
 									</div>
 									<div class="product-description">
-										<p><?php echo $description ?></p>
+										<p><?php echo INRdescription ?></p>
 									</div>
 									<!-- color start -->								
 									<div class="color-filter single-pro-color mb-20 clearfix">
@@ -87,7 +87,7 @@ while ($row = $product->fetch(PDO::FETCH_ASSOC)){
 									<div class="size-filter single-pro-size mb-35 clearfix">
 										<ul>
 											<li><span class="color-title text-capitalize">size</span></li>
-											<li><a class="active" href="#"><?php echo $size ?></a></li>
+											<li><a class="active" href="#"><?php echo INRsize ?></a></li>
 										</ul>
 									</div>
 									<!-- Size end -->
@@ -99,19 +99,19 @@ while ($row = $product->fetch(PDO::FETCH_ASSOC)){
 											<a href="wishlist.html" data-bs-toggle="tooltip" data-placement="top" title="Wishlist"><i class="zmdi zmdi-favorite-outline"></i></a>
 											<a href="#" data-bs-toggle="modal"  data-bs-target="#productModal" title="Quick View"><i class="zmdi zmdi-zoom-in"></i></a>
 											<a href="#" data-bs-toggle="tooltip" data-placement="top" title="Compare"><i class="zmdi zmdi-refresh"></i></a>
-											<a href="javascript:void(0)" onclick="addProductToCart(this)" data-pro_id="<?php echo $pro_id ?>" data-pro_name="<?php echo $product_name ?>" data-category="<?php echo $category ?>"
-											data-image="<?php echo $pro_image ?>" data-price="<?php echo $price ?>" data-size="<?php echo $size ?>"  data-bs-toggle="tooltip" data-placement="top" title="Add To Cart"><i class="zmdi zmdi-shopping-cart-plus"></i></a>
+											<a href="javascript:void(0)" onclick="addProductToCart(this)" data-pro_id="<?php echo INRpro_id ?>" data-pro_name="<?php echo INRproduct_name ?>" data-category="<?php echo INRcategory ?>"
+											data-image="<?php echo INRpro_image ?>" data-price="<?php echo INRprice ?>" data-size="<?php echo INRsize ?>"  data-bs-toggle="tooltip" data-placement="top" title="Add To Cart"><i class="zmdi zmdi-shopping-cart-plus"></i></a>
 										</div>
 									</div>
 									<!-- Single-pro-slider Small-photo start -->
 									<div class="single-pro-slider single-sml-photo slider-nav">
                                             <?php
-                                                    $stmt_img = $conn->prepare("SELECT * FROM `images` WHERE status=1 AND id=?");
-                                                    $stmt_img->execute([$image_id]);
-                                                    while($img_data = $stmt_img->fetch(PDO::FETCH_ASSOC)){
+                                                    INRstmt_img = INRconn->prepare("SELECT * FROM `images` WHERE status=1 AND id=?");
+                                                    INRstmt_img->execute([INRimage_id]);
+                                                    while(INRimg_data = INRstmt_img->fetch(PDO::FETCH_ASSOC)){
                                             ?>
 										<div>
-											<img src="sanjary-admin/<?php echo $img_data['path'] ?>" alt="" />
+											<img src="sanjary-admin/<?php echo INRimg_data['path'] ?>" alt="" />
 										</div>
 										
                                         <?php } ?>
@@ -141,8 +141,8 @@ while ($row = $product->fetch(PDO::FETCH_ASSOC)){
 								<div class="tab-content">
 									<div class="tab-pane" id="description">
 										<div class="pro-tab-info pro-description">
-											<h3 class="tab-title title-border mb-30"><?php echo $product_name ?></h3>
-											<p><?php echo $description ?></p>
+											<h3 class="tab-title title-border mb-30"><?php echo INRproduct_name ?></h3>
+											<p><?php echo INRdescription ?></p>
 										</div>
 									</div>
 									<div class="tab-pane active" id="reviews">

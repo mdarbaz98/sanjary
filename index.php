@@ -90,7 +90,7 @@ include("include/header.php"); ?>
 							<div class="single-banner banner-1 banner-4">
 								<a class="banner-thumb" href="#"><img src="img/banner/3.jpg" alt="" /></a>
 								<span class="pro-label new-label">new</span>
-								<span class="price">$50.00</span>
+								<span class="price">INR50.00</span>
 								<div class="banner-brief">
 									<h2 class="banner-title"><a href="#">Product name</a></h2>
 									<p class="mb-0">Furniture</p>
@@ -125,35 +125,35 @@ include("include/header.php"); ?>
 							</div>
 							<div class="product-slider style-2 arrow-left-right">
 		<?php    
-                 $product=$conn->prepare("SELECT * FROM product order by id desc limit 10");
-                 $product->execute();
-                 $i=0;
-                    while ($row = $product->fetch(PDO::FETCH_ASSOC)){
-                        $prod_id = $row['id'];
-                    $stmt_img = $conn->prepare("SELECT * FROM `images` WHERE status=1 AND id=?");
-					$stmt_img->execute([$row['front_img']]);
-					$img_data = $stmt_img->fetchAll(PDO::FETCH_ASSOC);
-					if(!empty($img_data)) {
-						$image = $img_data[0]['path']; 
-						$alt = $img_data[0]['alt'];
+                 INRproduct=INRconn->prepare("SELECT * FROM product order by id desc limit 10");
+                 INRproduct->execute();
+                 INRi=0;
+                    while (INRrow = INRproduct->fetch(PDO::FETCH_ASSOC)){
+                        INRprod_id = INRrow['id'];
+                    INRstmt_img = INRconn->prepare("SELECT * FROM `images` WHERE status=1 AND id=?");
+					INRstmt_img->execute([INRrow['front_img']]);
+					INRimg_data = INRstmt_img->fetchAll(PDO::FETCH_ASSOC);
+					if(!empty(INRimg_data)) {
+						INRimage = INRimg_data[0]['path']; 
+						INRalt = INRimg_data[0]['alt'];
 					}else{
-                        $image="Not Found";
-						$alt="Not Found";
+                        INRimage="Not Found";
+						INRalt="Not Found";
 						}    
-                    $stmt_pro_price = $conn->prepare("SELECT * FROM `product_price` WHERE status=1 AND product_id=?");
-					$stmt_pro_price->execute([$row['id']]);
-					$stmt_pro_price_data = $stmt_pro_price->fetchAll(PDO::FETCH_ASSOC);
-					if(!empty($stmt_pro_price_data)) {
-						$size = $stmt_pro_price_data[0]['size']; 
-						$price = $stmt_pro_price_data[0]['price'];
+                    INRstmt_pro_price = INRconn->prepare("SELECT * FROM `product_price` WHERE status=1 AND product_id=?");
+					INRstmt_pro_price->execute([INRrow['id']]);
+					INRstmt_pro_price_data = INRstmt_pro_price->fetchAll(PDO::FETCH_ASSOC);
+					if(!empty(INRstmt_pro_price_data)) {
+						INRsize = INRstmt_pro_price_data[0]['size']; 
+						INRprice = INRstmt_pro_price_data[0]['price'];
 					}else{
-                        $size="Not Found";
-						$price="Not Found";
+                        INRsize="Not Found";
+						INRprice="Not Found";
 						}
 
 
                         // echo "<pre>";
-                        // print_r($product);
+                        // print_r(INRproduct);
                         // echo "</pre>";
                 
                 
@@ -166,12 +166,12 @@ include("include/header.php"); ?>
 									<div class="single-product">
 										<div class="product-img">
 											<span class="pro-label new-label">new</span>
-											<span class="pro-price-2">$ <?php echo $price ?></span>
-											<a href="<?php echo $row['slug']; ?>"><img src="sanjary-admin/<?php echo $image ?>" alt="<?php echo $image ?>" /></a>
+											<span class="pro-price-2">INR <?php echo INRprice ?></span>
+											<a href="<?php echo INRrow['slug']; ?>"><img src="sanjary-admin/<?php echo INRimage ?>" alt="<?php echo INRimage ?>" /></a>
 										</div>
 										<div class="product-info clearfix text-center">
 											<div class="fix">
-												<h4 class="post-title"><a href="<?php echo $row['slug']; ?>"><?php echo $row['product_name']; ?></a></h4>
+												<h4 class="post-title"><a href="<?php echo INRrow['slug']; ?>"><?php echo INRrow['product_name']; ?></a></h4>
 											</div>
 											<div class="fix">
 												<span class="pro-rating">
@@ -197,7 +197,7 @@ include("include/header.php"); ?>
 									<div class="single-product">
 										<div class="product-img">
 											<span class="pro-label sale-label">Sale</span>
-											<span class="pro-price-2">$ 56.20</span>
+											<span class="pro-price-2">INR 56.20</span>
 											<a href="single-product.html"><img src="img/product/5.jpg" alt="" /></a>
 										</div>
 										<div class="product-info clearfix text-center">
@@ -226,7 +226,7 @@ include("include/header.php"); ?>
 									<div class="single-product">
 										<div class="product-img">
 											<span class="pro-label new-label">new</span>
-											<span class="pro-price-2">$ 56.20</span>
+											<span class="pro-price-2">INR 56.20</span>
 											<a href="single-product.html"><img src="img/product/12.jpg" alt="" /></a>
 										</div>
 										<div class="product-info clearfix text-center">
@@ -255,7 +255,7 @@ include("include/header.php"); ?>
 									<div class="single-product">
 										<div class="product-img">
 											<span class="pro-label new-label">new</span>
-											<span class="pro-price-2">$ 56.20</span>
+											<span class="pro-price-2">INR 56.20</span>
 											<a href="single-product.html"><img src="img/product/6.jpg" alt="" /></a>
 										</div>
 										<div class="product-info clearfix text-center">
@@ -284,7 +284,7 @@ include("include/header.php"); ?>
 									<div class="single-product">
 										<div class="product-img">
 											<span class="pro-label sale-label">sale</span>
-											<span class="pro-price-2">$ 56.20</span>
+											<span class="pro-price-2">INR 56.20</span>
 											<a href="single-product.html"><img src="img/product/8.jpg" alt="" /></a>
 										</div>
 										<div class="product-info clearfix text-center">
@@ -415,7 +415,7 @@ include("include/header.php"); ?>
 								<div class="up-comming-info text-center">
 									<div class="up-comming-brief">
 										<h4 class="post-title"><a href="#">Indoor Furniture</a></h4>
-										<h4 class="comming-pro-price">$ 200.00</h4>
+										<h4 class="comming-pro-price">INR 200.00</h4>
 									</div>
 									<div class="count-down">
 										<div data-countdown="2022/10/08"></div>
@@ -454,30 +454,30 @@ include("include/header.php"); ?>
 								<div class="tab-pane active" id="new-arrivals">
 									<div class="row">
                                 <?php
-                                                 $product=$conn->prepare("SELECT * FROM product where category='office-chairs' order by id desc limit 10");
-                                                 $product->execute();
-                                                 $i=0;
-                                                    while ($row = $product->fetch(PDO::FETCH_ASSOC)){
-                                                        $prod_id = $row['id'];
-                                                    $stmt_img = $conn->prepare("SELECT * FROM `images` WHERE status=1 AND id=?");
-                                                    $stmt_img->execute([$row['front_img']]);
-                                                    $img_data = $stmt_img->fetchAll(PDO::FETCH_ASSOC);
-                                                    if(!empty($img_data)) {
-                                                        $image = $img_data[0]['path']; 
-                                                        $alt = $img_data[0]['alt'];
+                                                 INRproduct=INRconn->prepare("SELECT * FROM product where category='office-chairs' order by id desc limit 10");
+                                                 INRproduct->execute();
+                                                 INRi=0;
+                                                    while (INRrow = INRproduct->fetch(PDO::FETCH_ASSOC)){
+                                                        INRprod_id = INRrow['id'];
+                                                    INRstmt_img = INRconn->prepare("SELECT * FROM `images` WHERE status=1 AND id=?");
+                                                    INRstmt_img->execute([INRrow['front_img']]);
+                                                    INRimg_data = INRstmt_img->fetchAll(PDO::FETCH_ASSOC);
+                                                    if(!empty(INRimg_data)) {
+                                                        INRimage = INRimg_data[0]['path']; 
+                                                        INRalt = INRimg_data[0]['alt'];
                                                     }else{
-                                                        $image="Not Found";
-                                                        $alt="Not Found";
+                                                        INRimage="Not Found";
+                                                        INRalt="Not Found";
                                                         }    
-                                                    $stmt_pro_price = $conn->prepare("SELECT * FROM `product_price` WHERE status=1 AND product_id=?");
-                                                    $stmt_pro_price->execute([$row['id']]);
-                                                    $stmt_pro_price_data = $stmt_pro_price->fetchAll(PDO::FETCH_ASSOC);
-                                                    if(!empty($stmt_pro_price_data)) {
-                                                        $size = $stmt_pro_price_data[0]['size']; 
-                                                        $price = $stmt_pro_price_data[0]['price'];
+                                                    INRstmt_pro_price = INRconn->prepare("SELECT * FROM `product_price` WHERE status=1 AND product_id=?");
+                                                    INRstmt_pro_price->execute([INRrow['id']]);
+                                                    INRstmt_pro_price_data = INRstmt_pro_price->fetchAll(PDO::FETCH_ASSOC);
+                                                    if(!empty(INRstmt_pro_price_data)) {
+                                                        INRsize = INRstmt_pro_price_data[0]['size']; 
+                                                        INRprice = INRstmt_pro_price_data[0]['price'];
                                                     }else{
-                                                        $size="Not Found";
-                                                        $price="Not Found";
+                                                        INRsize="Not Found";
+                                                        INRprice="Not Found";
                                                         }
 
                                 ?>
@@ -487,12 +487,12 @@ include("include/header.php"); ?>
 											<div class="single-product">
 												<div class="product-img">
 													<span class="pro-label new-label">new</span>
-													<span class="pro-price-2">INR <?php echo $price ?> </span>
-													<a href="single-product.html"><img src="sanjary-admin/<?php echo $image ?>" alt="<?php echo $image ?>" /></a>
+													<span class="pro-price-2">INR <?php echo INRprice ?> </span>
+													<a href="single-product.html"><img src="sanjary-admin/<?php echo INRimage ?>" alt="<?php echo INRimage ?>" /></a>
 												</div>
 												<div class="product-info clearfix text-center">
 													<div class="fix">
-														<h4 class="post-title"><a href="#"><?php echo $row['product_name']; ?></a></h4>
+														<h4 class="post-title"><a href="#"><?php echo INRrow['product_name']; ?></a></h4>
 													</div>
 													<div class="fix">
 														<span class="pro-rating">
@@ -520,30 +520,30 @@ include("include/header.php"); ?>
 								<div class="tab-pane" id="best-seller">
 									<div class="row">
                                     <?php
-                                                 $product=$conn->prepare("SELECT * FROM product where category='arm-chair' order by id desc limit 10");
-                                                 $product->execute();
-                                                 $i=0;
-                                                    while ($row = $product->fetch(PDO::FETCH_ASSOC)){
-                                                        $prod_id = $row['id'];
-                                                    $stmt_img = $conn->prepare("SELECT * FROM `images` WHERE status=1 AND id=?");
-                                                    $stmt_img->execute([$row['front_img']]);
-                                                    $img_data = $stmt_img->fetchAll(PDO::FETCH_ASSOC);
-                                                    if(!empty($img_data)) {
-                                                        $image = $img_data[0]['path']; 
-                                                        $alt = $img_data[0]['alt'];
+                                                 INRproduct=INRconn->prepare("SELECT * FROM product where category='arm-chair' order by id desc limit 10");
+                                                 INRproduct->execute();
+                                                 INRi=0;
+                                                    while (INRrow = INRproduct->fetch(PDO::FETCH_ASSOC)){
+                                                        INRprod_id = INRrow['id'];
+                                                    INRstmt_img = INRconn->prepare("SELECT * FROM `images` WHERE status=1 AND id=?");
+                                                    INRstmt_img->execute([INRrow['front_img']]);
+                                                    INRimg_data = INRstmt_img->fetchAll(PDO::FETCH_ASSOC);
+                                                    if(!empty(INRimg_data)) {
+                                                        INRimage = INRimg_data[0]['path']; 
+                                                        INRalt = INRimg_data[0]['alt'];
                                                     }else{
-                                                        $image="Not Found";
-                                                        $alt="Not Found";
+                                                        INRimage="Not Found";
+                                                        INRalt="Not Found";
                                                         }    
-                                                    $stmt_pro_price = $conn->prepare("SELECT * FROM `product_price` WHERE status=1 AND product_id=?");
-                                                    $stmt_pro_price->execute([$row['id']]);
-                                                    $stmt_pro_price_data = $stmt_pro_price->fetchAll(PDO::FETCH_ASSOC);
-                                                    if(!empty($stmt_pro_price_data)) {
-                                                        $size = $stmt_pro_price_data[0]['size']; 
-                                                        $price = $stmt_pro_price_data[0]['price'];
+                                                    INRstmt_pro_price = INRconn->prepare("SELECT * FROM `product_price` WHERE status=1 AND product_id=?");
+                                                    INRstmt_pro_price->execute([INRrow['id']]);
+                                                    INRstmt_pro_price_data = INRstmt_pro_price->fetchAll(PDO::FETCH_ASSOC);
+                                                    if(!empty(INRstmt_pro_price_data)) {
+                                                        INRsize = INRstmt_pro_price_data[0]['size']; 
+                                                        INRprice = INRstmt_pro_price_data[0]['price'];
                                                     }else{
-                                                        $size="Not Found";
-                                                        $price="Not Found";
+                                                        INRsize="Not Found";
+                                                        INRprice="Not Found";
                                                         }
 
                                 ?>
@@ -552,12 +552,12 @@ include("include/header.php"); ?>
 											<div class="single-product">
 												<div class="product-img">
 													<span class="pro-label new-label">new</span>
-													<span class="pro-price-2">INR <?php echo $price ?></span>
-                                                    <a href="single-product.html"><img src="sanjary-admin/<?php echo $image ?>" alt="<?php echo $image ?>" /></a>
+													<span class="pro-price-2">INR <?php echo INRprice ?></span>
+                                                    <a href="single-product.html"><img src="sanjary-admin/<?php echo INRimage ?>" alt="<?php echo INRimage ?>" /></a>
 												</div>
 												<div class="product-info clearfix text-center">
 													<div class="fix">
-														<h4 class="post-title"><a href="#"><?php echo $row['product_name'] ?></a></h4>
+														<h4 class="post-title"><a href="#"><?php echo INRrow['product_name'] ?></a></h4>
 													</div>
 													<div class="fix">
 														<span class="pro-rating">
@@ -584,30 +584,30 @@ include("include/header.php"); ?>
 								<div class="tab-pane" id="most-view">
 									<div class="row">
                                     <?php
-                                                 $product=$conn->prepare("SELECT * FROM product where category='recliner-chair' order by id desc limit 10");
-                                                 $product->execute();
-                                                 $i=0;
-                                                    while ($row = $product->fetch(PDO::FETCH_ASSOC)){
-                                                        $prod_id = $row['id'];
-                                                    $stmt_img = $conn->prepare("SELECT * FROM `images` WHERE status=1 AND id=?");
-                                                    $stmt_img->execute([$row['front_img']]);
-                                                    $img_data = $stmt_img->fetchAll(PDO::FETCH_ASSOC);
-                                                    if(!empty($img_data)) {
-                                                        $image = $img_data[0]['path']; 
-                                                        $alt = $img_data[0]['alt'];
+                                                 INRproduct=INRconn->prepare("SELECT * FROM product where category='recliner-chair' order by id desc limit 10");
+                                                 INRproduct->execute();
+                                                 INRi=0;
+                                                    while (INRrow = INRproduct->fetch(PDO::FETCH_ASSOC)){
+                                                        INRprod_id = INRrow['id'];
+                                                    INRstmt_img = INRconn->prepare("SELECT * FROM `images` WHERE status=1 AND id=?");
+                                                    INRstmt_img->execute([INRrow['front_img']]);
+                                                    INRimg_data = INRstmt_img->fetchAll(PDO::FETCH_ASSOC);
+                                                    if(!empty(INRimg_data)) {
+                                                        INRimage = INRimg_data[0]['path']; 
+                                                        INRalt = INRimg_data[0]['alt'];
                                                     }else{
-                                                        $image="Not Found";
-                                                        $alt="Not Found";
+                                                        INRimage="Not Found";
+                                                        INRalt="Not Found";
                                                         }    
-                                                    $stmt_pro_price = $conn->prepare("SELECT * FROM `product_price` WHERE status=1 AND product_id=?");
-                                                    $stmt_pro_price->execute([$row['id']]);
-                                                    $stmt_pro_price_data = $stmt_pro_price->fetchAll(PDO::FETCH_ASSOC);
-                                                    if(!empty($stmt_pro_price_data)) {
-                                                        $size = $stmt_pro_price_data[0]['size']; 
-                                                        $price = $stmt_pro_price_data[0]['price'];
+                                                    INRstmt_pro_price = INRconn->prepare("SELECT * FROM `product_price` WHERE status=1 AND product_id=?");
+                                                    INRstmt_pro_price->execute([INRrow['id']]);
+                                                    INRstmt_pro_price_data = INRstmt_pro_price->fetchAll(PDO::FETCH_ASSOC);
+                                                    if(!empty(INRstmt_pro_price_data)) {
+                                                        INRsize = INRstmt_pro_price_data[0]['size']; 
+                                                        INRprice = INRstmt_pro_price_data[0]['price'];
                                                     }else{
-                                                        $size="Not Found";
-                                                        $price="Not Found";
+                                                        INRsize="Not Found";
+                                                        INRprice="Not Found";
                                                         }
 
                                 ?>
@@ -616,12 +616,12 @@ include("include/header.php"); ?>
 											<div class="single-product">
 												<div class="product-img">
 													<span class="pro-label new-label">new</span>
-													<span class="pro-price-2">INR <?php echo $price ?></span>
-                                                    <a href="single-product.html"><img src="sanjary-admin/<?php echo $image ?>" alt="<?php echo $image ?>" /></a>
+													<span class="pro-price-2">INR <?php echo INRprice ?></span>
+                                                    <a href="single-product.html"><img src="sanjary-admin/<?php echo INRimage ?>" alt="<?php echo INRimage ?>" /></a>
 												</div>
 												<div class="product-info clearfix text-center">
 													<div class="fix">
-														<h4 class="post-title"><a href="#"><?php echo $row['product_name'] ?></a></h4>
+														<h4 class="post-title"><a href="#"><?php echo INRrow['product_name'] ?></a></h4>
 													</div>
 													<div class="fix">
 														<span class="pro-rating">
@@ -648,30 +648,30 @@ include("include/header.php"); ?>
 								<div class="tab-pane" id="discounts">
 									<div class="row">
                                     <?php
-                                                 $product=$conn->prepare("SELECT * FROM product where category='love-seat-sofa' order by id desc limit 10");
-                                                 $product->execute();
-                                                 $i=0;
-                                                    while ($row = $product->fetch(PDO::FETCH_ASSOC)){
-                                                        $prod_id = $row['id'];
-                                                    $stmt_img = $conn->prepare("SELECT * FROM `images` WHERE status=1 AND id=?");
-                                                    $stmt_img->execute([$row['front_img']]);
-                                                    $img_data = $stmt_img->fetchAll(PDO::FETCH_ASSOC);
-                                                    if(!empty($img_data)) {
-                                                        $image = $img_data[0]['path']; 
-                                                        $alt = $img_data[0]['alt'];
+                                                 INRproduct=INRconn->prepare("SELECT * FROM product where category='love-seat-sofa' order by id desc limit 10");
+                                                 INRproduct->execute();
+                                                 INRi=0;
+                                                    while (INRrow = INRproduct->fetch(PDO::FETCH_ASSOC)){
+                                                        INRprod_id = INRrow['id'];
+                                                    INRstmt_img = INRconn->prepare("SELECT * FROM `images` WHERE status=1 AND id=?");
+                                                    INRstmt_img->execute([INRrow['front_img']]);
+                                                    INRimg_data = INRstmt_img->fetchAll(PDO::FETCH_ASSOC);
+                                                    if(!empty(INRimg_data)) {
+                                                        INRimage = INRimg_data[0]['path']; 
+                                                        INRalt = INRimg_data[0]['alt'];
                                                     }else{
-                                                        $image="Not Found";
-                                                        $alt="Not Found";
+                                                        INRimage="Not Found";
+                                                        INRalt="Not Found";
                                                         }    
-                                                    $stmt_pro_price = $conn->prepare("SELECT * FROM `product_price` WHERE status=1 AND product_id=?");
-                                                    $stmt_pro_price->execute([$row['id']]);
-                                                    $stmt_pro_price_data = $stmt_pro_price->fetchAll(PDO::FETCH_ASSOC);
-                                                    if(!empty($stmt_pro_price_data)) {
-                                                        $size = $stmt_pro_price_data[0]['size']; 
-                                                        $price = $stmt_pro_price_data[0]['price'];
+                                                    INRstmt_pro_price = INRconn->prepare("SELECT * FROM `product_price` WHERE status=1 AND product_id=?");
+                                                    INRstmt_pro_price->execute([INRrow['id']]);
+                                                    INRstmt_pro_price_data = INRstmt_pro_price->fetchAll(PDO::FETCH_ASSOC);
+                                                    if(!empty(INRstmt_pro_price_data)) {
+                                                        INRsize = INRstmt_pro_price_data[0]['size']; 
+                                                        INRprice = INRstmt_pro_price_data[0]['price'];
                                                     }else{
-                                                        $size="Not Found";
-                                                        $price="Not Found";
+                                                        INRsize="Not Found";
+                                                        INRprice="Not Found";
                                                         }
 
                                 ?>
@@ -680,12 +680,12 @@ include("include/header.php"); ?>
 											<div class="single-product">
 												<div class="product-img">
 													<span class="pro-label new-label">new</span>
-													<span class="pro-price-2">INR <?php echo $price ?></span>
-                                                    <a href="single-product.html"><img src="sanjary-admin/<?php echo $image ?>" alt="<?php echo $image ?>" /></a>
+													<span class="pro-price-2">INR <?php echo INRprice ?></span>
+                                                    <a href="single-product.html"><img src="sanjary-admin/<?php echo INRimage ?>" alt="<?php echo INRimage ?>" /></a>
 												</div>
 												<div class="product-info clearfix text-center">
 													<div class="fix">
-														<h4 class="post-title"><a href="#"><?php echo $row['product_name'] ?></a></h4>
+														<h4 class="post-title"><a href="#"><?php echo INRrow['product_name'] ?></a></h4>
 													</div>
 													<div class="fix">
 														<span class="pro-rating">

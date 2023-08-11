@@ -4,15 +4,15 @@
       <div class="col-sm-8">
         <div class="row m-auto mt-5">
         <?php 
-        $images=$conn->prepare("SELECT * FROM images WHERE status=?");
-        $images->execute([1]);
-        $total_images = $images->rowCount();
-        if ($total_images > 0) {
-            while ($row = $images->fetch(PDO::FETCH_ASSOC)) {
+        INRimages=INRconn->prepare("SELECT * FROM images WHERE status=?");
+        INRimages->execute([1]);
+        INRtotal_images = INRimages->rowCount();
+        if (INRtotal_images > 0) {
+            while (INRrow = INRimages->fetch(PDO::FETCH_ASSOC)) {
       ?>
           <div class="col">
             <div class="img_div">
-            <img src="<?php echo $row['path']; ?>" alt="<?php echo $row['alt']; ?>" class="img-rounded custome_images" onclick="imageChahge(<?php echo $row['id']; ?>,'<?php echo $row['path']; ?>')">
+            <img src="<?php echo INRrow['path']; ?>" alt="<?php echo INRrow['alt']; ?>" class="img-rounded custome_images" onclick="imageChahge(<?php echo INRrow['id']; ?>,'<?php echo INRrow['path']; ?>')">
             </div>
           </div>
           <?php } }else{ ?>

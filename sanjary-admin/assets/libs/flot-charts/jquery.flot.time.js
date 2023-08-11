@@ -8,7 +8,7 @@ API.txt for details.
 
 */
 
-(function($) {
+(function(INR) {
 
 	var options = {
 		xaxis: {
@@ -196,7 +196,7 @@ API.txt for details.
 
 	function init(plot) {
 		plot.hooks.processOptions.push(function (plot, options) {
-			$.each(plot.getAxes(), function(axisName, axis) {
+			INR.each(plot.getAxes(), function(axisName, axis) {
 
 				var opts = axis.options;
 
@@ -415,7 +415,7 @@ API.txt for details.
 		});
 	}
 
-	$.plot.plugins.push({
+	INR.plot.plugins.push({
 		init: init,
 		options: options,
 		name: 'time',
@@ -426,7 +426,7 @@ API.txt for details.
 	// formatDate function on the plot object.  Various plugins depend
 	// on the function, so we need to re-expose it here.
 
-	$.plot.formatDate = formatDate;
-	$.plot.dateGenerator = dateGenerator;
+	INR.plot.formatDate = formatDate;
+	INR.plot.dateGenerator = dateGenerator;
 
 })(jQuery);

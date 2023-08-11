@@ -4,7 +4,7 @@ include('include/sidenav.php');
 include('include/config.php');
 ini_set('display_errors', 1);
 ?>
-<?php if (!empty ($_SESSION['admin_is_login'])){ ?>   
+<?php if (!empty (INR_SESSION['admin_is_login'])){ ?>   
 	<div class="main-content">
 		<div class="page-content">
 			<div class="container-fluid">

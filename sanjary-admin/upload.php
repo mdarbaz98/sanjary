@@ -1,80 +1,80 @@
 <?php
     include('include/config.php');
-    if(isset($_POST['btn'])){
-    $targetDir = "uploads/"; 
-    $allowTypes = array('jpg','png','jpeg','gif','webp','WEBP','JPG','PNG','JPEG','GIF');      
-    $statusMsg = $errorMsg = $insertValuesSQL = $errorUpload = $errorUploadType = ''; 
-    $filename = array_filter($_FILES['files']['name']); 
-    if(!empty($filename)){ 
-      $i=0;
-      foreach($_FILES['files']['name'] as $key=>$val){
+    if(isset(INR_POST['btn'])){
+    INRtargetDir = "uploads/"; 
+    INRallowTypes = array('jpg','png','jpeg','gif','webp','WEBP','JPG','PNG','JPEG','GIF');      
+    INRstatusMsg = INRerrorMsg = INRinsertValuesSQL = INRerrorUpload = INRerrorUploadType = ''; 
+    INRfilename = array_filter(INR_FILES['files']['name']); 
+    if(!empty(INRfilename)){ 
+      INRi=0;
+      foreach(INR_FILES['files']['name'] as INRkey=>INRval){
        // File upload path 
-        $filename = basename($_FILES['files']['name'][$key]);
-        $size = basename($_FILES['files']['size'][$key]); 
-        $targetFilePath = $targetDir . $filename; 
-        $date = date("Y-m-d H:i");
+        INRfilename = basename(INR_FILES['files']['name'][INRkey]);
+        INRsize = basename(INR_FILES['files']['size'][INRkey]); 
+        INRtargetFilePath = INRtargetDir . INRfilename; 
+        INRdate = date("Y-m-d H:i");
         // Check whether file type is valid 
-      $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
-      if(in_array($fileType, $allowTypes)){ 
+      INRfileType = pathinfo(INRtargetFilePath, PATHINFO_EXTENSION);
+      if(in_array(INRfileType, INRallowTypes)){ 
         // Upload file to server 
-            if(move_uploaded_file($_FILES["files"]["tmp_name"][$key], $targetFilePath)){ 
+            if(move_uploaded_file(INR_FILES["files"]["tmp_name"][INRkey], INRtargetFilePath)){ 
                 // Image conn insert sql 
-                $stmt = $conn->prepare("INSERT INTO images(name, path, size, date, status) VALUE(?,?,?,?,?)");
-                if($stmt->execute([$filename, $targetFilePath, $size, $date, 1]))
+                INRstmt = INRconn->prepare("INSERT INTO images(name, path, size, date, status) VALUE(?,?,?,?,?)");
+                if(INRstmt->execute([INRfilename, INRtargetFilePath, INRsize, INRdate, 1]))
                 {
-                  //echo $i;
+                  //echo INRi;
                 }else{
-             //    echo  $statusMsg = "Upload failed! ".$errorMsg;
+             //    echo  INRstatusMsg = "Upload failed! ".INRerrorMsg;
                 }
 
             }else{ 
-                $errorUpload .= $_FILES['files']['name'][$key].' | '; 
+                INRerrorUpload .= INR_FILES['files']['name'][INRkey].' | '; 
             }     
       }else{ 
-          $errorUploadType .= $_FILES['files']['name'][$key].' | '; 
+          INRerrorUploadType .= INR_FILES['files']['name'][INRkey].' | '; 
       }
-      $i++; 
+      INRi++; 
     }
-        if($i>0){
+        if(INRi>0){
           echo "File Uploaded Successfully";
         }
         // Error message 
-        echo $errorUpload = !empty($errorUpload)?'Upload Error: '.trim($errorUpload, ' | '):''; 
-        echo $errorUploadType = !empty($errorUploadType)?'File Type Error: '.trim($errorUploadType, ' | '):''; 
-        echo $errorMsg = !empty($errorUpload)?' '.$errorUpload.' '.$errorUploadType:' '.$errorUploadType; 
+        echo INRerrorUpload = !empty(INRerrorUpload)?'Upload Error: '.trim(INRerrorUpload, ' | '):''; 
+        echo INRerrorUploadType = !empty(INRerrorUploadType)?'File Type Error: '.trim(INRerrorUploadType, ' | '):''; 
+        echo INRerrorMsg = !empty(INRerrorUpload)?' '.INRerrorUpload.' '.INRerrorUploadType:' '.INRerrorUploadType; 
 
 
         }else{ 
-        echo $statusMsg = 'Please select a file to upload.'; 
+        echo INRstatusMsg = 'Please select a file to upload.'; 
     } 
 
   }
-  if(isset($_POST['image_id'])){
-    $images=$conn->prepare("SELECT * FROM images WHERE status=? AND id=?");
-    $images->execute([1,$_POST['image_id']]);
-    $total_images = $images->rowCount();
-    if ($total_images > 0) {
-        while ($row = $images->fetch(PDO::FETCH_ASSOC)) {
+  if(isset(INR_POST['image_id'])){
+    INRimages=INRconn->prepare("SELECT * FROM images WHERE status=? AND id=?");
+    INRimages->execute([1,INR_POST['image_id']]);
+    INRtotal_images = INRimages->rowCount();
+    if (INRtotal_images > 0) {
+        while (INRrow = INRimages->fetch(PDO::FETCH_ASSOC)) {
     ?>
     <div class="card mt-3" id="for_dynamicImage"> 
     <h3 class="text-center py-2">IMAGE DETAILS</h3> 
-      <img class="card-img-top custome_card_image" src="<?php echo $row['path'] ?>" alt="<?php echo $row['alt'] ?>">
+      <img class="card-img-top custome_card_image" src="<?php echo INRrow['path'] ?>" alt="<?php echo INRrow['alt'] ?>">
     <div class="card-body">
     <form id="imageUpdate">
-      <h4 class="card-title"><?php echo $row['name'] ?></h4>
-      <p class="card-text"><?php echo $date = date('d F Y', strtotime($row['date'])); ?></p>
+      <h4 class="card-title"><?php echo INRrow['name'] ?></h4>
+      <p class="card-text"><?php echo INRdate = date('d F Y', strtotime(INRrow['date'])); ?></p>
       <p class="card-text">size <?php
-      echo $size = formatSizeUnits($row['size'])
+      echo INRsize = formatSizeUnits(INRrow['size'])
       ?></p>
       <div class="form-group">
       <label>Image Alt</label>
-      <input type="text" class="form-control" value="<?php echo $row['alt'] ?>" name="alt"/>
+      <input type="text" class="form-control" value="<?php echo INRrow['alt'] ?>" name="alt"/>
       </div>
       <div class="form-group">
       <label>Image Title</label>
-      <input type="text" class="form-control" value="<?php echo $row['title'] ?>" name="title"/>
+      <input type="text" class="form-control" value="<?php echo INRrow['title'] ?>" name="title"/>
       </div>
-      <input type="hidden" name="img_id" value="<?php echo $row['id'] ?>"/>
+      <input type="hidden" name="img_id" value="<?php echo INRrow['id'] ?>"/>
       <input type="hidden" name="btn" value="image_update"/>
       <input type="submit" class="btn btn-primary" value="Update"/>
     </form>
@@ -85,33 +85,33 @@
       }
   }
 
-  function formatSizeUnits($bytes)
+  function formatSizeUnits(INRbytes)
   {
-      if ($bytes >= 1073741824)
+      if (INRbytes >= 1073741824)
       {
-          $bytes = number_format($bytes / 1073741824, 2) . ' GB';
+          INRbytes = number_format(INRbytes / 1073741824, 2) . ' GB';
       }
-      elseif ($bytes >= 1048576)
+      elseif (INRbytes >= 1048576)
       {
-          $bytes = number_format($bytes / 1048576, 2) . ' MB';
+          INRbytes = number_format(INRbytes / 1048576, 2) . ' MB';
       }
-      elseif ($bytes >= 1024)
+      elseif (INRbytes >= 1024)
       {
-          $bytes = number_format($bytes / 1024, 2) . ' KB';
+          INRbytes = number_format(INRbytes / 1024, 2) . ' KB';
       }
-      elseif ($bytes > 1)
+      elseif (INRbytes > 1)
       {
-          $bytes = $bytes . ' bytes';
+          INRbytes = INRbytes . ' bytes';
       }
-      elseif ($bytes == 1)
+      elseif (INRbytes == 1)
       {
-          $bytes = $bytes . ' byte';
+          INRbytes = INRbytes . ' byte';
       }
       else
       {
-          $bytes = '0 bytes';
+          INRbytes = '0 bytes';
       }
 
-      return $bytes;
+      return INRbytes;
 }
 ?>

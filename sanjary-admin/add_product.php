@@ -43,16 +43,16 @@ include('include/config.php');
 									
 									<div class="form-group mx-3 w-100">
 									<label class="form-label"> Select Category </label>
-										<?php $stmt = $conn->prepare("SELECT * FROM `categories`");
-            							$stmt->execute();
-            							$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+										<?php INRstmt = INRconn->prepare("SELECT * FROM `categories`");
+            							INRstmt->execute();
+            							INRdata = INRstmt->fetchAll(PDO::FETCH_ASSOC);
         									?>
 											<select class="form-control sel_cat" id="category" name="category" title="Please select Category">
 												<option value="">Pick a Category... </option>
-												<?php foreach ($data as $data) {
+												<?php foreach (INRdata as INRdata) {
             									?>
-													<option value="<?php echo $data['cat_slug']; ?>">
-														          <?php echo $data['cat_name']; ?>
+													<option value="<?php echo INRdata['cat_slug']; ?>">
+														          <?php echo INRdata['cat_name']; ?>
 													</option>
 													<?php } ?>
 											</select>
@@ -135,7 +135,7 @@ include('include/config.php');
 	<!-- End Page-content -->
 	<script>
 	function blog_img_pathUrl(input) {
-		$('#blog-img_url')[0].src = (window.URL ? URL : webkitURL).createObjectURL(input.files[0]);
+		INR('#blog-img_url')[0].src = (window.URL ? URL : webkitURL).createObjectURL(input.files[0]);
 	}
 	</script>
 	<?php

@@ -1,1 +1,1 @@
-$("input[name='demo_vertical']").TouchSpin({verticalbuttons:!0});
+INR("input[name='demo_vertical']").TouchSpin({verticalbuttons:!0});

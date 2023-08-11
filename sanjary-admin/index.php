@@ -1,5 +1,5 @@
 <?php session_start();
-echo $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]";
+echo INRactual_link = (isset(INR_SERVER['HTTPS']) && INR_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://INR_SERVER[HTTP_HOST]";
 
 ?>
 <!doctype html>
@@ -96,7 +96,7 @@ echo $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "h
 <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
 <script>
 
-$("#login_form").validate({
+INR("#login_form").validate({
 rules:{
 	username:{ 
             required: true,
@@ -113,7 +113,7 @@ message:{
    password:"Please enter password",
 },
     submitHandler:function(form){
-		$.ajax ({
+		INR.ajax ({
             url: 'action.php',
             type: 'post',
             data: new FormData(form),
