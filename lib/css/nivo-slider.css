@@ -280,10 +280,10 @@ slider animation
     animation: bounceInUp 1000ms ease-in-out;
 }
 .home1 .slider-1 h2{
-        -webkit-animation: fadeInRight 1500ms ease-in-out;
-    -moz-animation: fadeInRight 1500ms ease-in-out;
-    -ms-animation: fadeInRight 1500ms ease-in-out;
-    animation: fadeInRight 1500ms ease-in-out;
+        -webkit-animation: fade$ight 1500ms ease-in-out;
+    -moz-animation: fade$ight 1500ms ease-in-out;
+    -ms-animation: fade$ight 1500ms ease-in-out;
+    animation: fade$ight 1500ms ease-in-out;
 }
 .home1 .slider-2 h1{
         -webkit-animation: fadeInLeft 500ms ease-in-out;
@@ -323,16 +323,16 @@ slider animation
     animation: bounceInUp 1000ms ease-in-out;
 }
 .home2 .layer-3{
-	 -webkit-animation: fadeInRight 1500ms ease-in-out;
-    -moz-animation: fadeInRight 1500ms ease-in-out;
-    -ms-animation: fadeInRight 1500ms ease-in-out;
-    animation: fadeInRight 1500ms ease-in-out;
+	 -webkit-animation: fade$ight 1500ms ease-in-out;
+    -moz-animation: fade$ight 1500ms ease-in-out;
+    -ms-animation: fade$ight 1500ms ease-in-out;
+    animation: fade$ight 1500ms ease-in-out;
 }
 .home2 .layer-1-1{
-	-webkit-animation: fadeInRight 1500ms ease-in-out;
-    -moz-animation: fadeInRight 1500ms ease-in-out;
-    -ms-animation: fadeInRight 1500ms ease-in-out;
-    animation: fadeInRight 1500ms ease-in-out;
+	-webkit-animation: fade$ight 1500ms ease-in-out;
+    -moz-animation: fade$ight 1500ms ease-in-out;
+    -ms-animation: fade$ight 1500ms ease-in-out;
+    animation: fade$ight 1500ms ease-in-out;
 }
 /* -------------- Home 3  ---------------- */
 .home3 .slider-1 h1{
@@ -360,14 +360,14 @@ slider animation
     animation: fadeInLeft 1500ms ease-in-out;
 }
 .home3 .slider-3 h1{
-	-webkit-animation: fadeInRight 500ms ease-in-out;
-    -moz-animation: fadeInRight 500ms ease-in-out;
-    -ms-animation: fadeInRight 500ms ease-in-out;
-    animation: fadeInRight 500ms ease-in-out;
+	-webkit-animation: fade$ight 500ms ease-in-out;
+    -moz-animation: fade$ight 500ms ease-in-out;
+    -ms-animation: fade$ight 500ms ease-in-out;
+    animation: fade$ight 500ms ease-in-out;
 }
 .home3 .slider-3 h3{
-	-webkit-animation: fadeInRight 1500ms ease-in-out;
-    -moz-animation: fadeInRight 1500ms ease-in-out;
-    -ms-animation: fadeInRight 1500ms ease-in-out;
-    animation: fadeInRight 1500ms ease-in-out;
+	-webkit-animation: fade$ight 1500ms ease-in-out;
+    -moz-animation: fade$ight 1500ms ease-in-out;
+    -ms-animation: fade$ight 1500ms ease-in-out;
+    animation: fade$ight 1500ms ease-in-out;
 }

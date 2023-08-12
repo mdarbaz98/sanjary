@@ -1,1 +1,1 @@
-INR(document).ready(function(){INR(".input-mask").inputmask()});
+$(document).ready(function(){$(".input-mask").inputmask()});

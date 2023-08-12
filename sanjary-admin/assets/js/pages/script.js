@@ -117,7 +117,7 @@ tinymce.init({
 
 //SELECT category
 
-INR(".select2").select2({
+$(".select2").select2({
   tags: true,
   maximumSelectionLength: 10,
   tokenSeparators: [",", " "],
@@ -140,7 +140,7 @@ INR(".select2").select2({
 });
 
 //--------------------------------------------//
-INR(".select3").select2({
+$(".select3").select2({
   tags: true,
   maximumSelectionLength: 10,
   tokenSeparators: [",", " "],
@@ -704,7 +704,7 @@ document.getElementById("otp-f").style.display = "none";
 
 function emailform() {
   var letters2 =
-    /^[a-zA-Z0-9.!#INR%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*INR/;
+    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
   var email = document.getElementById("formemail").value;
   if (email.length == 0) {
     document.getElementById("EM").style.display = "block";
@@ -730,9 +730,9 @@ function passwordform() {
   }
 }
 
-INR("#form").submit(function (e) {
+$("#form").submit(function (e) {
   e.preventDefault();
-  var letters1 =/^[a-zA-Z0-9.!#INR%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*INR/;
+  var letters1 =/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
   var email = document.getElementById("formemail").value;
   var password = document.getElementById("formpassword").value;
 

@@ -1,4 +1,4 @@
-INR('#form_submit,#form_submit1').validate({
+$('#form_submit,#form_submit1').validate({
   rules: {
     files: {
       required: true,
@@ -10,7 +10,7 @@ INR('#form_submit,#form_submit1').validate({
   },
   submitHandler: function (form) {
     // alert(form)
-    INR.ajax({
+    $.ajax({
       url: 'upload.php',
       type: 'post',
       data: new FormData(form),
@@ -20,9 +20,9 @@ INR('#form_submit,#form_submit1').validate({
       success: function (data) {
         alert(data)
         getAllimages()
-        INR('.nav-link').removeClass('active')
-        INR('#profile-tab,#profile-tab1').click()
-        INR('#profile-tab,#profile-tab1').addClass('active')
+        $('.nav-link').removeClass('active')
+        $('#profile-tab,#profile-tab1').click()
+        $('#profile-tab,#profile-tab1').addClass('active')
 
         // console.log(data)
 
@@ -33,7 +33,7 @@ INR('#form_submit,#form_submit1').validate({
         // else
         // {
         // }
-        // INR("#update_blog_form").trigger("reset");
+        // $("#update_blog_form").trigger("reset");
       },
     })
   },
@@ -41,7 +41,7 @@ INR('#form_submit,#form_submit1').validate({
 
 // for image validation
 function imageUdatevalidate() {
-  INR('#imageUpdate,imageUpdate1').validate({
+  $('#imageUpdate,imageUpdate1').validate({
     rules: {
       alt: {
         required: true,
@@ -54,7 +54,7 @@ function imageUdatevalidate() {
       alt: 'enter',
     },
     submitHandler: function (form) {
-      INR.ajax({
+      $.ajax({
         url: 'action.php',
         type: 'post',
         data: new FormData(form),
@@ -67,7 +67,7 @@ function imageUdatevalidate() {
           } else {
             alert('Something Went Wrong')
           }
-          // INR("#update_blog_form").trigger("reset");
+          // $("#update_blog_form").trigger("reset");
         },
       })
     },
@@ -75,7 +75,7 @@ function imageUdatevalidate() {
 }
 // get current all images
 function getAllimages() {
-  INR.ajax({
+  $.ajax({
     url: 'get_images.php',
     type: 'post',
     data: {
@@ -85,20 +85,20 @@ function getAllimages() {
     cache: false,
     processData: false,
     success: function (data) {
-      INR('#getall_images').html(data)
+      $('#getall_images').html(data)
     },
   })
 }
 
-var db_val = INR('#setCTA_selectedpro').val();
+var db_val = $('#setCTA_selectedpro').val();
 var db_array = db_array ? db_val.split(",") : [];
 console.log(db_array)
 var numberArray = db_array.map(Number);
 console.log(db_val)
 
 function setProduct_id(x){
-    var id = INR(x).data('image');
-    if(INR(x).is(":checked")){
+    var id = $(x).data('image');
+    if($(x).is(":checked")){
         numberArray.push(id)    
     } else {
         numberArray.splice(numberArray.indexOf(id),1);
@@ -107,13 +107,13 @@ function setProduct_id(x){
      if(pro_id.charAt(0)==','){
         pro_id=pro_id.substring(1);
     }
-    INR('.image_id').attr('value',pro_id)
+    $('.image_id').attr('value',pro_id)
 }
 
 
 // onclick change right panel image data
 function imageChahge(id, path) {                                                                                                                                                                                                                                                                                                                                                                                                                                           
-  INR.ajax({
+  $.ajax({
     type: 'POST',
     url: 'upload.php',
     dataType: 'html',
@@ -121,16 +121,16 @@ function imageChahge(id, path) {
       image_id: id,
     },
     success: function (data) {
-      INR('#for_dynamicImage,#for_dynamicImage1,#for_dynamicImage2').html(data)
+      $('#for_dynamicImage,#for_dynamicImage1,#for_dynamicImage2').html(data)
       //location.reload();
       // alert(data);
-      //INR('.image_id').attr('value', id)
+      //$('.image_id').attr('value', id)
       setImgAgain = path
-      // INR('.image_path').attr('src', path)
-      // console.log(INR('.image_path').attr('src', path));
+      // $('.image_path').attr('src', path)
+      // console.log($('.image_path').attr('src', path));
       
-        var img = `<img src="INR{path}" alt="" onclick="removeImg(this)" class="set_images" style="width:90px">`; 
-        INR(".set_images").append(img);
+        var img = `<img src="${path}" alt="" onclick="removeImg(this)" class="set_images" style="width:90px">`; 
+        $(".set_images").append(img);
     
       imageUdatevalidate()
     },
@@ -140,7 +140,7 @@ function imageChahge(id, path) {
 function appendProductsize(){
   let counter=1;
   var html_content=`
-  <div class="row" id=INR{'append_productSize_'+counter} >
+  <div class="row" id=${'append_productSize_'+counter} >
   <div class="col-sm-3">
     <div class="form-group">
       <label>Size</label>
@@ -164,10 +164,10 @@ function appendProductsize(){
 
                           <div class="submit-btn">
                             <input type="button" class="post-btn" value="Add More" onclick="appendProductsize()">
-                            <span class="post-btn" onclick="deleteSizeProduct(INR{counter})" style="background:#7e37d8;">Delete</span>                     
+                            <span class="post-btn" onclick="deleteSizeProduct(${counter})" style="background:#7e37d8;">Delete</span>                     
                           </div>`;
 
-      INR('#forAppend').append(html_content);
+      $('#forAppend').append(html_content);
       counter++;
 }
 function deleteSizeProduct(target){
@@ -195,8 +195,8 @@ const previewImages = () => {
   if (FILE_LIST.length > 0) {
     FILE_LIST.forEach((addedFile, index) => {
       const content = `
-            <div class="form__image-container js-remove-image" data-index="INR{index}">
-              <img class="form__image" src="INR{addedFile.url}" alt="INR{addedFile.name}">
+            <div class="form__image-container js-remove-image" data-index="${index}">
+              <img class="form__image" src="${addedFile.url}" alt="${addedFile.name}">
             </div>
           `
 
@@ -269,7 +269,7 @@ removeFile()
 function deleteCategory(id) {
   var x = confirm('Are you sure you want to permanent delete this?')
   if (x) {
-    INR.ajax({
+    $.ajax({
       type: 'POST',
       url: 'action.php',
       dataType: 'html',
@@ -290,7 +290,7 @@ function deleteCategory(id) {
 function deleteUser(id) {
   var x = confirm('Are you sure you want to permanent delete this?')
   if (x) {
-    INR.ajax({
+    $.ajax({
       type: 'POST',
       url: 'action.php',
       dataType: 'html',
@@ -311,7 +311,7 @@ function deleteUser(id) {
 function uploadProduct(id) {
   var x = confirm('Are you sure you want to upload this?')
   if (x) {
-    INR.ajax({
+    $.ajax({
       type: 'POST',
       url: 'action.php',
       dataType: 'html',
@@ -332,7 +332,7 @@ function uploadProduct(id) {
 function trashProduct(id) {
   var x = confirm('Are you sure you want to trash this?')
   if (x) {
-    INR.ajax({
+    $.ajax({
       type: 'POST',
       url: 'action.php',
       dataType: 'html',
@@ -352,7 +352,7 @@ function trashProduct(id) {
 function deleteProductprice(id) {
   var x = confirm('Are you sure you want to delete this?')
   if (x) {
-    INR.ajax({
+    $.ajax({
       type: 'POST',
       url: 'action.php',
       dataType: 'html',
@@ -371,7 +371,7 @@ function deleteProductprice(id) {
 }
 
 function productPriceupdate(id){
-    INR.ajax({
+    $.ajax({
     type: 'POST',
     url: 'action.php',
     dataType: 'json',
@@ -381,25 +381,25 @@ function productPriceupdate(id){
     },
     success: function (data) {
 
-      var json = INR.parseJSON(JSON.stringify(data));
+      var json = $.parseJSON(JSON.stringify(data));
       var price = json.price;
       var dprice = json.dprice;
       var size = json.size;
       var updateProductprice_id = json.updateProductprice_id;
 
-      INR("#productPrice_price").val(price);
-      INR("#productPrice_dprice").val(dprice);
-      INR("#productPrice_size").val(size);
-      INR("#updateProductprice_id").val(updateProductprice_id);
+      $("#productPrice_price").val(price);
+      $("#productPrice_dprice").val(dprice);
+      $("#productPrice_size").val(size);
+      $("#updateProductprice_id").val(updateProductprice_id);
     },
   })
-  INR('#priceUpdatemodal').modal('show');
+  $('#priceUpdatemodal').modal('show');
 }
 //Permanent Delete product
 function deleteProduct(id) {
   var x = confirm('Are you sure you want to permanent delete this?')
   if (x) {
-    INR.ajax({
+    $.ajax({
       type: 'POST',
       url: 'action.php',
       dataType: 'html',
@@ -418,20 +418,20 @@ function deleteProduct(id) {
 }
 
 //post search text here
-INR('#search_post_title').keyup(function () {
-  var name = INR('#search_post_title').val()
+$('#search_post_title').keyup(function () {
+  var name = $('#search_post_title').val()
   if (name == '') {
     //Assigning empty value to "display" div in "search.php" file.
-    INR('#datatable').html('')
+    $('#datatable').html('')
     //alert("blank");
   } else {
-    INR.ajax({
+    $.ajax({
       type: 'post',
       url: 'getFilter_table.php',
       data: { post_title: name, btn: 'post_title' },
       cache: false,
       success: function (data) {
-        INR('#datatable').html(data)
+        $('#datatable').html(data)
         //alert(data);
         //console.log(data);
       },
@@ -441,20 +441,20 @@ INR('#search_post_title').keyup(function () {
 
 // product search table
 
-INR('#product_search_table').keyup(function () {
-  var name = INR('#product_search_table').val()
+$('#product_search_table').keyup(function () {
+  var name = $('#product_search_table').val()
   if (name == '') {
     //Assigning empty value to "display" div in "search.php" file.
-    INR('#datatable').html('')
+    $('#datatable').html('')
     //alert("blank");
   } else {
-    INR.ajax({
+    $.ajax({
       type: 'post',
       url: 'getFilter_table.php',
       data: { pro_name: name, btn: 'pro_name' },
       cache: false,
       success: function (data) {
-        INR('#datatable').html(data)
+        $('#datatable').html(data)
         //alert(data);
         //console.log(data);
       },
@@ -472,13 +472,13 @@ function copytext_cat(e) {
   document.getElementById('cat_slug').value = str
 }
 
-var db_val = INR('#image_id').val();
+var db_val = $('#image_id').val();
 var db_array = db_val.split(",");
 var numberArray = db_array.map(Number)
 
 function imageCheckbox(x){
-  var image_id = INR(x).data('image');
-  if(INR(x).is(":checked")){
+  var image_id = $(x).data('image');
+  if($(x).is(":checked")){
     numberArray.push(image_id)    
   } else {
     numberArray.splice(numberArray.indexOf(image_id),1);
@@ -488,14 +488,14 @@ function imageCheckbox(x){
      pro_id=pro_id.substring(1);
      console.log(pro_id);
  }
- INR('.image_id').attr('value',pro_id)
+ $('.image_id').attr('value',pro_id)
 
   // var favorite = [];
-  // INR.each(INR("input[name='img_id']:checked"), function(){            
-  //     favorite.push(INR(this).val());
+  // $.each($("input[name='img_id']:checked"), function(){            
+  //     favorite.push($(this).val());
   // });
   // var img_id = favorite.join(",");
-  // INR('.image_id').attr('value',img_id)
+  // $('.image_id').attr('value',img_id)
 
 }
 
@@ -506,7 +506,7 @@ ele.remove()
 function removeproductimage(id){
   var x = confirm('Are you sure you want to delete this?')
   if (x) {
-    INR.ajax({
+    $.ajax({
     type: 'post',
     url: 'action.php',
     data: { pro_id: id,

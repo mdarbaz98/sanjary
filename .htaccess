@@ -1,11 +1,11 @@
 RewriteEngine On
-RewriteRule ^/?INR index.php [NC,L]
-RewriteRule ^about/?INR about.php?slug=INR1
-RewriteRule ^cart/?INR cart.php?slug=INR1
-RewriteRule ^contact/?INR contactus.php?slug=INR1
-RewriteRule ^delivery/?INR deliveryandreturns.php?slug=INR1
-RewriteRule ^privacy/?INR privacypolicy.php?slug=INR1
-RewriteRule ^return/?INR returnandrefund.php?slug=INR1
-RewriteRule ^cart/?INR cart.php?slug=INR1
-RewriteRule ^([^/\.]+)/?INR product.php?slug=INR1 [L,QSA]
-RewriteRule ^category/([^/\.]+)/?INR category.php?cat_slug=INR1 [L,QSA]
+RewriteRule ^/?$ index.php [NC,L]
+RewriteRule ^about/?$ about.php?slug=$1
+RewriteRule ^cart/?$ cart.php?slug=$1
+RewriteRule ^contact/?$ contactus.php?slug=$1
+RewriteRule ^delivery/?$ deliveryandreturns.php?slug=$1
+RewriteRule ^privacy/?$ privacypolicy.php?slug=$1
+RewriteRule ^return/?$ returnandrefund.php?slug=$1
+RewriteRule ^cart/?$ cart.php?slug=$1
+RewriteRule ^([^/\.]+)/?$ product.php?slug=$1 [L,QSA]
+RewriteRule ^category/([^/\.]+)/?$ category.php?cat_slug=$1 [L,QSA]

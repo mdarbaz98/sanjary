@@ -2,7 +2,7 @@
 include('include/header.php');
 include('include/sidenav.php');
 include('include/config.php'); ?>
-<?php if (!empty (INR_SESSION['admin_is_login'])){ ?>   
+<?php if (!empty ($_SESSION['admin_is_login'])){ ?>   
 	<div class="main-content">
 		<div class="page-content">
 			<div class="container-fluid">
@@ -67,58 +67,58 @@ include('include/config.php'); ?>
 												<tbody>
 												<?php
 
-															INRper_page = 10;
-															INRstmt = INRconn->prepare("SELECT * FROM `order_details` ORDER BY id DESC");
-															INRstmt->execute();
-															INRnumber_of_rows = INRstmt->fetchColumn();
-															INRpage = ceil(INRnumber_of_rows/INRper_page);
-															INRstart=0;	
-															INRcurrent_page=1;
-															if(isset(INR_GET['start'])){
-																INRstart= INR_GET['start'];
-																INRcurrent_page=INRstart;	
-																INRstart--;
-																INRstart = INRstart*INRper_page;
+															$per_page = 10;
+															$stmt = $conn->prepare("SELECT * FROM `order_details` ORDER BY id DESC");
+															$stmt->execute();
+															$number_of_rows = $stmt->fetchColumn();
+															$page = ceil($number_of_rows/$per_page);
+															$start=0;	
+															$current_page=1;
+															if(isset($_GET['start'])){
+																$start= $_GET['start'];
+																$current_page=$start;	
+																$start--;
+																$start = $start*$per_page;
 															}
 								
 
 
-									INRsql = "SELECT * FROM `order_details` ORDER BY id DESC LIMIT INRstart,INRper_page";
-									INRstmt = INRconn->prepare(INRsql);
-                                    INRstmt->execute();
-									//  INRnumber_of_rows = INRstmt->fetchColumn(); 
+									$sql = "SELECT * FROM `order_details` ORDER BY id DESC LIMIT $start,$per_page";
+									$stmt = $conn->prepare($sql);
+                                    $stmt->execute();
+									//  $number_of_rows = $stmt->fetchColumn(); 
 
 
 
-									INRi=1;
-                                    INRdata = INRstmt->fetchAll(PDO::FETCH_ASSOC);
+									$i=1;
+                                    $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                    
                                     ?> 
-                                      <?php if (!empty(INRdata)) {
-                                           foreach (INRdata as INRdata)
+                                      <?php if (!empty($data)) {
+                                           foreach ($data as $data)
                                            {
                                     ?>   
 													<tr class="odd">
-													<td class="sorting_1 dtr-control" tabindex="0"><?php echo INRi; ?></td>
-													<td><?php echo INRdata['invoice_id'] ?></td>	
-                                                		<td><?php echo INRdata['disc_price'] ?></td>
-														<td><?php echo INRdata['shipping_charges'] ?></td>
-                                                        <td><?php echo INRdata['total'] ?></td>
-                                                        <td><?php echo INRdata['name'] ?></td>
-                                                        <td><?php echo INRdata['email'] ?></td>
-                                                        <td><?php echo INRdata['phone'] ?></td>
-                                                        <td><?php echo INRdata['address'] ?></td>
-                                                        <td><?php echo INRdata['city'] ?></td>
-                                                        <td><?php echo INRdata['state'] ?></td>
-                                                        <td><?php echo INRdata['pincode'] ?></td>
-                                                        <td><?php echo INRdata['order_date'] ?></td>
+													<td class="sorting_1 dtr-control" tabindex="0"><?php echo $i; ?></td>
+													<td><?php echo $data['invoice_id'] ?></td>	
+                                                		<td><?php echo $data['disc_price'] ?></td>
+														<td><?php echo $data['shipping_charges'] ?></td>
+                                                        <td><?php echo $data['total'] ?></td>
+                                                        <td><?php echo $data['name'] ?></td>
+                                                        <td><?php echo $data['email'] ?></td>
+                                                        <td><?php echo $data['phone'] ?></td>
+                                                        <td><?php echo $data['address'] ?></td>
+                                                        <td><?php echo $data['city'] ?></td>
+                                                        <td><?php echo $data['state'] ?></td>
+                                                        <td><?php echo $data['pincode'] ?></td>
+                                                        <td><?php echo $data['order_date'] ?></td>
 														<td>
-														<a class="btn btn-danger" href="javascript:void(0)" onclick="deleteCategory(<?php echo INRdata['id']; ?>)">
+														<a class="btn btn-danger" href="javascript:void(0)" onclick="deleteCategory(<?php echo $data['id']; ?>)">
 														<i class="fas fa-trash-alt"></i></a>	
 														</td>
 													</tr>
 									<?php
-                                        INRi++;
+                                        $i++;
                                         }
 								
 									}
@@ -128,16 +128,16 @@ include('include/config.php'); ?>
 										</div>
 										<p class="pagination_status">Showing 1 to 10 of 10 entries</p>
 										<ul class="pagination pagination justify-content-end mt-3">
-										<li class="page-item <?php if(INRcurrent_page <= 1){ echo 'disabled'; } ?>"><a class="page-link" href="category_listing.php?start=<?php echo INRcurrent_page-1 ?>" class='button'>Previous</a></li>
+										<li class="page-item <?php if($current_page <= 1){ echo 'disabled'; } ?>"><a class="page-link" href="category_listing.php?start=<?php echo $current_page-1 ?>" class='button'>Previous</a></li>
 											<?php 
-													for(INRj=1; INRj<=INRpage; INRj++){
-													INRclass="";
-													if(INRcurrent_page == INRj){
-														INRclass = "active";
+													for($j=1; $j<=$page; $j++){
+													$class="";
+													if($current_page == $j){
+														$class = "active";
 												?>
-													<li class="page-item <?php echo INRclass; ?>">
-													<a class="page-link" href="category_listing.php?start=<?php echo INRj; ?>">
-														<?php echo INRj ?>
+													<li class="page-item <?php echo $class; ?>">
+													<a class="page-link" href="category_listing.php?start=<?php echo $j; ?>">
+														<?php echo $j ?>
 													</a>
 												</li>			
 														<?php
@@ -145,7 +145,7 @@ include('include/config.php'); ?>
 														?>
 
 												<?php } ?>
-												<li class="page-item <?php if(INRcurrent_page >= INRpage) { echo 'disabled'; } ?>"><a class="page-link" href="category_listing.php?start=<?php echo INRcurrent_page+1 ?>" class='button'>NEXT</a></li>
+												<li class="page-item <?php if($current_page >= $page) { echo 'disabled'; } ?>"><a class="page-link" href="category_listing.php?start=<?php echo $current_page+1 ?>" class='button'>NEXT</a></li>
 										</ul>
 									
 									</div>

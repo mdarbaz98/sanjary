@@ -20,7 +20,7 @@ stack, you can set the stack option like this:
 
 You can also specify it for a single series, like this:
 
-	INR.plot( INR("#placeholder"), [{
+	$.plot( $("#placeholder"), [{
 		data: [ ... ],
 		stack: true
 	}])
@@ -35,7 +35,7 @@ charts or filled areas).
 
 */
 
-(function (INR) {
+(function ($) {
     var options = {
         series: { stack: null } // or number/string
     };
@@ -179,7 +179,7 @@ charts or filled areas).
         plot.hooks.processDatapoints.push(stackData);
     }
     
-    INR.plot.plugins.push({
+    $.plot.plugins.push({
         init: init,
         options: options,
         name: 'stack',

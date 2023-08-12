@@ -1,1 +1,1 @@
-INR(function(){INR(".knob").knob()});
+$(function(){$(".knob").knob()});

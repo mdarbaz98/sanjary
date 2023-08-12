@@ -1,7 +1,7 @@
-INR("#blog_form").submit(function(event) {
+$("#blog_form").submit(function(event) {
     event.preventDefault();
     alert("inside form")
-    INR("#blog_form").validate({
+    $("#blog_form").validate({
     rules: {
         i1: "required",
         content: "required",
@@ -51,7 +51,7 @@ INR("#blog_form").submit(function(event) {
         focus_keyword: "Please enter username",
     },
     submitHandler: function (form) {
-            INR.ajax({
+            $.ajax({
             url: 'action.php',
             type: 'post',
             data: new FormData(form),
@@ -70,7 +70,7 @@ INR("#blog_form").submit(function(event) {
                     alert("Some Technical Issue");
                 }
                 
-                INR("#blog_form").trigger("reset"); 
+                $("#blog_form").trigger("reset"); 
             }
 
         });
@@ -83,10 +83,10 @@ INR("#blog_form").submit(function(event) {
 // blog page end validation
 
 
-INR("#update_blog_form").submit(function(event) {
+$("#update_blog_form").submit(function(event) {
     event.preventDefault();
     alert("blog update form");
-    INR("#update_blog_form").validate({
+    $("#update_blog_form").validate({
     rules: {
         i1: "required",
         content: "required",
@@ -142,7 +142,7 @@ INR("#update_blog_form").submit(function(event) {
         focus_keyword: "Please enter username",
     },
     submitHandler: function (form) {
-            INR.ajax({
+            $.ajax({
             url: 'action.php',
             type: 'post',
             data: new FormData(form),
@@ -158,7 +158,7 @@ INR("#update_blog_form").submit(function(event) {
                 else
                 {
                 }
-                INR("#update_blog_form").trigger("reset"); 
+                $("#update_blog_form").trigger("reset"); 
 
             }
 
@@ -169,10 +169,10 @@ INR("#update_blog_form").submit(function(event) {
 });
 });
 
-INR("#addQuotes").submit(function(event) {
+$("#addQuotes").submit(function(event) {
     event.preventDefault();
     alert("quotes add form")
-    INR("#addQuotes").validate({
+    $("#addQuotes").validate({
     rules: {
         i1: "required",
         content: "required",
@@ -228,7 +228,7 @@ INR("#addQuotes").submit(function(event) {
         i3: "Please enter username",
     },
     submitHandler: function (form) {
-            INR.ajax({
+            $.ajax({
             url: 'action.php',
             type: 'post',
             data: new FormData(form),
@@ -244,7 +244,7 @@ INR("#addQuotes").submit(function(event) {
                 {
                 }
                 
-                INR("#addQuotes").trigger("reset"); 
+                $("#addQuotes").trigger("reset"); 
 
             }
 
@@ -257,10 +257,10 @@ INR("#addQuotes").submit(function(event) {
 // add quotes close here 
 
 // edit quotes statr here 
-INR("#updateQuotes").submit(function(event) {
+$("#updateQuotes").submit(function(event) {
     event.preventDefault();
     akert("quotes update");
-INR("#updateQuotes").validate({
+$("#updateQuotes").validate({
     rules: {
         i1: "required",
         content: "required",
@@ -307,7 +307,7 @@ INR("#updateQuotes").validate({
         i3: "Please enter username",
     },
     submitHandler: function (form) {
-            INR.ajax({
+            $.ajax({
             url: 'action.php',
             type: 'post',
             data: new FormData(form),
@@ -324,7 +324,7 @@ INR("#updateQuotes").validate({
 
                 }
                 
-                INR("#updateQuotes").trigger("reset"); 
+                $("#updateQuotes").trigger("reset"); 
 
             }
 
@@ -336,16 +336,16 @@ INR("#updateQuotes").validate({
 });
 
 
-INR(".author_change_other").change(function () {
+$(".author_change_other").change(function () {
 
-var val = INR('#author_change_other').val();
+var val = $('#author_change_other').val();
 
 let position = val.includes('others');
 //const lastVal="";
 
 if(position)
 {
-INR("#others_author_section").modal('show');
+$("#others_author_section").modal('show');
 }
 //alert(val);
 else
@@ -353,7 +353,7 @@ else
 
 }
 
-INR("#add_author_other").validate({
+$("#add_author_other").validate({
     rules: {
         author_name: "required",
         email: "required",
@@ -380,12 +380,12 @@ INR("#add_author_other").validate({
         //alert("validated");
          
         
-        var authors = INR('#author_change_other').val();
+        var authors = $('#author_change_other').val();
         var formData = new FormData(form);
         formData.append('author_id', authors);
 //                    console.log(formData);
 
-        INR.ajax({
+        $.ajax({
             url: 'edit_author.php',
             type: 'post',
             data: formData,
@@ -395,8 +395,8 @@ INR("#add_author_other").validate({
             success: function (data) {
                 console.log(data);
                 alert("New Author Added");
-                INR("#others_author_section").modal('hide');
-                INR("#author_change_other").html(data);
+                $("#others_author_section").modal('hide');
+                $("#author_change_other").html(data);
                 //location.reload();
                 console.log(data);
 
@@ -409,15 +409,15 @@ INR("#add_author_other").validate({
 
 });
 
-INR("#category").change(function () {
-var id = INR(this).val();
+$("#category").change(function () {
+var id = $(this).val();
 //alert(id)
 
 if (id == "others") {
 //  alert("others");
 
-INR("#others_category_section").modal('show');
-INR("#add_category").validate({
+$("#others_category_section").modal('show');
+$("#add_category").validate({
     rules: {
         cat: "required",
         sub_cat: "required",
@@ -432,7 +432,7 @@ INR("#add_category").validate({
     submitHandler: function (form) {
         // alert("validated");
 
-        INR.ajax({
+        $.ajax({
             url: 'category_edit.php',
             type: 'post',
             data: new FormData(form),
@@ -443,7 +443,7 @@ INR("#add_category").validate({
 
                 alert("Cat");
                 console.log(data);
-                INR("#others_category_section").modal('hide');
+                $("#others_category_section").modal('hide');
                 //location.reload();
 
             }
@@ -457,14 +457,14 @@ INR("#add_category").validate({
 
 }
 
-INR.ajax({
+$.ajax({
     type: "post",
     url: "get_subcat.php",
     data: { cat_id: id },
     cache: false,
     success: function (data) {
-        INR(".sub_category").html(data);
-        INR(".chosen-select").chosen({
+        $(".sub_category").html(data);
+        $(".chosen-select").chosen({
             no_results_text: "Oops, nothing found!"
           })
         //alert(data);
@@ -478,19 +478,19 @@ INR.ajax({
 
 // blog title filter
 
-INR("#blog_title_change_other").change(function () {
+$("#blog_title_change_other").change(function () {
 alert("fdsfds");
-var id = INR(this).val();
+var id = $(this).val();
 
 alert(id);   
 
-INR.ajax({
+$.ajax({
 type: "post",
 url: "get_title_blog.php",
 data: { blog_id: id },
 cache: false,
 success: function (data) {
- INR("#datatable").html(data);
+ $("#datatable").html(data);
  //alert(data);
  console.log(data);
 }
@@ -505,7 +505,7 @@ success: function (data) {
 /// edit page start here
 
 
-INR("#blog_form_edit").validate({
+$("#blog_form_edit").validate({
 
 rules: {
 i1: "required",
@@ -552,7 +552,7 @@ focus_keyword: "Please enter username",
 submitHandler: function (form) {
 //alert("validated");
 
-INR.ajax({
+$.ajax({
     url: 'blog_edit.php',
     type: 'post',
     data: new FormData(form),
@@ -578,7 +578,7 @@ INR.ajax({
 
 // add author form validate
 
-INR.validator.addMethod(
+$.validator.addMethod(
 "regex",
 function(value, element, regexp) {
 return this.optional(element) || regexp.test(value);
@@ -587,9 +587,9 @@ return this.optional(element) || regexp.test(value);
 );
 
 
-INR(function () {
-INR('#uiEmailAdress').focus();
-INR('#addAuthor').validate({
+$(function () {
+$('#uiEmailAdress').focus();
+$('#addAuthor').validate({
 rules: {
     username:{
         required: true,
@@ -639,7 +639,7 @@ messages: {
             text: "required",
 },
             submitHandler: function (form) {
-            INR.ajax({
+            $.ajax({
                 url: 'action.php',
                 type: 'post',
                 data: new FormData(form),
@@ -666,7 +666,7 @@ messages: {
                     toastr.options.closeDuration = 400;
                     }
                     
-                    INR("#addAuthor").trigger("reset"); 
+                    $("#addAuthor").trigger("reset"); 
 
                 }
 
@@ -679,11 +679,11 @@ messages: {
 
 
 
-// INR("#addAuthor").submit(function (event) {
+// $("#addAuthor").submit(function (event) {
 //     event.preventDefault();
 // });
 
-// INR("#addAuthor").validate({
+// $("#addAuthor").validate({
 
 //     rules: {
 //         fname: "required",
@@ -724,7 +724,7 @@ messages: {
 //     submitHandler: function (form) {
 //         alert("validated form")
 
-//         INR.ajax({
+//         $.ajax({
 //             url: 'edit_author.php',
 //             type: 'post',
 //             data: new FormData(form),
@@ -745,19 +745,19 @@ messages: {
 
 
 
-INR("#schema_click").click(function () {
+$("#schema_click").click(function () {
 
-INR("#myModal").modal('show');
+$("#myModal").modal('show');
 
 });
 
-INR("#add_schema").submit(function(event){
+$("#add_schema").submit(function(event){
 event.preventDefault();
 
 });
 
 //validation for category//
-INR("#add_category_two").validate({
+$("#add_category_two").validate({
 rules: {
 cat: "required",
 cat_slug: "required",
@@ -769,7 +769,7 @@ cat_slug: "Please enter username",
 submitHandler: function (form) {
 // alert("validated");
 
-INR.ajax({
+$.ajax({
 url: 'action.php',
 type: 'post',
 data: new FormData(form),
@@ -796,7 +796,7 @@ success: function (data) {
     toastr.options.closeDuration = 400;
     }
     
-    INR("#add_category_two").trigger("reset"); 
+    $("#add_category_two").trigger("reset"); 
 }
 
 });
@@ -808,7 +808,7 @@ success: function (data) {
 //sub category function
 
 //validation for category//
-INR("#add_category_two").validate({
+$("#add_category_two").validate({
 rules: {
 cat: "required",
 cat_slug: "required",
@@ -820,7 +820,7 @@ cat_slug: "Please enter username",
 submitHandler: function (form) {
 // alert("validated");
 
-INR.ajax({
+$.ajax({
 url: 'action.php',
 type: 'post',
 data: new FormData(form),
@@ -847,7 +847,7 @@ success: function (data) {
     toastr.options.closeDuration = 400;
     }
     
-    INR("#add_category_two").trigger("reset"); 
+    $("#add_category_two").trigger("reset"); 
 }
 
 });
@@ -860,9 +860,9 @@ success: function (data) {
 // farin quates page work
 
 
-INR("#quotes_form").submit(function(event){
+$("#quotes_form").submit(function(event){
 event.preventDefault();
-INR.ajax({
+$.ajax({
 url: 'edit_quotes.php',
 type: 'post',
 data: new FormData(this),
@@ -878,7 +878,7 @@ console.log(data);
 });
 })
 
-INR("#quotesForm").validate({
+$("#quotesForm").validate({
 rules:{
 title:"required",
 category:"required",
@@ -909,7 +909,7 @@ category:"Please Select Category",
 
 submitHandler:function(form){
 //alert("validated form");
-INR.ajax({
+$.ajax({
 url: 'edit_quotes.php',
 type: 'post',
 data: new FormData(form),
@@ -931,7 +931,7 @@ console.log(data);
 
 
 
-INR("#quotes_update_form").validate({
+$("#quotes_update_form").validate({
 rules:{
 title:"required",
 category:"required",
@@ -948,7 +948,7 @@ category:"Please Select Category",
 
 submitHandler:function(form){
 //alert("validated form");
-INR.ajax({
+$.ajax({
 url: 'edit_quotes.php',
 type: 'post',
 data: new FormData(form),
@@ -968,10 +968,10 @@ console.log(data);
 });
 
 // filter blog data here
-INR("#filter_data").submit(function (event) {
+$("#filter_data").submit(function (event) {
 event.preventDefault();
 });
-INR("#filter_data").validate({
+$("#filter_data").validate({
 rules:{
 author_name:{required:false},
 category_filter:{required:false},
@@ -982,7 +982,7 @@ messages:{
 
 submitHandler:function(form){
 //alert("validated form");
-INR.ajax({
+$.ajax({
 url: 'action.php',
 type: 'post',
 data: new FormData(form),
@@ -992,7 +992,7 @@ processData: false,
 success: function (data) {
 alert("author");
  console.log(data);
-INR("#datatable").html(data);
+$("#datatable").html(data);
 
 }
 
@@ -1007,10 +1007,10 @@ INR("#datatable").html(data);
 
 
 
-INR("#filter_Quotesdata").submit(function (event) {
+$("#filter_Quotesdata").submit(function (event) {
 event.preventDefault();
 });
-INR("#filter_Quotesdata").validate({
+$("#filter_Quotesdata").validate({
 rules:{
 category_filter:{required:false},
 date:{required:false},
@@ -1020,7 +1020,7 @@ messages:{
 
 submitHandler:function(form){
 //alert("validated form");
-INR.ajax({
+$.ajax({
 url: 'action.php',
 type: 'post',
 data: new FormData(form),
@@ -1029,7 +1029,7 @@ cache: false,
 processData: false,
 success: function (data) {
  console.log(data);
-INR("#datatable").html(data);
+$("#datatable").html(data);
 
 }
 
@@ -1040,9 +1040,9 @@ INR("#datatable").html(data);
 
 function image_update_Function(id) {
 alert("work")
-//INR("#others_category_section1").modal('show');
+//$("#others_category_section1").modal('show');
 if (id) {
-INR.ajax({
+$.ajax({
 type: "POST",
 url: "blog_edit.php",
 dataType: 'html',
@@ -1056,7 +1056,7 @@ success: function (data) {
      //alert(data);
      console.log(data);
 
-     INR("#upload_image_here").html(data);
+     $("#upload_image_here").html(data);
      loadImageUpdateCode();
      
      
@@ -1069,10 +1069,10 @@ success: function (data) {
 
 
 function loadImageUpdateCode() {
-INR("#add_image_upload").on("submit", function (event) {
+$("#add_image_upload").on("submit", function (event) {
 event.preventDefault();
 alert("work");
-INR.ajax({    
+$.ajax({    
 url: 'action.php',
 type: 'post',
 data: new FormData(this),
@@ -1090,9 +1090,9 @@ success: function (data) {
 
 function quotes_update_authors(id){
 alert(id);
-INR("#quotes_update_contet").modal('show');
+$("#quotes_update_contet").modal('show');
 if (id) {
-INR.ajax({
+$.ajax({
 type: "POST",
 url: "action.php",
 dataType: 'html',
@@ -1104,7 +1104,7 @@ success: function (data) {
     //location.reload();
      //alert(data);
      console.log(data);
-     INR("#author_content_form").html(data);
+     $("#author_content_form").html(data);
      loadQuoteUpdateCode();   
 }
 
@@ -1114,9 +1114,9 @@ success: function (data) {
 }
 
 function loadQuoteUpdateCode(){
-INR("#update_author_data").on("submit", function (event) {
+$("#update_author_data").on("submit", function (event) {
 event.preventDefault();
-INR.ajax({    
+$.ajax({    
 url: 'action.php',
 type: 'post',
 data: new FormData(this),
@@ -1131,7 +1131,7 @@ console.log(data);
 });
 });
 }
-// INR("#add_image_upload").on("submit", function (event) {
+// $("#add_image_upload").on("submit", function (event) {
 //     event.preventDefault();
 //     alert("work");
 // });
@@ -1173,14 +1173,14 @@ var html = ` <div class="input-box">
 <button class="remove-lnk" style="background:#7e37d8;color:white;border-radius:7px;padding:10px 10px;cursor:pointer;display:inline-block;height:40px;width:80px;top: 85px;">Delete</button>
 </div>`;
 
-INR('.wrapper').append(html);
+$('.wrapper').append(html);
 }
 
-// INR("#quotesForm").on('submit', function(e){
+// $("#quotesForm").on('submit', function(e){
 //     alert('Working');
 //     e.preventDefault();
 //     var dataForm = new FormData(this);
-//     INR.ajax({
+//     $.ajax({
 //         url: 'edit_quotes.php',
 //         type: 'post',
 //         data: dataForm,

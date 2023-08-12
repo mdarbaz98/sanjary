@@ -1,20 +1,20 @@
 function getSizeprice(x){
-    var price = INR(x).data('price');
-    var dprice = INR(x).data('dprice');
-    var size = INR(x).data('size');
-    INR(`.sizeProduct_price`).html(price);
+    var price = $(x).data('price');
+    var dprice = $(x).data('dprice');
+    var size = $(x).data('size');
+    $(`.sizeProduct_price`).html(price);
   }
   
   //product add into cart
   function addProductToCart(x){
-      var image = INR(x).data('image');
-      var name = INR(x).data('pro_name');
-      var category = INR(x).data('category');
-      var price = INR(x).data('price');
-      var size = INR(x).data('size');
-      var pro_id = INR(x).data('pro_id');
+      var image = $(x).data('image');
+      var name = $(x).data('pro_name');
+      var category = $(x).data('category');
+      var price = $(x).data('price');
+      var size = $(x).data('size');
+      var pro_id = $(x).data('pro_id');
       var btn = 'addToCartproduct';
-      INR.ajax ({
+      $.ajax ({
         url: 'action.php',
         type: 'post',
         dataType: 'html',
@@ -27,8 +27,8 @@ function getSizeprice(x){
                'pro_id':pro_id
                 },
                 beforeSend: function () {
-                  INR(".content").css("opacity", 0.5);
-                  INR(".btn-ring-addtocart").show();
+                  $(".content").css("opacity", 0.5);
+                  $(".btn-ring-addtocart").show();
                 },
         success: function(data) {
                 console.log(data)
@@ -36,12 +36,12 @@ function getSizeprice(x){
                   // var success_cart_btn =`
                   // <a class="add_to_cart" href="cart.php" id="setaddProductToCart" />Checkout</a>`;
   
-                  // INR(`#setaddProductToCart`).parent().attr("onclick", "").html(success_cart_btn);
+                  // $(`#setaddProductToCart`).parent().attr("onclick", "").html(success_cart_btn);
   
-                  // INR(`[data-quantitycode=INR{data}]`).attr('data-cart',"yes");
+                  // $(`[data-quantitycode=${data}]`).attr('data-cart',"yes");
                   
-                  // INR(".content").css("opacity", 1);
-                  // INR(".btn-ring-addtocart").hide();
+                  // $(".content").css("opacity", 1);
+                  // $(".btn-ring-addtocart").hide();
                   
                   //load_cart();
                   count_cart();
@@ -54,16 +54,16 @@ function getSizeprice(x){
   
   function getCart() {
       var btn = "load_maincart_data";
-      INR.ajax({
+      $.ajax({
         url: "action.php",
         type: "post",
         dataType: "json",
         data: { btn: btn },
         beforeSend: function () {
-          INR(".loader-bg").show();
+          $(".loader-bg").show();
         },
         success: function (data) {
-          var json = INR.parseJSON(JSON.stringify(data));
+          var json = $.parseJSON(JSON.stringify(data));
           var cart_product_count = json.cart_product_count;
           var htmldata = json.datahtml;
           var product_calculation = json.product_calculation;
@@ -76,18 +76,18 @@ function getSizeprice(x){
           
           if(shipping_total_price==0){ 
             var shipping_free=`<span class="success-icon"><i class="fa-solid fa-circle-check"></i></span>FREE`;
-            INR(`.total_shipping_amount`).html(shipping_free);
+            $(`.total_shipping_amount`).html(shipping_free);
             }else{
-            INR(`.total_shipping_amount`).html("INR"+shipping_total_price);
+            $(`.total_shipping_amount`).html("$"+shipping_total_price);
             }
   
-          INR(".cart_total_product").html(cart_product_count);
-          INR(".cartProductlisting").html(htmldata);
-          INR(".cart_subtotal").html("INR "+product_calculation);
-          INR(".product_shipping").html(shipping_total_price);
-          INR(".final_cartTotal").html("INR "+finalTotal);
+          $(".cart_total_product").html(cart_product_count);
+          $(".cartProductlisting").html(htmldata);
+          $(".cart_subtotal").html("$ "+product_calculation);
+          $(".product_shipping").html(shipping_total_price);
+          $(".final_cartTotal").html("$ "+finalTotal);
           
-          // INR(".loader-bg").hide();
+          // $(".loader-bg").hide();
         },
       });
     }
@@ -95,7 +95,7 @@ function getSizeprice(x){
     
     function deleteCartproduct(id) {
       var btn = "DeleteFromCartPage";
-      INR.ajax({
+      $.ajax({
         url: "action.php",
         type: "post",
         dataType: "html",
@@ -123,7 +123,7 @@ function getSizeprice(x){
     function emptyCartproduct() {
       var btn = "RemoveAllcartproduct";
       snackbar("Deleting Cart ...");
-      INR.ajax({
+      $.ajax({
         url: "new_action.php",
         type: "post",
         dataType: "html",
@@ -141,27 +141,27 @@ function getSizeprice(x){
     
     function cartProductupdate(id) {
       var btn = "updateCartproduct";
-      INR.ajax({
+      $.ajax({
         url: "new_action.php",
         type: "post",
         dataType: "json",
         data: { btn: btn, cartid: id },
         beforeSend: function () {
-          INR(".loader-bg").show();
+          $(".loader-bg").show();
         },
         success: function (data) {
-          var json = INR.parseJSON(JSON.stringify(data));
+          var json = $.parseJSON(JSON.stringify(data));
           var cart_product_strength = json.cart_product_strength;
           var cart_product_quantity = json.cart_product_quantity;
           var product_cart_name = json.product_cart_name;
           var pill_calculation_strength = json.pill_calculation_strength;
     
-          INR(".strength-section").html(cart_product_strength);
-          INR("#productTabContent").html(cart_product_quantity);
-          INR(".product_cart_name").html(product_cart_name);
-          INR(".pill-strength-calculation").html(pill_calculation_strength);
-          INR("#cartProduct_update").modal("show");
-          INR(".loader-bg").hide();
+          $(".strength-section").html(cart_product_strength);
+          $("#productTabContent").html(cart_product_quantity);
+          $(".product_cart_name").html(product_cart_name);
+          $(".pill-strength-calculation").html(pill_calculation_strength);
+          $("#cartProduct_update").modal("show");
+          $(".loader-bg").hide();
           // if(data=='done'){
               getCart();
               count_cart();
@@ -171,10 +171,10 @@ function getSizeprice(x){
     }
   
     function addToWishlist(x) {
-      var id = INR(x).attr("id");
+      var id = $(x).attr("id");
       var btn = "AddedToWishlist";
       snackbar("Adding to wishlist...");
-      INR.ajax({
+      $.ajax({
         url: "action.php",
         type: "post",
         data: { btn: btn, id: id },
@@ -199,32 +199,32 @@ function getSizeprice(x){
     }
   
     function load_for_active_class_call() {
-      INR(".size_accordion .active").click();
+      $(".size_accordion .active").click();
     }
     load_for_active_class_call();
 
     function count_cart() {
       var btn = "count_cart";
-      INR.ajax({
+      $.ajax({
         url: "action.php",
         type: "post",
         data: { btn: btn },
         success: function (data) {
-          INR(".total-item-cart").html(data);
+          $(".total-item-cart").html(data);
         },
       });
     }
     count_cart();
 
     // register for validation 
-INR(function() {
-  INR("form[name='userOrderplace']").validate({
+$(function() {
+  $("form[name='userOrderplace']").validate({
     // Specify validation rules
     rules: {
       name: {
         minlength: 3,
                     maxlength: 30,
-                    //pattern: "^[a-zA-Z_]*INR",
+                    //pattern: "^[a-zA-Z_]*$",
                     required: true
       },
       email: {
@@ -239,23 +239,23 @@ INR(function() {
       address: {
         minlength: 3,
                     maxlength: 30,
-                    //pattern: "^[a-zA-Z_]*INR",
+                    //pattern: "^[a-zA-Z_]*$",
                     required: true
       },pincode: {
         minlength: 3,
                     maxlength: 30,
-                    //pattern: "^[a-zA-Z_]*INR",
+                    //pattern: "^[a-zA-Z_]*$",
                     required: true
       },state: {
                     //minlength: 3,
                     //maxlength: 30,
-                    //pattern: "^[a-zA-Z_]*INR",
+                    //pattern: "^[a-zA-Z_]*$",
                     required: true
       },
       city: {
                     //minlength: 3,
                     //maxlength: 30,
-                    //pattern: "^[a-zA-Z_]*INR",
+                    //pattern: "^[a-zA-Z_]*$",
                     required: true
       },
     },
@@ -282,7 +282,7 @@ INR(function() {
     submitHandler: function(form) {
           var formData = new FormData(form);
           var url = window.location.href;
-          INR.ajax({
+          $.ajax({
             url: "action.php",
             type: "post",
             data: formData,

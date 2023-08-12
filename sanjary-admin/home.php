@@ -3,7 +3,7 @@ include('include/header.php');
 include('include/sidenav.php');
 include('include/config.php');
 ?>
-<?php if (!empty(INR_SESSION['admin_is_login'])){ ?>
+<?php if (!empty($_SESSION['admin_is_login'])){ ?>
 <div class="main-content">
     <div class="page-content">
         <div class="container-fluid">
@@ -44,12 +44,12 @@ include('include/config.php');
                         <div class="card-body pt-0">
                             <div class="row">
                                 <div class="col-sm-4">
-                                <?php if(isset(INR_SESSION['admin_is_login_id']) && !empty(INR_SESSION['admin_is_login_id'])) {
-                                        INRid=INR_SESSION['admin_is_login_id']; } ?>
+                                <?php if(isset($_SESSION['admin_is_login_id']) && !empty($_SESSION['admin_is_login_id'])) {
+                                        $id=$_SESSION['admin_is_login_id']; } ?>
                                 <?php
-                                    INRstmt_post_author = INRconn->prepare("SELECT count(*) FROM `product`");
-                                    INRstmt_post_author->execute();
-                                    INRtotal_rows_post = INRstmt_post_author->fetchColumn();
+                                    $stmt_post_author = $conn->prepare("SELECT count(*) FROM `product`");
+                                    $stmt_post_author->execute();
+                                    $total_rows_post = $stmt_post_author->fetchColumn();
 
                                   
 
@@ -72,12 +72,12 @@ include('include/config.php');
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
                                             <?php
-                                            INRstmt_total = INRconn->prepare("SELECT count(*) FROM `product` WHERE status='publish'");
-                                            INRstmt_total->execute();
-                                            INRtotal_rows = INRstmt_total->fetchColumn();
+                                            $stmt_total = $conn->prepare("SELECT count(*) FROM `product` WHERE status='publish'");
+                                            $stmt_total->execute();
+                                            $total_rows = $stmt_total->fetchColumn();
                                             ?>
                                             <p class="text-muted fw-medium"><strong>Total Product</strong></p>
-                                            <h4 class="mb-0"><?php echo INRtotal_rows ?></h4>
+                                            <h4 class="mb-0"><?php echo $total_rows ?></h4>
                                         </div>
 
                                         <div class="flex-shrink-0 align-self-center">
@@ -98,11 +98,11 @@ include('include/config.php');
                                         <div class="flex-grow-1">
                                             <p class="text-muted fw-medium"><strong>Total Category</strong></p>
                                             <?php
-                                            INRstmt_total = INRconn->prepare("SELECT count(*) FROM `categories`");
-                                            INRstmt_total->execute();
-                                            INRtotal_rows_cat = INRstmt_total->fetchColumn();
+                                            $stmt_total = $conn->prepare("SELECT count(*) FROM `categories`");
+                                            $stmt_total->execute();
+                                            $total_rows_cat = $stmt_total->fetchColumn();
                                             ?>
-                                            <h4 class="mb-0"><?php echo INRtotal_rows_cat ?></h4>
+                                            <h4 class="mb-0"><?php echo $total_rows_cat ?></h4>
                                         </div>
 
                                         <div class="flex-shrink-0 align-self-center ">
@@ -122,13 +122,13 @@ include('include/config.php');
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
                                         <?php
-                                            INRstmt_total_author = INRconn->prepare("SELECT count(*) FROM `product` WHERE status='publish'");
-                                            INRstmt_total_author->execute();
-                                            INRtotal_rows_author = INRstmt_total_author->fetchColumn();
+                                            $stmt_total_author = $conn->prepare("SELECT count(*) FROM `product` WHERE status='publish'");
+                                            $stmt_total_author->execute();
+                                            $total_rows_author = $stmt_total_author->fetchColumn();
                                             ?>
                                             <p class="text-muted fw-medium"><strong>Users</strong></p>
                                         
-                                            <h4 class="mb-0"><?php echo INRtotal_rows_author ?></h4>
+                                            <h4 class="mb-0"><?php echo $total_rows_author ?></h4>
                                         </div>
 
                                         <div class="flex-shrink-0 align-self-center">

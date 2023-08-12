@@ -107,23 +107,23 @@
             <div class="col img-checkbox">     
                 <ul style="overflow-y: scroll;height: 500px;">
                 <?php 
-                    INRimages=INRconn->prepare("SELECT * FROM images WHERE status=? ORDER BY id DESC");
-                    INRimages->execute([1]);
-                    INRi=0;
-                    INRtotal_images = INRimages->rowCount();
-                    if (INRtotal_images > 0) {
-                        while (INRrow = INRimages->fetch(PDO::FETCH_ASSOC)) {
-                          INRimag_alt = pathinfo(INRrow['name'], PATHINFO_FILENAME);
+                    $images=$conn->prepare("SELECT * FROM images WHERE status=? ORDER BY id DESC");
+                    $images->execute([1]);
+                    $i=0;
+                    $total_images = $images->rowCount();
+                    if ($total_images > 0) {
+                        while ($row = $images->fetch(PDO::FETCH_ASSOC)) {
+                          $imag_alt = pathinfo($row['name'], PATHINFO_FILENAME);
                   ?>                          
-                 <li><input type="checkbox" id="cb<?php echo INRi; ?>" onclick="setProduct_id(this)" data-image="<?php echo INRrow['id'] ?>" name="img_id" value="<?php echo INRrow['id'] ?>"/>
-                      <label for="cb<?php echo INRi; ?>">
-                      <div class="text-center"><?php echo INRimag_alt ?></div>
-                      <img src="<?php echo INRrow['path']; ?>" alt="<?php echo INRrow['alt']; ?>" class="img-rounded custome_images" onclick="imageChahge(<?php echo INRrow['id']; ?>,'<?php echo INRrow['path']; ?>')">
+                 <li><input type="checkbox" id="cb<?php echo $i; ?>" onclick="setProduct_id(this)" data-image="<?php echo $row['id'] ?>" name="img_id" value="<?php echo $row['id'] ?>"/>
+                      <label for="cb<?php echo $i; ?>">
+                      <div class="text-center"><?php echo $imag_alt ?></div>
+                      <img src="<?php echo $row['path']; ?>" alt="<?php echo $row['alt']; ?>" class="img-rounded custome_images" onclick="imageChahge(<?php echo $row['id']; ?>,'<?php echo $row['path']; ?>')">
                       </label>
                  </li>
                 
             
-                      <?php INRi++; } }else{ ?>
+                      <?php $i++; } }else{ ?>
                       <p class="alert alert-danger text-center mx-auto my-5">No Images Found</p>
                       <?php }?>
 											<ul>
@@ -233,31 +233,31 @@
 
 <script>
 
-    INR('.title').click(function () {
-    INR(this).addClass('active')
-    INR(this).siblings('.title').removeClass('active')
-    INR(this).siblings('.desc').stop().slideUp()
-    INR(this).next().stop().slideDown()
+    $('.title').click(function () {
+    $(this).addClass('active')
+    $(this).siblings('.title').removeClass('active')
+    $(this).siblings('.desc').stop().slideUp()
+    $(this).next().stop().slideDown()
 })
-if(INR('#draft_edit').val() > 0){
-   INR(".showDate").css({'display': 'block'});
+if($('#draft_edit').val() > 0){
+   $(".showDate").css({'display': 'block'});
    }
    
-INR("#draft").change(function(){
-   if(INR(this).val() > 0){
-   INR(".showDate").css({'display': 'block'});
+$("#draft").change(function(){
+   if($(this).val() > 0){
+   $(".showDate").css({'display': 'block'});
    }
 });
 
-        // 	INR.datetimepicker.setLocale('pt-BR');
-  INR('#datetimepicker').datetimepicker();
+        // 	$.datetimepicker.setLocale('pt-BR');
+  $('#datetimepicker').datetimepicker();
 
-  // INR(function () {
-  //   INR('#datetimepicker').datepicker({
+  // $(function () {
+  //   $('#datetimepicker').datepicker({
   //     viewMode: 'years'
   //   });
   // });
-  INR('#add_category').validate({
+  $('#add_category').validate({
     rules: {
       cat_name: 'required',
       cat_slug: 'required',
@@ -269,7 +269,7 @@ INR("#draft").change(function(){
     submitHandler: function (form) {
       // alert("validated");
 
-      INR.ajax({
+      $.ajax({
         url: 'action.php',
         type: 'post',
         data: new FormData(form),
@@ -279,7 +279,7 @@ INR("#draft").change(function(){
         success: function (data) {
           if (data == 'inserted') {
             alert('Category Added Successfully')
-            INR('#add_category').trigger('reset')
+            $('#add_category').trigger('reset')
           } else {
             alert('Some Technical Issue')
           }
@@ -287,7 +287,7 @@ INR("#draft").change(function(){
       })
     },
   });
-  INR('#update_category').validate({
+  $('#update_category').validate({
     rules: {
       cat_name: 'required',
       cat_slug: 'required',
@@ -299,7 +299,7 @@ INR("#draft").change(function(){
     submitHandler: function (form) {
       // alert("validated");
 
-      INR.ajax({
+      $.ajax({
         url: 'action.php',
         type: 'post',
         data: new FormData(form),
@@ -319,7 +319,7 @@ INR("#draft").change(function(){
   });
 
 
-  INR('#update_Productprice').validate({
+  $('#update_Productprice').validate({
     rules: {
       price: 'required',
       dprice: 'required',
@@ -333,7 +333,7 @@ INR("#draft").change(function(){
     submitHandler: function (form) {
       // alert("validated");
 
-      INR.ajax({
+      $.ajax({
         url: 'action.php',
         type: 'post',
         data: new FormData(form),
@@ -344,7 +344,7 @@ INR("#draft").change(function(){
           
           if (data == 'updated') {
             alert('Price Updated Successfully')
-            INR('#priceUpdatemodal').modal('hide');
+            $('#priceUpdatemodal').modal('hide');
             location.reload();
           } else {
             alert('Some Technical Issue')

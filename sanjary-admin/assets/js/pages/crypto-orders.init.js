@@ -1,1 +1,1 @@
-INR(".select2-search-disable").select2({minimumResultsForSearch:1/0}),INR(document).ready(function(){INR(".datatable").DataTable(),INR(".dataTables_length select").addClass("form-select form-select-sm")});
+$(".select2-search-disable").select2({minimumResultsForSearch:1/0}),$(document).ready(function(){$(".datatable").DataTable(),$(".dataTables_length select").addClass("form-select form-select-sm")});

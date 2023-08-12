@@ -1,5 +1,5 @@
 setTimeout(function () {
-    INR("#subscribeModal").modal("show")
+    $("#subscribeModal").modal("show")
 }, 2e3);
 var options = {
     chart: {

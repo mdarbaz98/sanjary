@@ -3,7 +3,7 @@ include('include/header.php');
 include('include/sidenav.php');
 include('include/config.php');
 ini_set('display_errors', 1);
-?><?php if (!empty (INR_SESSION['admin_is_login'])){ ?>   
+?><?php if (!empty ($_SESSION['admin_is_login'])){ ?>   
 	<div class="main-content">
 		<div class="page-content">
 			<div class="container-fluid">
@@ -29,29 +29,29 @@ ini_set('display_errors', 1);
 								<form id="update_category">
 								    
 								        <?php 
-                if (isset(INR_GET['id'])) {
-                INRid = INR_GET['id'];
-                INRsql = "SELECT * FROM `categories` WHERE id = 'INRid'";   
-                INRstmt= INRconn->prepare(INRsql);                               
-                INRstmt->execute();
-                INRresult = INRstmt->fetchAll(PDO::FETCH_ASSOC);
-                foreach(INRresult as INRrow_cat)
+                if (isset($_GET['id'])) {
+                $id = $_GET['id'];
+                $sql = "SELECT * FROM `categories` WHERE id = '$id'";   
+                $stmt= $conn->prepare($sql);                               
+                $stmt->execute();
+                $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                foreach($result as $row_cat)
                 {
-					if(!empty(INRrow_cat['img_id'])){
-						INRimage_id=INRrow_cat['img_id'];
-						//INRpost_image="https://druggist.b-cdn.net/".INRpost_data_image['path'];
+					if(!empty($row_cat['img_id'])){
+						$image_id=$row_cat['img_id'];
+						//$post_image="https://druggist.b-cdn.net/".$post_data_image['path'];
 					}else{
-						  INRimage_id=1;
+						  $image_id=1;
 					}
 					// for image get
-					INRselect_stmtPost_img=INRconn->prepare("SELECT * FROM images WHERE id='".INRimage_id."'");
-					INRselect_stmtPost_img->execute();
-					INRpost_data_image=INRselect_stmtPost_img->fetch(PDO::FETCH_ASSOC);
-					if(!empty(INRpost_data_image['path'])){
-						INRimage=INRpost_data_image['path'];
-						INRalt=INRpost_data_image['alt'];
+					$select_stmtPost_img=$conn->prepare("SELECT * FROM images WHERE id='".$image_id."'");
+					$select_stmtPost_img->execute();
+					$post_data_image=$select_stmtPost_img->fetch(PDO::FETCH_ASSOC);
+					if(!empty($post_data_image['path'])){
+						$image=$post_data_image['path'];
+						$alt=$post_data_image['alt'];
 						}else{
-						INRimage="https://i.ibb.co/4fz1F7f/Getty-Images-974371976.jpg";
+						$image="https://i.ibb.co/4fz1F7f/Getty-Images-974371976.jpg";
 						}
         ?>   
 								    
@@ -60,12 +60,12 @@ ini_set('display_errors', 1);
 									<div class="col-lg-6">
 									     <div class="form-group mt-1">
 										<label for="cat">Category</label>
-										<input type="text" class="form-control add_cat_inputs" id="cat" name="cat_name" value="<?php echo INRrow_cat['cat_name'] ?>" onkeyup="copytext_cat()"> 
+										<input type="text" class="form-control add_cat_inputs" id="cat" name="cat_name" value="<?php echo $row_cat['cat_name'] ?>" onkeyup="copytext_cat()"> 
                                         </div>
                                    
                 					 <div class="form-group mt-4">
                                  <label class="form-label">Description</label>
-                                     <textarea class="form-control" rows="6" id="description" name="cat_description"/><?php echo INRrow_cat['cat_desc'] ?></textarea>
+                                     <textarea class="form-control" rows="6" id="description" name="cat_description"/><?php echo $row_cat['cat_desc'] ?></textarea>
                                 </div>
                                         
                                     </div>
@@ -73,16 +73,16 @@ ini_set('display_errors', 1);
                                     <div class="mb-3 col-lg-6">
                                         <div class="form-group">
                                         <label for="cat_slug">Category Slug</label>
-										<input type="text" class="form-control add_cat_inputs" id="cat_slug" name="cat_slug" value="<?php echo INRrow_cat['cat_slug'] ?>">   </div>
+										<input type="text" class="form-control add_cat_inputs" id="cat_slug" name="cat_slug" value="<?php echo $row_cat['cat_slug'] ?>">   </div>
 									
 										<div class="form-group">
                                         <label for="cat_slug">Title</label>
-										<input type="text" class="form-control add_cat_inputs" id="cat_title" name="cat_title" value="<?php echo INRrow_cat['cat_title'] ?>">   </div>
+										<input type="text" class="form-control add_cat_inputs" id="cat_title" name="cat_title" value="<?php echo $row_cat['cat_title'] ?>">   </div>
 										
 										<div class="blog-img-box mt-5" data-toggle="modal" data-target="#exampleModal"> <img src="https://spruko.com/demo/sash/sash/assets/plugins/fancyuploder/fancy_upload.png" alt="feature click image">
 										<h5>Set Feature Image</h5></div>
 										<input type="hidden" class="image_id" name="img_id" /> </div>
-										<img src="<?php echo INRimage ?>" alt="" style="width:130px">
+										<img src="<?php echo $image ?>" alt="" style="width:130px">
 										<div class="float-right">
 											<div class="customefeature_image"> <img src="" alt="" class="image_path" style="width:130px"> </div>
 										</div>
@@ -95,8 +95,8 @@ ini_set('display_errors', 1);
 					
 									<div class="submit-btns">
 									
-										<input type="hidden" name="old_img_id" value="<?php echo INRimage_id ?>">
-										<input type="hidden" name="cat_id" value="<?php echo INRid ?>">
+										<input type="hidden" name="old_img_id" value="<?php echo $image_id ?>">
+										<input type="hidden" name="cat_id" value="<?php echo $id ?>">
 										<input type="hidden" name="btn" value="updateCategory">
 										<input type="submit" class="post-btn" name="category_add" value="Update">
                                      </div>

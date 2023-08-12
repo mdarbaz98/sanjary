@@ -1,34 +1,34 @@
-<?php INRactual_link = (isset(INR_SERVER['HTTPS']) && INR_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://INR_SERVER[HTTP_HOST]"; 
+<?php $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]"; 
 //include('include/database.php');
 
 
 
 setcookie("userID");
-INRid = uniqid();
-if(!isset(INR_COOKIE["userID"])) {
-  setcookie("userID",INRid,time()+31556926 ,'/');
-  INRinsertUser=INRconn->prepare("INSERT INTO customer(userid, cookieUser) VALUE('".INRid."', 'yes')");
-  INRinsertUser->execute();
+$id = uniqid();
+if(!isset($_COOKIE["userID"])) {
+  setcookie("userID",$id,time()+31556926 ,'/');
+  $insertUser=$conn->prepare("INSERT INTO customer(userid, cookieUser) VALUE('".$id."', 'yes')");
+  $insertUser->execute();
   echo '<script type="text/javascript">location.reload()</script>';
 } else {
-  setcookie("userID",INR_COOKIE["userID"],time()+31556926 ,'/');
-  INRcheckUser=INRconn->prepare("SELECT * FROM customer WHERE userid='".INR_COOKIE["userID"]."'");
-  INRcheckUser->execute();
-  INRisUser = INRcheckUser->rowCount();
-  while(INRrow=INRcheckUser->fetch(PDO::FETCH_ASSOC)){
-	  INRemail = INRrow['email'];
-	  INRfname=INRrow['fname'];
-	  INRuserid=INRrow['userid'];
+  setcookie("userID",$_COOKIE["userID"],time()+31556926 ,'/');
+  $checkUser=$conn->prepare("SELECT * FROM customer WHERE userid='".$_COOKIE["userID"]."'");
+  $checkUser->execute();
+  $isUser = $checkUser->rowCount();
+  while($row=$checkUser->fetch(PDO::FETCH_ASSOC)){
+	  $email = $row['email'];
+	  $fname=$row['fname'];
+	  $userid=$row['userid'];
   }
-  if(INRemail!=NULL){
-	  INR_SESSION['IS_LOGIN']=true;
-	  INR_SESSION['NAME']=INRfname;
-	  INR_SESSION['EMAIL']=INRemail;
-	  INR_SESSION['USER_ID']=INRuserid;   
+  if($email!=NULL){
+	  $_SESSION['IS_LOGIN']=true;
+	  $_SESSION['NAME']=$fname;
+	  $_SESSION['EMAIL']=$email;
+	  $_SESSION['USER_ID']=$userid;   
   }
-  if(INRisUser==0){
-	  INRinsertUser=INRconn->prepare("INSERT INTO customer(userid, cookieUser) VALUE('".INR_COOKIE['userID']."', 'yes')");
-	  INRinsertUser->execute();
+  if($isUser==0){
+	  $insertUser=$conn->prepare("INSERT INTO customer(userid, cookieUser) VALUE('".$_COOKIE['userID']."', 'yes')");
+	  $insertUser->execute();
   } 
 }
 ?>
@@ -53,13 +53,13 @@ if(!isset(INR_COOKIE["userID"])) {
 
 
         <?php
-      if(strpos(INRactual_link, 'localhost')) {
+      if(strpos($actual_link, 'localhost')) {
     ?>
       <base href="http://localhost/sanjary/">
     <?php
       }else {
     ?>
-      <base href="<?php echo INRactual_link; ?>">
+      <base href="<?php echo $actual_link; ?>">
     <?php
       }
       ?>
@@ -126,7 +126,7 @@ if(!isset(INR_COOKIE["userID"])) {
 														</div>
 														<div class="cart-info">
 															<h5><a href="#">dummy product name</a></h5>
-															<p class="mb-0">Price : INR 100.00</p>
+															<p class="mb-0">Price : $ 100.00</p>
 															<p class="mb-0">Qty : 02 </p>
 															<span class="cart-delete"><a href="#"><i class="zmdi zmdi-close"></i></a></span>
 														</div>
@@ -137,14 +137,14 @@ if(!isset(INR_COOKIE["userID"])) {
 														</div>
 														<div class="cart-info">
 															<h5><a href="#">dummy product name</a></h5>
-															<p class="mb-0">Price : INR 300.00</p>
+															<p class="mb-0">Price : $ 300.00</p>
 															<p class="mb-0">Qty : 01 </p>
 															<span class="cart-delete"><a href="#"><i class="zmdi zmdi-close"></i></a></span>
 														</div>
 													</div>
 												</div>
 												<div class="cart-totals">
-													<h5 class="mb-0">Total <span class="floatright">INR500.00</span></h5>
+													<h5 class="mb-0">Total <span class="floatright">$500.00</span></h5>
 												</div>
 												<div class="cart-bottom  clearfix">
 													<a href="cart.html" class="button-one floatleft text-uppercase" data-text="View cart">View cart</a>

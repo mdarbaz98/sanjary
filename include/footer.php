@@ -128,8 +128,8 @@
 										<div class="price-box-3">
 											<hr />
 											<div class="s-price-box">
-												<span class="new-price">INR160.00</span>
-												<span class="old-price">INR190.00</span>
+												<span class="new-price">$160.00</span>
+												<span class="old-price">$190.00</span>
 											</div>
 											<hr />
 										</div>

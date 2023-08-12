@@ -39,8 +39,8 @@ The plugin also adds four public methods:
 
     Example usage:
 
-	var myFlot = INR.plot( INR("#graph"), ..., { crosshair: { mode: "x" } } };
-	INR("#graph").bind( "plothover", function ( evt, position, item ) {
+	var myFlot = $.plot( $("#graph"), ..., { crosshair: { mode: "x" } } };
+	$("#graph").bind( "plothover", function ( evt, position, item ) {
 		if ( item ) {
 			// Lock the crosshair to the data point being hovered
 			myFlot.lockCrosshair({
@@ -58,7 +58,7 @@ The plugin also adds four public methods:
     Free the crosshair to move again after locking it.
 */
 
-(function (INR) {
+(function ($) {
     var options = {
         crosshair: {
             mode: null, // one of null, "x", "y" or "xy",
@@ -167,7 +167,7 @@ The plugin also adds four public methods:
         });
     }
     
-    INR.plot.plugins.push({
+    $.plot.plugins.push({
         init: init,
         options: options,
         name: 'crosshair',

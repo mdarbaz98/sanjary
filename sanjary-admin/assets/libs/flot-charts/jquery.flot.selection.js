@@ -78,7 +78,7 @@ The plugin allso adds the following methods to the plot object:
 
 */
 
-(function (INR) {
+(function ($) {
     function init(plot) {
         var selection = {
                 first: { x: -1, y: -1}, second: { x: -1, y: -1},
@@ -128,7 +128,7 @@ The plugin allso adds the following methods to the plot object:
             // able to whack the same handler again
             mouseUpHandler = function (e) { onMouseUp(e); };
             
-            INR(document).one("mouseup", mouseUpHandler);
+            $(document).one("mouseup", mouseUpHandler);
         }
 
         function onMouseUp(e) {
@@ -162,7 +162,7 @@ The plugin allso adds the following methods to the plot object:
             if (!selection.show) return null;
 
             var r = {}, c1 = selection.first, c2 = selection.second;
-            INR.each(plot.getAxes(), function (name, axis) {
+            $.each(plot.getAxes(), function (name, axis) {
                 if (axis.used) {
                     var p1 = axis.c2p(c1[axis.direction]), p2 = axis.c2p(c2[axis.direction]); 
                     r[name] = { from: Math.min(p1, p2), to: Math.max(p1, p2) };
@@ -315,7 +315,7 @@ The plugin allso adds the following methods to the plot object:
                 ctx.save();
                 ctx.translate(plotOffset.left, plotOffset.top);
 
-                var c = INR.color.parse(o.selection.color);
+                var c = $.color.parse(o.selection.color);
 
                 ctx.strokeStyle = c.scale('a', 0.8).toString();
                 ctx.lineWidth = 1;
@@ -339,12 +339,12 @@ The plugin allso adds the following methods to the plot object:
             eventHolder.unbind("mousedown", onMouseDown);
             
             if (mouseUpHandler)
-                INR(document).unbind("mouseup", mouseUpHandler);
+                $(document).unbind("mouseup", mouseUpHandler);
         });
 
     }
 
-    INR.plot.plugins.push({
+    $.plot.plugins.push({
         init: init,
         options: {
             selection: {

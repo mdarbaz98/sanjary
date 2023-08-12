@@ -487,7 +487,7 @@ include("include/header.php"); ?>
 											<div class="single-product">
 												<div class="product-img">
 													<span class="pro-label new-label">new</span>
-													<span class="pro-price-2">INR <?php echo $price ?> </span>
+													<span class="pro-price-2">$ <?php echo $price ?> </span>
 													<a href="single-product.html"><img src="sanjary-admin/<?php echo $image ?>" alt="<?php echo $image ?>" /></a>
 												</div>
 												<div class="product-info clearfix text-center">
@@ -552,7 +552,7 @@ include("include/header.php"); ?>
 											<div class="single-product">
 												<div class="product-img">
 													<span class="pro-label new-label">new</span>
-													<span class="pro-price-2">INR <?php echo $price ?></span>
+													<span class="pro-price-2">$ <?php echo $price ?></span>
                                                     <a href="single-product.html"><img src="sanjary-admin/<?php echo $image ?>" alt="<?php echo $image ?>" /></a>
 												</div>
 												<div class="product-info clearfix text-center">
@@ -616,7 +616,7 @@ include("include/header.php"); ?>
 											<div class="single-product">
 												<div class="product-img">
 													<span class="pro-label new-label">new</span>
-													<span class="pro-price-2">INR <?php echo $price ?></span>
+													<span class="pro-price-2">$ <?php echo $price ?></span>
                                                     <a href="single-product.html"><img src="sanjary-admin/<?php echo $image ?>" alt="<?php echo $image ?>" /></a>
 												</div>
 												<div class="product-info clearfix text-center">
@@ -680,7 +680,7 @@ include("include/header.php"); ?>
 											<div class="single-product">
 												<div class="product-img">
 													<span class="pro-label new-label">new</span>
-													<span class="pro-price-2">INR <?php echo $price ?></span>
+													<span class="pro-price-2">$ <?php echo $price ?></span>
                                                     <a href="single-product.html"><img src="sanjary-admin/<?php echo $image ?>" alt="<?php echo $image ?>" /></a>
 												</div>
 												<div class="product-info clearfix text-center">

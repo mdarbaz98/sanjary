@@ -11,12 +11,12 @@ Editableform is linked with one of input types, e.g. 'text', 'select' etc.
 @uses text
 @uses textarea
 **/
-(function (INR) {
+(function ($) {
     "use strict";
     
     var EditableForm = function (div, options) {
-        this.options = INR.extend({}, INR.fn.editableform.defaults, options);
-        this.INRdiv = INR(div); //div, containing form. Not form tag. Not editable-element.
+        this.options = $.extend({}, $.fn.editableform.defaults, options);
+        this.$div = $(div); //div, containing form. Not form tag. Not editable-element.
         if(!this.options.scope) {
             this.options.scope = this;
         }
@@ -33,17 +33,17 @@ Editableform is linked with one of input types, e.g. 'text', 'select' etc.
             //todo: may be add check: typeof str === 'string' ? 
             this.value = this.input.str2value(this.options.value); 
             
-            //prerender: get input.INRinput
+            //prerender: get input.$input
             this.input.prerender();
         },
         initTemplate: function() {
-            this.INRform = INR(INR.fn.editableform.template); 
+            this.$form = $($.fn.editableform.template); 
         },
         initButtons: function() {
-            var INRbtn = this.INRform.find('.editable-buttons');
-            INRbtn.append(INR.fn.editableform.buttons);
+            var $btn = this.$form.find('.editable-buttons');
+            $btn.append($.fn.editableform.buttons);
             if(this.options.showbuttons === 'bottom') {
-                INRbtn.addClass('editable-buttons-bottom');
+                $btn.addClass('editable-buttons-bottom');
             }
         },
         /**
@@ -53,15 +53,15 @@ Editableform is linked with one of input types, e.g. 'text', 'select' etc.
         **/        
         render: function() {
             //init loader
-            this.INRloading = INR(INR.fn.editableform.loading);        
-            this.INRdiv.empty().append(this.INRloading);
+            this.$loading = $($.fn.editableform.loading);        
+            this.$div.empty().append(this.$loading);
             
             //init form template and buttons
             this.initTemplate();
             if(this.options.showbuttons) {
                 this.initButtons();
             } else {
-                this.INRform.find('.editable-buttons').remove();
+                this.$form.find('.editable-buttons').remove();
             }
 
             //show loading state
@@ -76,42 +76,42 @@ Editableform is linked with one of input types, e.g. 'text', 'select' etc.
             @event rendering 
             @param {Object} event event object
             **/            
-            this.INRdiv.triggerHandler('rendering');
+            this.$div.triggerHandler('rendering');
             
             //init input
             this.initInput();
             
             //append input to form
-            this.INRform.find('div.editable-input').append(this.input.INRtpl);            
+            this.$form.find('div.editable-input').append(this.input.$tpl);            
             
             //append form to container
-            this.INRdiv.append(this.INRform);
+            this.$div.append(this.$form);
             
             //render input
-            INR.when(this.input.render())
-            .then(INR.proxy(function () {
+            $.when(this.input.render())
+            .then($.proxy(function () {
                 //setup input to submit automatically when no buttons shown
                 if(!this.options.showbuttons) {
                     this.input.autosubmit(); 
                 }
                  
                 //attach 'cancel' handler
-                this.INRform.find('.editable-cancel').click(INR.proxy(this.cancel, this));
+                this.$form.find('.editable-cancel').click($.proxy(this.cancel, this));
                 
                 if(this.input.error) {
                     this.error(this.input.error);
-                    this.INRform.find('.editable-submit').attr('disabled', true);
-                    this.input.INRinput.attr('disabled', true);
+                    this.$form.find('.editable-submit').attr('disabled', true);
+                    this.input.$input.attr('disabled', true);
                     //prevent form from submitting
-                    this.INRform.submit(function(e){ e.preventDefault(); });
+                    this.$form.submit(function(e){ e.preventDefault(); });
                 } else {
                     this.error(false);
-                    this.input.INRinput.removeAttr('disabled');
-                    this.INRform.find('.editable-submit').removeAttr('disabled');
+                    this.input.$input.removeAttr('disabled');
+                    this.$form.find('.editable-submit').removeAttr('disabled');
                     var value = (this.value === null || this.value === undefined || this.value === '') ? this.options.defaultValue : this.value;
                     this.input.value2input(value);
                     //attach submit handler
-                    this.INRform.submit(INR.proxy(this.submit, this));
+                    this.$form.submit($.proxy(this.submit, this));
                 }
 
                 /**        
@@ -119,7 +119,7 @@ Editableform is linked with one of input types, e.g. 'text', 'select' etc.
                 @event rendered
                 @param {Object} event event object
                 **/            
-                this.INRdiv.triggerHandler('rendered');                
+                this.$div.triggerHandler('rendered');                
 
                 this.showForm();
                 
@@ -135,34 +135,34 @@ Editableform is linked with one of input types, e.g. 'text', 'select' etc.
             @event cancel 
             @param {Object} event event object
             **/              
-            this.INRdiv.triggerHandler('cancel');
+            this.$div.triggerHandler('cancel');
         },
         showLoading: function() {
             var w, h;
-            if(this.INRform) {
+            if(this.$form) {
                 //set loading size equal to form
-                w = this.INRform.outerWidth();
-                h = this.INRform.outerHeight(); 
+                w = this.$form.outerWidth();
+                h = this.$form.outerHeight(); 
                 if(w) {
-                    this.INRloading.width(w);
+                    this.$loading.width(w);
                 }
                 if(h) {
-                    this.INRloading.height(h);
+                    this.$loading.height(h);
                 }
-                this.INRform.hide();
+                this.$form.hide();
             } else {
                 //stretch loading to fill container width
-                w = this.INRloading.parent().width();
+                w = this.$loading.parent().width();
                 if(w) {
-                    this.INRloading.width(w);
+                    this.$loading.width(w);
                 }
             }
-            this.INRloading.show(); 
+            this.$loading.show(); 
         },
 
         showForm: function(activate) {
-            this.INRloading.hide();
-            this.INRform.show();
+            this.$loading.hide();
+            this.$form.show();
             if(activate !== false) {
                 this.input.activate(); 
             }
@@ -171,28 +171,28 @@ Editableform is linked with one of input types, e.g. 'text', 'select' etc.
             @event show 
             @param {Object} event event object
             **/                    
-            this.INRdiv.triggerHandler('show');
+            this.$div.triggerHandler('show');
         },
 
         error: function(msg) {
-            var INRgroup = this.INRform.find('.control-group'),
-                INRblock = this.INRform.find('.editable-error-block'),
+            var $group = this.$form.find('.control-group'),
+                $block = this.$form.find('.editable-error-block'),
                 lines;
 
             if(msg === false) {
-                INRgroup.removeClass(INR.fn.editableform.errorGroupClass);
-                INRblock.removeClass(INR.fn.editableform.errorBlockClass).empty().hide(); 
+                $group.removeClass($.fn.editableform.errorGroupClass);
+                $block.removeClass($.fn.editableform.errorBlockClass).empty().hide(); 
             } else {
                 //convert newline to <br> for more pretty error display
                 if(msg) {
                     lines = (''+msg).split('\n');
                     for (var i = 0; i < lines.length; i++) {
-                        lines[i] = INR('<div>').text(lines[i]).html();
+                        lines[i] = $('<div>').text(lines[i]).html();
                     }
                     msg = lines.join('<br>');
                 }
-                INRgroup.addClass(INR.fn.editableform.errorGroupClass);
-                INRblock.addClass(INR.fn.editableform.errorBlockClass).html(msg).show();
+                $group.addClass($.fn.editableform.errorGroupClass);
+                $block.addClass($.fn.editableform.errorBlockClass).html(msg).show();
             }
         },
 
@@ -206,7 +206,7 @@ Editableform is linked with one of input types, e.g. 'text', 'select' etc.
             //validation: if validate returns string or truthy value - means error
             //if returns object like {newValue: '...'} => submitted value is reassigned to it
             var error = this.validate(newValue);
-            if (INR.type(error) === 'object' && error.newValue !== undefined) {
+            if ($.type(error) === 'object' && error.newValue !== undefined) {
                 newValue = error.newValue;
                 this.input.value2input(newValue);
                 if(typeof error.msg === 'string') {
@@ -229,7 +229,7 @@ Editableform is linked with one of input types, e.g. 'text', 'select' etc.
                 @event nochange 
                 @param {Object} event event object
                 **/                    
-                this.INRdiv.triggerHandler('nochange');            
+                this.$div.triggerHandler('nochange');            
                 return;
             } 
 
@@ -239,8 +239,8 @@ Editableform is linked with one of input types, e.g. 'text', 'select' etc.
             this.isSaving = true;
             
             //sending data to server
-            INR.when(this.save(submitValue))
-            .done(INR.proxy(function(response) {
+            $.when(this.save(submitValue))
+            .done($.proxy(function(response) {
                 this.isSaving = false;
 
                 //run success callback
@@ -279,13 +279,13 @@ Editableform is linked with one of input types, e.g. 'text', 'select' etc.
                 @param {Object} params.response ajax response
 
                 @example
-                INR('#form-div').on('save'), function(e, params){
+                $('#form-div').on('save'), function(e, params){
                     if(params.newValue === 'username') {...}
                 });
                 **/
-                this.INRdiv.triggerHandler('save', {newValue: newValue, submitValue: submitValue, response: response});
+                this.$div.triggerHandler('save', {newValue: newValue, submitValue: submitValue, response: response});
             }, this))
-            .fail(INR.proxy(function(xhr) {
+            .fail($.proxy(function(xhr) {
                 this.isSaving = false;
 
                 var msg;
@@ -302,7 +302,7 @@ Editableform is linked with one of input types, e.g. 'text', 'select' etc.
 
         save: function(submitValue) {
             //try parse composite pk defined as json string in data-pk 
-            this.options.pk = INR.fn.editableutils.tryParseJson(this.options.pk, true); 
+            this.options.pk = $.fn.editableutils.tryParseJson(this.options.pk, true); 
             
             var pk = (typeof this.options.pk === 'function') ? this.options.pk.call(this.options.scope) : this.options.pk,
             /*
@@ -328,15 +328,15 @@ Editableform is linked with one of input types, e.g. 'text', 'select' etc.
                     params = this.options.params.call(this.options.scope, params);  
                 } else {
                     //try parse json in single quotes (from data-params attribute)
-                    this.options.params = INR.fn.editableutils.tryParseJson(this.options.params, true);   
-                    INR.extend(params, this.options.params);
+                    this.options.params = $.fn.editableutils.tryParseJson(this.options.params, true);   
+                    $.extend(params, this.options.params);
                 }
 
                 if(typeof this.options.url === 'function') { //user's function
                     return this.options.url.call(this.options.scope, params);
                 } else {  
                     //send ajax to server and return deferred object
-                    return INR.ajax(INR.extend({
+                    return $.ajax($.extend({
                         url     : this.options.url,
                         data    : params,
                         type    : 'POST'
@@ -374,7 +374,7 @@ Editableform is linked with one of input types, e.g. 'text', 'select' etc.
             }
             
             //if form is visible, update input
-            if(this.INRform && this.INRform.is(':visible')) {
+            if(this.$form && this.$form.is(':visible')) {
                 this.input.value2input(this.value);
             }            
         }               
@@ -383,10 +383,10 @@ Editableform is linked with one of input types, e.g. 'text', 'select' etc.
     /*
     Initialize editableform. Applied to jQuery object.
 
-    @method INR().editableform(options)
+    @method $().editableform(options)
     @params {Object} options
     @example
-    var INRform = INR('&lt;div&gt;').editableform({
+    var $form = $('&lt;div&gt;').editableform({
         type: 'text',
         name: 'username',
         url: '/post',
@@ -394,16 +394,16 @@ Editableform is linked with one of input types, e.g. 'text', 'select' etc.
     });
 
     //to display form you should call 'render' method
-    INRform.editableform('render');     
+    $form.editableform('render');     
     */
-    INR.fn.editableform = function (option) {
+    $.fn.editableform = function (option) {
         var args = arguments;
         return this.each(function () {
-            var INRthis = INR(this), 
-            data = INRthis.data('editableform'), 
+            var $this = $(this), 
+            data = $this.data('editableform'), 
             options = typeof option === 'object' && option; 
             if (!data) {
-                INRthis.data('editableform', (data = new EditableForm(this, options)));
+                $this.data('editableform', (data = new EditableForm(this, options)));
             }
 
             if (typeof option === 'string') { //call method 
@@ -413,10 +413,10 @@ Editableform is linked with one of input types, e.g. 'text', 'select' etc.
     };
 
     //keep link to constructor to allow inheritance
-    INR.fn.editableform.Constructor = EditableForm;    
+    $.fn.editableform.Constructor = EditableForm;    
 
     //defaults
-    INR.fn.editableform.defaults = {
+    $.fn.editableform.defaults = {
         /* see also defaults for input */
 
         /**
@@ -436,7 +436,7 @@ Editableform is linked with one of input types, e.g. 'text', 'select' etc.
         @default null
         @example
         url: function(params) {
-            var d = new INR.Deferred;
+            var d = new $.Deferred;
             if(params.value === 'abc') {
                 return d.reject('error message'); //returning error via deferred object
             } else {
@@ -521,7 +521,7 @@ Editableform is linked with one of input types, e.g. 'text', 'select' etc.
         @default null
         @example
         validate: function(value) {
-            if(INR.trim(value) == '') {
+            if($.trim(value) == '') {
                 return 'This field is required';
             }
         }
@@ -614,7 +614,7 @@ Editableform is linked with one of input types, e.g. 'text', 'select' etc.
     Note: following params could redefined in engine: bootstrap or jqueryui:
     Classes 'control-group' and 'editable-error-block' must always present!
     */      
-    INR.fn.editableform.template = '<form class="form-inline editableform">'+
+    $.fn.editableform.template = '<form class="form-inline editableform">'+
     '<div class="control-group">' + 
     '<div><div class="editable-input"></div><div class="editable-buttons"></div></div>'+
     '<div class="editable-error-block"></div>' + 
@@ -622,30 +622,30 @@ Editableform is linked with one of input types, e.g. 'text', 'select' etc.
     '</form>';
 
     //loading div
-    INR.fn.editableform.loading = '<div class="editableform-loading"></div>';
+    $.fn.editableform.loading = '<div class="editableform-loading"></div>';
 
     //buttons
-    INR.fn.editableform.buttons = '<button type="submit" class="editable-submit">ok</button>'+
+    $.fn.editableform.buttons = '<button type="submit" class="editable-submit">ok</button>'+
     '<button type="button" class="editable-cancel">cancel</button>';      
 
     //error class attached to control-group
-    INR.fn.editableform.errorGroupClass = null;  
+    $.fn.editableform.errorGroupClass = null;  
 
     //error class attached to editable-error-block
-    INR.fn.editableform.errorBlockClass = 'editable-error';
+    $.fn.editableform.errorBlockClass = 'editable-error';
     
     //engine
-    INR.fn.editableform.engine = 'jquery';
+    $.fn.editableform.engine = 'jquery';
 }(window.jQuery));
 
 /**
 * EditableForm utilites
 */
-(function (INR) {
+(function ($) {
     "use strict";
     
     //utils
-    INR.fn.editableutils = {
+    $.fn.editableutils = {
         /**
         * classic JS inheritance function
         */  
@@ -680,7 +680,7 @@ Editableform is linked with one of input types, e.g. 'text', 'select' etc.
         * for details see http://stackoverflow.com/questions/7410348/how-to-set-json-format-to-html5-data-attributes-in-the-jquery
         */
         tryParseJson: function(s, safe) {
-            if (typeof s === 'string' && s.length && s.match(/^[\{\[].*[\}\]]INR/)) {
+            if (typeof s === 'string' && s.length && s.match(/^[\{\[].*[\}\]]$/)) {
                 if (safe) {
                     try {
                         /*jslint evil: true*/
@@ -704,7 +704,7 @@ Editableform is linked with one of input types, e.g. 'text', 'select' etc.
         sliceObj: function(obj, keys, caseSensitive /* default: false */) {
             var key, keyLower, newObj = {};
 
-            if (!INR.isArray(keys) || !keys.length) {
+            if (!$.isArray(keys) || !keys.length) {
                 return newObj;
             }
 
@@ -718,7 +718,7 @@ Editableform is linked with one of input types, e.g. 'text', 'select' etc.
                     continue;
                 }
 
-                //when getting data-* attributes via INR.data() it's converted to lowercase.
+                //when getting data-* attributes via $.data() it's converted to lowercase.
                 //details: http://stackoverflow.com/questions/7602565/using-data-attributes-with-jquery
                 //workaround is code below.
                 keyLower = key.toLowerCase();
@@ -731,11 +731,11 @@ Editableform is linked with one of input types, e.g. 'text', 'select' etc.
         },
 
         /*
-        exclude complex objects from INR.data() before pass to config
+        exclude complex objects from $.data() before pass to config
         */
-        getConfigData: function(INRelement) {
+        getConfigData: function($element) {
             var data = {};
-            INR.each(INRelement.data(), function(k, v) {
+            $.each($element.data(), function(k, v) {
                 if(typeof v !== 'object' || (v && typeof v === 'object' && (v.constructor === Object || v.constructor === Array))) {
                     data[k] = v;
                 }
@@ -768,7 +768,7 @@ Editableform is linked with one of input types, e.g. 'text', 'select' etc.
         method to escape html.
        **/
        escape: function(str) {
-           return INR('<div>').text(str).html();
+           return $('<div>').text(str).html();
        },
        
        /*
@@ -784,17 +784,17 @@ Editableform is linked with one of input types, e.g. 'text', 'select' etc.
                valueProp = function (e) { return e[idKey]; };
            }
                       
-           var isValArray = INR.isArray(value),
+           var isValArray = $.isArray(value),
            result = [], 
            that = this;
 
-           INR.each(sourceData, function(i, o) {
+           $.each(sourceData, function(i, o) {
                if(o.children) {
                    result = result.concat(that.itemsByValue(value, o.children, valueProp));
                } else {
                    /*jslint eqeq: true*/
                    if(isValArray) {
-                       if(INR.grep(value, function(v){  return v == (o && typeof o === 'object' ? valueProp(o) : o); }).length) {
+                       if($.grep(value, function(v){  return v == (o && typeof o === 'object' ? valueProp(o) : o); }).length) {
                            result.push(o); 
                        }
                    } else {
@@ -822,22 +822,22 @@ Editableform is linked with one of input types, e.g. 'text', 'select' etc.
            if(type === 'date') {
                //inline
                if(options.mode === 'inline') {
-                   if(INR.fn.editabletypes.datefield) {
+                   if($.fn.editabletypes.datefield) {
                        type = 'datefield';
-                   } else if(INR.fn.editabletypes.dateuifield) {
+                   } else if($.fn.editabletypes.dateuifield) {
                        type = 'dateuifield';
                    }
                //popup
                } else {
-                   if(INR.fn.editabletypes.date) {
+                   if($.fn.editabletypes.date) {
                        type = 'date';
-                   } else if(INR.fn.editabletypes.dateui) {
+                   } else if($.fn.editabletypes.dateui) {
                        type = 'dateui';
                    }
                }
                
                //if type still `date` and not exist in types, replace with `combodate` that is base input
-               if(type === 'date' && !INR.fn.editabletypes.date) {
+               if(type === 'date' && !$.fn.editabletypes.date) {
                    type = 'combodate';
                } 
            }
@@ -848,18 +848,18 @@ Editableform is linked with one of input types, e.g. 'text', 'select' etc.
            }           
 
            //change wysihtml5 to textarea for jquery UI and plain versions
-           if(type === 'wysihtml5' && !INR.fn.editabletypes[type]) {
+           if(type === 'wysihtml5' && !$.fn.editabletypes[type]) {
                type = 'textarea';
            }
 
            //create input of specified type. Input will be used for converting value, not in form
-           if(typeof INR.fn.editabletypes[type] === 'function') {
-               TypeConstructor = INR.fn.editabletypes[type];
+           if(typeof $.fn.editabletypes[type] === 'function') {
+               TypeConstructor = $.fn.editabletypes[type];
                typeOptions = this.sliceObj(options, this.objectKeys(TypeConstructor.defaults));
                input = new TypeConstructor(typeOptions);
                return input;
            } else {
-               INR.error('Unknown type: '+ type);
+               $.error('Unknown type: '+ type);
                return false; 
            }  
        },
@@ -890,14 +890,14 @@ Editableform is linked with one of input types, e.g. 'text', 'select' etc.
 
 /**
 Attaches stand-alone container with editable-form to HTML element. Element is used only for positioning, value is not stored anywhere.<br>
-This method applied internally in <code>INR().editable()</code>. You should subscribe on it's events (save / cancel) to get profit of it.<br>
+This method applied internally in <code>$().editable()</code>. You should subscribe on it's events (save / cancel) to get profit of it.<br>
 Final realization can be different: bootstrap-popover, jqueryui-tooltip, poshytip, inline-div. It depends on which js file you include.<br>
 Applied as jQuery method.
 
 @class editableContainer
 @uses editableform
 **/
-(function (INR) {
+(function ($) {
     "use strict";
 
     var Popup = function (element, options) {
@@ -917,13 +917,13 @@ Applied as jQuery method.
         defaults: {}, //container itself defaults
         
         init: function(element, options) {
-            this.INRelement = INR(element);
+            this.$element = $(element);
             //since 1.4.1 container do not use data-* directly as they already merged into options.
-            this.options = INR.extend({}, INR.fn.editableContainer.defaults, options);         
+            this.options = $.extend({}, $.fn.editableContainer.defaults, options);         
             this.splitOptions();
             
             //set scope of form callbacks to element
-            this.formOptions.scope = this.INRelement[0]; 
+            this.formOptions.scope = this.$element[0]; 
             
             this.initContainer();
             
@@ -931,24 +931,24 @@ Applied as jQuery method.
             this.delayedHide = false;
 
             //bind 'destroyed' listener to destroy container when element is removed from dom
-            this.INRelement.on('destroyed', INR.proxy(function(){
+            this.$element.on('destroyed', $.proxy(function(){
                 this.destroy();
             }, this)); 
             
             //attach document handler to close containers on click / escape
-            if(!INR(document).data('editable-handlers-attached')) {
+            if(!$(document).data('editable-handlers-attached')) {
                 //close all on escape
-                INR(document).on('keyup.editable', function (e) {
+                $(document).on('keyup.editable', function (e) {
                     if (e.which === 27) {
-                        INR('.editable-open').editableContainer('hide');
+                        $('.editable-open').editableContainer('hide');
                         //todo: return focus on element 
                     }
                 });
 
                 //close containers when click outside 
                 //(mousedown could be better than click, it closes everything also on drag drop)
-                INR(document).on('click.editable', function(e) {
-                    var INRtarget = INR(e.target), i,
+                $(document).on('click.editable', function(e) {
+                    var $target = $(e.target), i,
                         exclude_classes = ['.editable-container', 
                                            '.ui-datepicker-header', 
                                            '.datepicker', //in inline mode datepicker is rendered into body
@@ -958,20 +958,20 @@ Applied as jQuery method.
                                            ];
                     
                     //check if element is detached. It occurs when clicking in bootstrap datepicker
-                    if (!INR.contains(document.documentElement, e.target)) {
+                    if (!$.contains(document.documentElement, e.target)) {
                       return;
                     }
 
                     //for some reason FF 20 generates extra event (click) in select2 widget with e.target = document
                     //we need to filter it via construction below. See https://github.com/vitalets/x-editable/issues/199
                     //Possibly related to http://stackoverflow.com/questions/10119793/why-does-firefox-react-differently-from-webkit-and-ie-to-click-event-on-selec
-                    if(INRtarget.is(document)) {
+                    if($target.is(document)) {
                        return; 
                     }
                     
                     //if click inside one of exclude classes --> no nothing
                     for(i=0; i<exclude_classes.length; i++) {
-                         if(INRtarget.is(exclude_classes[i]) || INRtarget.parents(exclude_classes[i]).length) {
+                         if($target.is(exclude_classes[i]) || $target.parents(exclude_classes[i]).length) {
                              return;
                          }
                     }
@@ -980,7 +980,7 @@ Applied as jQuery method.
                     Popup.prototype.closeOthers(e.target);
                 });
                 
-                INR(document).data('editable-handlers-attached', true);
+                $(document).data('editable-handlers-attached', true);
             }                        
         },
 
@@ -989,7 +989,7 @@ Applied as jQuery method.
             this.containerOptions = {};
             this.formOptions = {};
             
-            if(!INR.fn[this.containerName]) {
+            if(!$.fn[this.containerName]) {
                 throw new Error(this.containerName + ' not found. Have you included corresponding js file?');   
             }
             
@@ -1008,7 +1008,7 @@ Applied as jQuery method.
         @method tip()
         */         
         tip: function() {
-            return this.container() ? this.container().INRtip : null;
+            return this.container() ? this.container().$tip : null;
         },
 
         /* returns container object */
@@ -1016,18 +1016,18 @@ Applied as jQuery method.
             var container;
             //first, try get it by `containerDataName`
             if(this.containerDataName) {
-                if(container = this.INRelement.data(this.containerDataName)) {
+                if(container = this.$element.data(this.containerDataName)) {
                     return container;
                 }
             }
             //second, try `containerName`
-            container = this.INRelement.data(this.containerName);
+            container = this.$element.data(this.containerName);
             return container;
         },
 
-        /* call native method of underlying container, e.g. this.INRelement.popover('method') */ 
+        /* call native method of underlying container, e.g. this.$element.popover('method') */ 
         call: function() {
-            this.INRelement[this.containerName].apply(this.INRelement, arguments); 
+            this.$element[this.containerName].apply(this.$element, arguments); 
         },        
         
         initContainer: function(){
@@ -1035,13 +1035,13 @@ Applied as jQuery method.
         },
 
         renderForm: function() {
-            this.INRform
+            this.$form
             .editableform(this.formOptions)
             .on({
-                save: INR.proxy(this.save, this), //click on submit button (value changed)
-                nochange: INR.proxy(function(){ this.hide('nochange'); }, this), //click on submit button (value NOT changed)                
-                cancel: INR.proxy(function(){ this.hide('cancel'); }, this), //click on calcel button
-                show: INR.proxy(function() {
+                save: $.proxy(this.save, this), //click on submit button (value changed)
+                nochange: $.proxy(function(){ this.hide('nochange'); }, this), //click on submit button (value NOT changed)                
+                cancel: $.proxy(function(){ this.hide('cancel'); }, this), //click on calcel button
+                show: $.proxy(function() {
                     if(this.delayedHide) {
                         this.hide(this.delayedHide.reason);
                         this.delayedHide = false;
@@ -1049,9 +1049,9 @@ Applied as jQuery method.
                         this.setPosition();
                     }
                 }, this), //re-position container every time form is shown (occurs each time after loading state)
-                rendering: INR.proxy(this.setPosition, this), //this allows to place container correctly when loading shown
-                resize: INR.proxy(this.setPosition, this), //this allows to re-position container when form size is changed 
-                rendered: INR.proxy(function(){
+                rendering: $.proxy(this.setPosition, this), //this allows to place container correctly when loading shown
+                resize: $.proxy(this.setPosition, this), //this allows to re-position container when form size is changed 
+                rendered: $.proxy(function(){
                     /**        
                     Fired when container is shown and form is rendered (for select will wait for loading dropdown options).  
                     **Note:** Bootstrap popover has own `shown` event that now cannot be separated from x-editable's one.
@@ -1060,14 +1060,14 @@ Applied as jQuery method.
                     @event shown 
                     @param {Object} event event object
                     @example
-                    INR('#username').on('shown', function(e, editable) {
-                        editable.input.INRinput.val('overwriting value of input..');
+                    $('#username').on('shown', function(e, editable) {
+                        editable.input.$input.val('overwriting value of input..');
                     });                     
                     **/                      
                     /*
                      TODO: added second param mainly to distinguish from bootstrap's shown event. It's a hotfix that will be solved in future versions via namespaced events.  
                     */
-                    this.INRelement.triggerHandler('shown', INR(this.options.scope).data('editable')); 
+                    this.$element.triggerHandler('shown', $(this.options.scope).data('editable')); 
                 }, this) 
             })
             .editableform('render');
@@ -1080,10 +1080,10 @@ Applied as jQuery method.
         **/
         /* Note: poshytip owerwrites this method totally! */          
         show: function (closeAll) {
-            this.INRelement.addClass('editable-open');
+            this.$element.addClass('editable-open');
             if(closeAll !== false) {
                 //close all open containers (except this)
-                this.closeOthers(this.INRelement[0]);  
+                this.closeOthers(this.$element[0]);  
             }
             
             //show container itself
@@ -1100,19 +1100,19 @@ Applied as jQuery method.
             */             
             
             //if form already exist - delete previous data 
-            if(this.INRform) {
+            if(this.$form) {
                 //todo: destroy prev data!
-                //this.INRform.destroy();
+                //this.$form.destroy();
             }
 
-            this.INRform = INR('<div>');
+            this.$form = $('<div>');
             
             //insert form into container body
             if(this.tip().is(this.innerCss)) {
                 //for inline container
-                this.tip().append(this.INRform); 
+                this.tip().append(this.$form); 
             } else {
-                this.tip().find(this.innerCss).append(this.INRform);
+                this.tip().find(this.innerCss).append(this.$form);
             } 
             
             //render form
@@ -1125,19 +1125,19 @@ Applied as jQuery method.
         @param {string} reason Reason caused hiding. Can be <code>save|cancel|onblur|nochange|undefined (=manual)</code>
         **/         
         hide: function(reason) {  
-            if(!this.tip() || !this.tip().is(':visible') || !this.INRelement.hasClass('editable-open')) {
+            if(!this.tip() || !this.tip().is(':visible') || !this.$element.hasClass('editable-open')) {
                 return;
             }
             
             //if form is saving value, schedule hide
-            if(this.INRform.data('editableform').isSaving) {
+            if(this.$form.data('editableform').isSaving) {
                 this.delayedHide = {reason: reason};
                 return;    
             } else {
                 this.delayedHide = false;
             }
 
-            this.INRelement.removeClass('editable-open');   
+            this.$element.removeClass('editable-open');   
             this.innerHide();
 
             /**
@@ -1149,14 +1149,14 @@ Applied as jQuery method.
             @param {object} event event object
             @param {string} reason Reason caused hiding. Can be <code>save|cancel|onblur|nochange|manual</code>
             @example
-            INR('#username').on('hidden', function(e, reason) {
+            $('#username').on('hidden', function(e, reason) {
                 if(reason === 'save' || reason === 'cancel') {
                     //auto-open next editable
-                    INR(this).closest('tr').next().find('.editable').editable('show');
+                    $(this).closest('tr').next().find('.editable').editable('show');
                 } 
             });
             **/
-            this.INRelement.triggerHandler('hidden', reason || 'manual');   
+            this.$element.triggerHandler('hidden', reason || 'manual');   
         },
 
         /* internal show method. To be overwritten in child classes */
@@ -1192,7 +1192,7 @@ Applied as jQuery method.
 
         save: function(e, params) {
             /**        
-            Fired when new value was submitted. You can use <code>INR(this).data('editableContainer')</code> inside handler to access to editableContainer instance
+            Fired when new value was submitted. You can use <code>$(this).data('editableContainer')</code> inside handler to access to editableContainer instance
             
             @event save 
             @param {Object} event event object
@@ -1200,9 +1200,9 @@ Applied as jQuery method.
             @param {mixed} params.newValue submitted value
             @param {Object} params.response ajax response
             @example
-            INR('#username').on('save', function(e, params) {
+            $('#username').on('save', function(e, params) {
                 //assuming server response: '{success: true}'
-                var pk = INR(this).data('editableContainer').options.pk;
+                var pk = $(this).data('editableContainer').options.pk;
                 if(params.response && params.response.success) {
                     alert('value: ' + params.newValue + ' with pk: ' + pk + ' saved!');
                 } else {
@@ -1210,7 +1210,7 @@ Applied as jQuery method.
                 } 
             });
             **/             
-            this.INRelement.triggerHandler('save', params);
+            this.$element.triggerHandler('save', params);
             
             //hide must be after trigger, as saving value may require methods of plugin, applied to input
             this.hide('save');
@@ -1230,8 +1230,8 @@ Applied as jQuery method.
                 this.setContainerOption(key, value); 
             } else {
                 this.formOptions[key] = value;
-                if(this.INRform) {
-                    this.INRform.editableform('option', key, value);  
+                if(this.$form) {
+                    this.$form.editableform('option', key, value);  
                 }
             }
         },
@@ -1247,8 +1247,8 @@ Applied as jQuery method.
         destroy: function() {
             this.hide();
             this.innerDestroy();
-            this.INRelement.off('destroyed');
-            this.INRelement.removeData('editableContainer');
+            this.$element.off('destroyed');
+            this.$element.removeData('editableContainer');
         },
         
         /* to be overwritten in child classes */
@@ -1261,24 +1261,24 @@ Applied as jQuery method.
         Other containers can be cancelled or submitted (depends on onblur option)
         */
         closeOthers: function(element) {
-            INR('.editable-open').each(function(i, el){
+            $('.editable-open').each(function(i, el){
                 //do nothing with passed element and it's children
-                if(el === element || INR(el).find(element).length) {
+                if(el === element || $(el).find(element).length) {
                     return;
                 }
 
                 //otherwise cancel or submit all open containers 
-                var INRel = INR(el),
-                ec = INRel.data('editableContainer');
+                var $el = $(el),
+                ec = $el.data('editableContainer');
 
                 if(!ec) {
                     return;  
                 }
                 
                 if(ec.options.onblur === 'cancel') {
-                    INRel.data('editableContainer').hide('onblur');
+                    $el.data('editableContainer').hide('onblur');
                 } else if(ec.options.onblur === 'submit') {
-                    INRel.data('editableContainer').tip().find('form').submit();
+                    $el.data('editableContainer').tip().find('form').submit();
                 }
             });
 
@@ -1289,8 +1289,8 @@ Applied as jQuery method.
         @method activate()
         **/         
         activate: function() {
-            if(this.tip && this.tip().is(':visible') && this.INRform) {
-               this.INRform.data('editableform').input.activate(); 
+            if(this.tip && this.tip().is(':visible') && this.$form) {
+               this.$form.data('editableform').input.activate(); 
             }
         } 
 
@@ -1299,27 +1299,27 @@ Applied as jQuery method.
     /**
     jQuery method to initialize editableContainer.
     
-    @method INR().editableContainer(options)
+    @method $().editableContainer(options)
     @params {Object} options
     @example
-    INR('#edit').editableContainer({
+    $('#edit').editableContainer({
         type: 'text',
         url: '/post',
         pk: 1,
         value: 'hello'
     });
     **/  
-    INR.fn.editableContainer = function (option) {
+    $.fn.editableContainer = function (option) {
         var args = arguments;
         return this.each(function () {
-            var INRthis = INR(this),
+            var $this = $(this),
             dataKey = 'editableContainer', 
-            data = INRthis.data(dataKey),
+            data = $this.data(dataKey),
             options = typeof option === 'object' && option,
             Constructor = (options.mode === 'inline') ? Inline : Popup;             
 
             if (!data) {
-                INRthis.data(dataKey, (data = new Constructor(this, options)));
+                $this.data(dataKey, (data = new Constructor(this, options)));
             }
 
             if (typeof option === 'string') { //call method 
@@ -1329,11 +1329,11 @@ Applied as jQuery method.
     };     
 
     //store constructors
-    INR.fn.editableContainer.Popup = Popup;
-    INR.fn.editableContainer.Inline = Inline;
+    $.fn.editableContainer.Popup = Popup;
+    $.fn.editableContainer.Inline = Inline;
 
     //defaults
-    INR.fn.editableContainer.defaults = {
+    $.fn.editableContainer.defaults = {
         /**
         Initial value of form input
 
@@ -1408,19 +1408,19 @@ Applied as jQuery method.
 * Editable Inline 
 * ---------------------
 */
-(function (INR) {
+(function ($) {
     "use strict";
     
     //copy prototype from EditableContainer
     //extend methods
-    INR.extend(INR.fn.editableContainer.Inline.prototype, INR.fn.editableContainer.Popup.prototype, {
+    $.extend($.fn.editableContainer.Inline.prototype, $.fn.editableContainer.Popup.prototype, {
         containerName: 'editableform',
         innerCss: '.editable-inline',
         containerClass: 'editable-container editable-inline', //css class applied to container element
                  
         initContainer: function(){
             //container is <span> element
-            this.INRtip = INR('<span></span>');
+            this.$tip = $('<span></span>');
             
             //convert anim to miliseconds (int)
             if(!this.options.anim) {
@@ -1435,17 +1435,17 @@ Applied as jQuery method.
         },
         
         tip: function() {
-           return this.INRtip; 
+           return this.$tip; 
         },
         
         innerShow: function () {
-            this.INRelement.hide();
-            this.tip().insertAfter(this.INRelement).show();
+            this.$element.hide();
+            this.tip().insertAfter(this.$element).show();
         }, 
         
         innerHide: function () {
-            this.INRtip.hide(this.options.anim, INR.proxy(function() {
-                this.INRelement.show();
+            this.$tip.hide(this.options.anim, $.proxy(function() {
+                this.$element.show();
                 this.innerDestroy();
             }, this)); 
         },
@@ -1464,13 +1464,13 @@ Makes editable any HTML element on the page. Applied as jQuery method.
 @class editable
 @uses editableContainer
 **/
-(function (INR) {
+(function ($) {
     "use strict";
 
     var Editable = function (element, options) {
-        this.INRelement = INR(element);
+        this.$element = $(element);
         //data-* has more priority over js options: because dynamically created elements may change data-* 
-        this.options = INR.extend({}, INR.fn.editable.defaults, options, INR.fn.editableutils.getConfigData(this.INRelement));  
+        this.options = $.extend({}, $.fn.editable.defaults, options, $.fn.editableutils.getConfigData(this.$element));  
         if(this.options.selector) {
             this.initLive();
         } else {
@@ -1478,7 +1478,7 @@ Makes editable any HTML element on the page. Applied as jQuery method.
         }
         
         //check for transition support
-        if(this.options.highlight && !INR.fn.editableutils.supportsTransitions()) {
+        if(this.options.highlight && !$.fn.editableutils.supportsTransitions()) {
             this.options.highlight = false;
         }
     };
@@ -1490,19 +1490,19 @@ Makes editable any HTML element on the page. Applied as jQuery method.
                 doAutotext, finalize;
 
             //name
-            this.options.name = this.options.name || this.INRelement.attr('id');
+            this.options.name = this.options.name || this.$element.attr('id');
              
             //create input of specified type. Input needed already here to convert value for initial display (e.g. show text by id for select)
             //also we set scope option to have access to element inside input specific callbacks (e. g. source as function)
-            this.options.scope = this.INRelement[0]; 
-            this.input = INR.fn.editableutils.createInput(this.options);
+            this.options.scope = this.$element[0]; 
+            this.input = $.fn.editableutils.createInput(this.options);
             if(!this.input) {
                 return; 
             }            
 
             //set value from settings or by element's text
             if (this.options.value === undefined || this.options.value === null) {
-                this.value = this.input.html2value(INR.trim(this.INRelement.html()));
+                this.value = this.input.html2value($.trim(this.$element.html()));
                 isValueByText = true;
             } else {
                 /*
@@ -1510,7 +1510,7 @@ Makes editable any HTML element on the page. Applied as jQuery method.
                   for complext objects value can be set as json string in data-value attribute, 
                   e.g. data-value="{city: 'Moscow', street: 'Lenina'}"
                 */
-                this.options.value = INR.fn.editableutils.tryParseJson(this.options.value, true); 
+                this.options.value = $.fn.editableutils.tryParseJson(this.options.value, true); 
                 if(typeof this.options.value === 'string') {
                     this.value = this.input.str2value(this.options.value);
                 } else {
@@ -1519,17 +1519,17 @@ Makes editable any HTML element on the page. Applied as jQuery method.
             }
             
             //add 'editable' class to every editable element
-            this.INRelement.addClass('editable');
+            this.$element.addClass('editable');
             
             //specifically for "textarea" add class .editable-pre-wrapped to keep linebreaks
             if(this.input.type === 'textarea') {
-                this.INRelement.addClass('editable-pre-wrapped');
+                this.$element.addClass('editable-pre-wrapped');
             }
             
             //attach handler activating editable. In disabled mode it just prevent default action (useful for links)
             if(this.options.toggle !== 'manual') {
-                this.INRelement.addClass('editable-click');
-                this.INRelement.on(this.options.toggle + '.editable', INR.proxy(function(e){
+                this.$element.addClass('editable-click');
+                this.$element.on(this.options.toggle + '.editable', $.proxy(function(e){
                     //prevent following link if editable enabled
                     if(!this.options.disabled) {
                         e.preventDefault();
@@ -1548,7 +1548,7 @@ Makes editable any HTML element on the page. Applied as jQuery method.
                     }
                 }, this));
             } else {
-                this.INRelement.attr('tabindex', -1); //do not stop focus on element when toggled manually
+                this.$element.attr('tabindex', -1); //do not stop focus on element when toggled manually
             }
             
             //if display is function it's far more convinient to have autotext = always to render correctly on init
@@ -1564,21 +1564,21 @@ Makes editable any HTML element on the page. Applied as jQuery method.
               break;
               case 'auto':
                 //if element text is empty and value is defined and value not generated by text --> run autotext
-                doAutotext = !INR.trim(this.INRelement.text()).length && this.value !== null && this.value !== undefined && !isValueByText;
+                doAutotext = !$.trim(this.$element.text()).length && this.value !== null && this.value !== undefined && !isValueByText;
               break;
               default:
                doAutotext = false;
             }
 
             //depending on autotext run render() or just finilize init
-            INR.when(doAutotext ? this.render() : true).then(INR.proxy(function() {
+            $.when(doAutotext ? this.render() : true).then($.proxy(function() {
                 if(this.options.disabled) {
                     this.disable();
                 } else {
                     this.enable(); 
                 }
                /**        
-               Fired when element was initialized by `INR().editable()` method. 
+               Fired when element was initialized by `$().editable()` method. 
                Please note that you should setup `init` handler **before** applying `editable`. 
                               
                @event init 
@@ -1586,12 +1586,12 @@ Makes editable any HTML element on the page. Applied as jQuery method.
                @param {Object} editable editable instance (as here it cannot accessed via data('editable'))
                @since 1.2.0
                @example
-               INR('#username').on('init', function(e, editable) {
+               $('#username').on('init', function(e, editable) {
                    alert('initialized ' + editable.options.name);
                });
-               INR('#username').editable();
+               $('#username').editable();
                **/                  
-                this.INRelement.triggerHandler('init', this);
+                this.$element.triggerHandler('init', this);
             }, this));
         },
 
@@ -1605,15 +1605,15 @@ Makes editable any HTML element on the page. Applied as jQuery method.
            this.options.selector = false; 
            this.options.autotext = 'never';
            //listen toggle events
-           this.INRelement.on(this.options.toggle + '.editable', selector, INR.proxy(function(e){
-               var INRtarget = INR(e.target);
-               if(!INRtarget.data('editable')) {
+           this.$element.on(this.options.toggle + '.editable', selector, $.proxy(function(e){
+               var $target = $(e.target);
+               if(!$target.data('editable')) {
                    //if delegated element initially empty, we need to clear it's text (that was manually set to `empty` by user)
                    //see https://github.com/vitalets/x-editable/issues/137 
-                   if(INRtarget.hasClass(this.options.emptyclass)) {
-                      INRtarget.empty();
+                   if($target.hasClass(this.options.emptyclass)) {
+                      $target.empty();
                    }
-                   INRtarget.editable(this.options).trigger(e);
+                   $target.editable(this.options).trigger(e);
                }
            }, this)); 
         },
@@ -1633,13 +1633,13 @@ Makes editable any HTML element on the page. Applied as jQuery method.
             
             //if input has `value2htmlFinal` method, we pass callback in third param to be called when source is loaded
             if(this.input.value2htmlFinal) {
-                return this.input.value2html(this.value, this.INRelement[0], this.options.display, response); 
+                return this.input.value2html(this.value, this.$element[0], this.options.display, response); 
             //if display method defined --> use it    
             } else if(typeof this.options.display === 'function') {
-                return this.options.display.call(this.INRelement[0], this.value, response);
+                return this.options.display.call(this.$element[0], this.value, response);
             //else use input's original value2html() method    
             } else {
-                return this.input.value2html(this.value, this.INRelement[0]); 
+                return this.input.value2html(this.value, this.$element[0]); 
             }
         },
         
@@ -1649,11 +1649,11 @@ Makes editable any HTML element on the page. Applied as jQuery method.
         **/          
         enable: function() {
             this.options.disabled = false;
-            this.INRelement.removeClass('editable-disabled');
+            this.$element.removeClass('editable-disabled');
             this.handleEmpty(this.isEmpty);
             if(this.options.toggle !== 'manual') {
-                if(this.INRelement.attr('tabindex') === '-1') {    
-                    this.INRelement.removeAttr('tabindex');                                
+                if(this.$element.attr('tabindex') === '-1') {    
+                    this.$element.removeAttr('tabindex');                                
                 }
             }
         },
@@ -1665,10 +1665,10 @@ Makes editable any HTML element on the page. Applied as jQuery method.
         disable: function() {
             this.options.disabled = true; 
             this.hide();           
-            this.INRelement.addClass('editable-disabled');
+            this.$element.addClass('editable-disabled');
             this.handleEmpty(this.isEmpty);
             //do not stop focus on this element
-            this.INRelement.attr('tabindex', -1);                
+            this.$element.attr('tabindex', -1);                
         },
         
         /**
@@ -1690,13 +1690,13 @@ Makes editable any HTML element on the page. Applied as jQuery method.
         @param {string|object} key option name or object with several options
         @param {mixed} value option new value
         @example
-        INR('.editable').editable('option', 'pk', 2);
+        $('.editable').editable('option', 'pk', 2);
         **/          
         option: function(key, value) {
             //set option(s) by object
             if(key && typeof key === 'object') {
-               INR.each(key, INR.proxy(function(k, v){
-                  this.option(INR.trim(k), v); 
+               $.each(key, $.proxy(function(k, v){
+                  this.option($.trim(k), v); 
                }, this)); 
                return;
             }
@@ -1747,28 +1747,28 @@ Makes editable any HTML element on the page. Applied as jQuery method.
                 //for some inputs we need more smart check
                 //e.g. wysihtml5 may have <br>, <p></p>, <img>
                 if(typeof(this.input.isEmpty) === 'function') {
-                    this.isEmpty = this.input.isEmpty(this.INRelement);                    
+                    this.isEmpty = this.input.isEmpty(this.$element);                    
                 } else {
-                    this.isEmpty = INR.trim(this.INRelement.html()) === '';
+                    this.isEmpty = $.trim(this.$element.html()) === '';
                 }
             }           
             
             //emptytext shown only for enabled
             if(!this.options.disabled) {
                 if (this.isEmpty) {
-                    this.INRelement.html(this.options.emptytext);
+                    this.$element.html(this.options.emptytext);
                     if(this.options.emptyclass) {
-                        this.INRelement.addClass(this.options.emptyclass);
+                        this.$element.addClass(this.options.emptyclass);
                     }
                 } else if(this.options.emptyclass) {
-                    this.INRelement.removeClass(this.options.emptyclass);
+                    this.$element.removeClass(this.options.emptyclass);
                 }
             } else {
                 //below required if element disable property was changed
                 if(this.isEmpty) {
-                    this.INRelement.empty();
+                    this.$element.empty();
                     if(this.options.emptyclass) {
-                        this.INRelement.removeClass(this.options.emptyclass);
+                        this.$element.removeClass(this.options.emptyclass);
                     }
                 }
             }
@@ -1786,14 +1786,14 @@ Makes editable any HTML element on the page. Applied as jQuery method.
             
             //init editableContainer: popover, tooltip, inline, etc..
             if(!this.container) {
-                var containerOptions = INR.extend({}, this.options, {
+                var containerOptions = $.extend({}, this.options, {
                     value: this.value,
                     input: this.input //pass input to form (as it is already created)
                 });
-                this.INRelement.editableContainer(containerOptions);
+                this.$element.editableContainer(containerOptions);
                 //listen `save` event 
-                this.INRelement.on("save.internal", INR.proxy(this.save, this));
-                this.container = this.INRelement.data('editableContainer'); 
+                this.$element.on("save.internal", $.proxy(this.save, this));
+                this.container = this.$element.data('editableContainer'); 
             } else if(this.container.tip().is(':visible')) {
                 return;
             }      
@@ -1845,26 +1845,26 @@ Makes editable any HTML element on the page. Applied as jQuery method.
                 sent = sent || (this.options.savenochange && this.input.value2str(this.value) !== this.input.value2str(params.newValue)); 
                 
                 if(sent) {
-                    this.INRelement.removeClass(this.options.unsavedclass); 
+                    this.$element.removeClass(this.options.unsavedclass); 
                 } else {
-                    this.INRelement.addClass(this.options.unsavedclass);                    
+                    this.$element.addClass(this.options.unsavedclass);                    
                 }
             }
             
             //highlight when saving
             if(this.options.highlight) {
-                var INRe = this.INRelement,
-                    bgColor = INRe.css('background-color');
+                var $e = this.$element,
+                    bgColor = $e.css('background-color');
                     
-                INRe.css('background-color', this.options.highlight);
+                $e.css('background-color', this.options.highlight);
                 setTimeout(function(){
                     if(bgColor === 'transparent') {
                         bgColor = ''; 
                     }
-                    INRe.css('background-color', bgColor);
-                    INRe.addClass('editable-bg-transition');
+                    $e.css('background-color', bgColor);
+                    $e.addClass('editable-bg-transition');
                     setTimeout(function(){
-                       INRe.removeClass('editable-bg-transition');  
+                       $e.removeClass('editable-bg-transition');  
                     }, 1700);
                 }, 10);
             }
@@ -1873,7 +1873,7 @@ Makes editable any HTML element on the page. Applied as jQuery method.
             this.setValue(params.newValue, false, params.response);
             
             /**        
-            Fired when new value was submitted. You can use <code>INR(this).data('editable')</code> to access to editable instance
+            Fired when new value was submitted. You can use <code>$(this).data('editable')</code> to access to editable instance
             
             @event save 
             @param {Object} event event object
@@ -1881,7 +1881,7 @@ Makes editable any HTML element on the page. Applied as jQuery method.
             @param {mixed} params.newValue submitted value
             @param {Object} params.response ajax response
             @example
-            INR('#username').on('save', function(e, params) {
+            $('#username').on('save', function(e, params) {
                 alert('Saved value: ' + params.newValue);
             });
             **/
@@ -1909,8 +1909,8 @@ Makes editable any HTML element on the page. Applied as jQuery method.
             if(this.container) {
                 this.container.option('value', this.value);
             }
-            INR.when(this.render(response))
-            .then(INR.proxy(function() {
+            $.when(this.render(response))
+            .then($.proxy(function() {
                 this.handleEmpty();
             }, this));
         },
@@ -1939,14 +1939,14 @@ Makes editable any HTML element on the page. Applied as jQuery method.
             this.input.destroy();
 
             if(this.options.toggle !== 'manual') {
-                this.INRelement.removeClass('editable-click');
-                this.INRelement.off(this.options.toggle + '.editable');
+                this.$element.removeClass('editable-click');
+                this.$element.off(this.options.toggle + '.editable');
             } 
             
-            this.INRelement.off("save.internal");
+            this.$element.off("save.internal");
             
-            this.INRelement.removeClass('editable editable-open editable-disabled');
-            this.INRelement.removeData('editable');
+            this.$element.removeClass('editable editable-open editable-disabled');
+            this.$element.removeData('editable');
         }        
     };
 
@@ -1956,16 +1956,16 @@ Makes editable any HTML element on the page. Applied as jQuery method.
     /**
     jQuery method to initialize editable element.
     
-    @method INR().editable(options)
+    @method $().editable(options)
     @params {Object} options
     @example
-    INR('#username').editable({
+    $('#username').editable({
         type: 'text',
         url: '/post',
         pk: 1
     });
     **/
-    INR.fn.editable = function (option) {
+    $.fn.editable = function (option) {
         //special API methods returning non-jquery object
         var result = {}, args = arguments, datakey = 'editable';
         switch (option) {
@@ -1975,7 +1975,7 @@ Makes editable any HTML element on the page. Applied as jQuery method.
             @method validate()
             @returns {Object} validation errors map
             @example
-            INR('#username, #fullname').editable('validate');
+            $('#username, #fullname').editable('validate');
             // possible result:
             {
               username: "username is required",
@@ -1984,7 +1984,7 @@ Makes editable any HTML element on the page. Applied as jQuery method.
             **/
             case 'validate':
                 this.each(function () {
-                    var INRthis = INR(this), data = INRthis.data(datakey), error;
+                    var $this = $(this), data = $this.data(datakey), error;
                     if (data && (error = data.validate())) {
                         result[data.options.name] = error;
                     }
@@ -2001,14 +2001,14 @@ Makes editable any HTML element on the page. Applied as jQuery method.
             @param {bool} isSingle whether to return just value of single element
             @returns {Object} object of element names and values
             @example
-            INR('#username, #fullname').editable('getValue');
+            $('#username, #fullname').editable('getValue');
             //result:
             {
             username: "superuser",
             fullname: "John"
             }
             //isSingle = true
-            INR('#username').editable('getValue', true);
+            $('#username').editable('getValue', true);
             //result "superuser" 
             **/
             case 'getValue':
@@ -2016,7 +2016,7 @@ Makes editable any HTML element on the page. Applied as jQuery method.
                     result = this.eq(0).data(datakey).value;
                 } else {
                     this.each(function () {
-                        var INRthis = INR(this), data = INRthis.data(datakey);
+                        var $this = $(this), data = $this.data(datakey);
                         if (data && data.value !== undefined && data.value !== null) {
                             result[data.options.name] = data.input.value2submit(data.value);
                         }
@@ -2029,7 +2029,7 @@ Makes editable any HTML element on the page. Applied as jQuery method.
             Internally it runs client-side validation for all fields and submits only in case of success.  
             See <a href="#newrecord">creating new records</a> for details.  
             Since 1.5.1 `submit` can be applied to single element to send data programmatically. In that case
-            `url`, `success` and `error` is taken from initial options and you can just call `INR('#username').editable('submit')`. 
+            `url`, `success` and `error` is taken from initial options and you can just call `$('#username').editable('submit')`. 
             
             @method submit(options)
             @param {object} options 
@@ -2042,16 +2042,16 @@ Makes editable any HTML element on the page. Applied as jQuery method.
             **/
             case 'submit':  //collects value, validate and submit to server for creating new record
                 var config = arguments[1] || {},
-                INRelems = this,
+                $elems = this,
                 errors = this.editable('validate');
 
                 // validation ok
-                if(INR.isEmptyObject(errors)) {
+                if($.isEmptyObject(errors)) {
                     var ajaxOptions = {};
                                                       
                     // for single element use url, success etc from options
-                    if(INRelems.length === 1) {
-                        var editable = INRelems.data('editable');
+                    if($elems.length === 1) {
+                        var editable = $elems.data('editable');
                         //standard params
                         var params = {
                             name: editable.options.name || '',
@@ -2066,8 +2066,8 @@ Makes editable any HTML element on the page. Applied as jQuery method.
                             params = editable.options.params.call(editable.options.scope, params);  
                         } else {
                             //try parse json in single quotes (from data-params attribute)
-                            editable.options.params = INR.fn.editableutils.tryParseJson(editable.options.params, true);   
-                            INR.extend(params, editable.options.params);
+                            editable.options.params = $.fn.editableutils.tryParseJson(editable.options.params, true);   
+                            $.extend(params, editable.options.params);
                         }
 
                         ajaxOptions = {
@@ -2093,29 +2093,29 @@ Makes editable any HTML element on the page. Applied as jQuery method.
 
                     // ajax success callabck (response 200 OK)
                     ajaxOptions.success = typeof config.success === 'function' ? function(response) {
-                            config.success.call(INRelems, response, config);
-                        } : INR.noop;
+                            config.success.call($elems, response, config);
+                        } : $.noop;
                                   
                     // ajax error callabck
                     ajaxOptions.error = typeof config.error === 'function' ? function() {
-                             config.error.apply(INRelems, arguments);
-                        } : INR.noop;
+                             config.error.apply($elems, arguments);
+                        } : $.noop;
                        
                     // extend ajaxOptions    
                     if(config.ajaxOptions) { 
-                        INR.extend(ajaxOptions, config.ajaxOptions);
+                        $.extend(ajaxOptions, config.ajaxOptions);
                     }
                     
                     // extra data 
                     if(config.data) {
-                        INR.extend(ajaxOptions.data, config.data);
+                        $.extend(ajaxOptions.data, config.data);
                     }                     
                     
                     // perform ajax request
-                    INR.ajax(ajaxOptions);
+                    $.ajax(ajaxOptions);
                 } else { //client-side validation error
                     if(typeof config.error === 'function') {
-                        config.error.call(INRelems, errors);
+                        config.error.call($elems, errors);
                     }
                 }
             return this;
@@ -2123,8 +2123,8 @@ Makes editable any HTML element on the page. Applied as jQuery method.
 
         //return jquery object
         return this.each(function () {
-            var INRthis = INR(this), 
-                data = INRthis.data(datakey), 
+            var $this = $(this), 
+                data = $this.data(datakey), 
                 options = typeof option === 'object' && option;
 
             //for delegated targets do not store `editable` object for element
@@ -2136,7 +2136,7 @@ Makes editable any HTML element on the page. Applied as jQuery method.
             }    
             
             if (!data) {
-                INRthis.data(datakey, (data = new Editable(this, options)));
+                $this.data(datakey, (data = new Editable(this, options)));
             }
 
             if (typeof option === 'string') { //call method 
@@ -2146,7 +2146,7 @@ Makes editable any HTML element on the page. Applied as jQuery method.
     };    
             
 
-    INR.fn.editable.defaults = {
+    $.fn.editable.defaults = {
         /**
         Type of input. Can be <code>text|textarea|select|date|checklist</code> and more
 
@@ -2170,9 +2170,9 @@ Makes editable any HTML element on the page. Applied as jQuery method.
         you need to apply <code>e.stopPropagation()</code> because containers are being closed on any click on document.
         
         @example
-        INR('#edit-button').click(function(e) {
+        $('#edit-button').click(function(e) {
             e.stopPropagation();
-            INR('#username').editable('toggle');
+            $('#username').editable('toggle');
         });
 
         @property toggle 
@@ -2206,10 +2206,10 @@ Makes editable any HTML element on the page. Applied as jQuery method.
         @example
         <a id="price" data-type="text" data-value="100"></a>
         <script>
-        INR('#price').editable({
+        $('#price').editable({
             ...
             display: function(value) {
-              INR(this).text(value + 'INR');
+              $(this).text(value + '$');
             } 
         }) 
         </script>
@@ -2235,7 +2235,7 @@ Makes editable any HTML element on the page. Applied as jQuery method.
         * `sourceData` array of items for current input (e.g. dropdown items) 
         * `response` server response (if display called after ajax submit), since 1.4.0
                   
-        To get currently selected items use `INR.fn.editableutils.itemsByValue(value, sourceData)`.
+        To get currently selected items use `$.fn.editableutils.itemsByValue(value, sourceData)`.
         
         @property display 
         @type function|boolean
@@ -2245,13 +2245,13 @@ Makes editable any HTML element on the page. Applied as jQuery method.
         display: function(value, sourceData) {
            //display checklist as comma-separated values
            var html = [],
-               checked = INR.fn.editableutils.itemsByValue(value, sourceData);
+               checked = $.fn.editableutils.itemsByValue(value, sourceData);
                
            if(checked.length) {
-               INR.each(checked, function(i, v) { html.push(INR.fn.editableutils.escape(v.text)); });
-               INR(this).html(html.join(', '));
+               $.each(checked, function(i, v) { html.push($.fn.editableutils.escape(v.text)); });
+               $(this).html(html.join(', '));
            } else {
-               INR(this).empty(); 
+               $(this).empty(); 
            }
         }
         **/          
@@ -2296,7 +2296,7 @@ Makes editable any HTML element on the page. Applied as jQuery method.
         </div>     
         
         <script>
-        INR('#user').editable({
+        $('#user').editable({
             selector: 'a',
             url: '/post',
             pk: 1
@@ -2324,11 +2324,11 @@ To create your own input you can inherit from this class.
 
 @class abstractinput
 **/
-(function (INR) {
+(function ($) {
     "use strict";
 
     //types
-    INR.fn.editabletypes = {};
+    $.fn.editabletypes = {};
 
     var AbstractInput = function () { };
 
@@ -2340,16 +2340,16 @@ To create your own input you can inherit from this class.
         **/
        init: function(type, options, defaults) {
            this.type = type;
-           this.options = INR.extend({}, defaults, options);
+           this.options = $.extend({}, defaults, options);
        },
 
        /*
-       this method called before render to init INRtpl that is inserted in DOM
+       this method called before render to init $tpl that is inserted in DOM
        */
        prerender: function() {
-           this.INRtpl = INR(this.options.tpl); //whole tpl as jquery object    
-           this.INRinput = this.INRtpl;         //control itself, can be changed in render method
-           this.INRclear = null;              //clear button
+           this.$tpl = $(this.options.tpl); //whole tpl as jquery object    
+           this.$input = this.$tpl;         //control itself, can be changed in render method
+           this.$clear = null;              //clear button
            this.error = null;               //error message, if input cannot be rendered           
        },
        
@@ -2371,7 +2371,7 @@ To create your own input you can inherit from this class.
         @param {DOMElement} element
        **/
        value2html: function(value, element) {
-           INR(element)[this.options.escape ? 'text' : 'html'](INR.trim(value));
+           $(element)[this.options.escape ? 'text' : 'html']($.trim(value));
        },
 
        /**
@@ -2382,7 +2382,7 @@ To create your own input you can inherit from this class.
         @returns {mixed}
        **/
        html2value: function(html) {
-           return INR('<div>').html(html).text();
+           return $('<div>').html(html).text();
        },
 
        /**
@@ -2425,7 +2425,7 @@ To create your own input you can inherit from this class.
         @param {mixed} value
        **/
        value2input: function(value) {
-           this.INRinput.val(value);
+           this.$input.val(value);
        },
 
        /**
@@ -2434,7 +2434,7 @@ To create your own input you can inherit from this class.
         @method input2value() 
        **/
        input2value: function() { 
-           return this.INRinput.val();
+           return this.$input.val();
        }, 
 
        /**
@@ -2443,8 +2443,8 @@ To create your own input you can inherit from this class.
         @method activate() 
        **/
        activate: function() {
-           if(this.INRinput.is(':visible')) {
-               this.INRinput.focus();
+           if(this.$input.is(':visible')) {
+               this.$input.focus();
            }
        },
 
@@ -2454,14 +2454,14 @@ To create your own input you can inherit from this class.
         @method clear() 
        **/        
        clear: function() {
-           this.INRinput.val(null);
+           this.$input.val(null);
        },
 
        /**
         method to escape html.
        **/
        escape: function(str) {
-           return INR('<div>').text(str).html();
+           return $('<div>').text(str).html();
        },
        
        /**
@@ -2480,13 +2480,13 @@ To create your own input you can inherit from this class.
        // -------- helper functions --------
        setClass: function() {          
            if(this.options.inputclass) {
-               this.INRinput.addClass(this.options.inputclass); 
+               this.$input.addClass(this.options.inputclass); 
            } 
        },
 
        setAttr: function(attr) {
            if (this.options[attr] !== undefined && this.options[attr] !== null) {
-               this.INRinput.attr(attr, this.options[attr]);
+               this.$input.attr(attr, this.options[attr]);
            } 
        },
        
@@ -2515,8 +2515,8 @@ To create your own input you can inherit from this class.
         inputclass: null,
         
         /**
-        If `true` - html will be escaped in content of element via INR.text() method.  
-        If `false` - html will not be escaped, INR.html() used.  
+        If `true` - html will be escaped in content of element via $.text() method.  
+        If `false` - html will not be escaped, $.html() used.  
         When you use own `display` function, this option obviosly has no effect.
         
         @property escape 
@@ -2534,7 +2534,7 @@ To create your own input you can inherit from this class.
         showbuttons: true 
     };
     
-    INR.extend(INR.fn.editabletypes, {abstractinput: AbstractInput});
+    $.extend($.fn.editabletypes, {abstractinput: AbstractInput});
         
 }(window.jQuery));
 
@@ -2544,18 +2544,18 @@ List - abstract class for inputs that have source option loaded from js array or
 @class list
 @extends abstractinput
 **/
-(function (INR) {
+(function ($) {
     "use strict";
     
     var List = function (options) {
        
     };
 
-    INR.fn.editableutils.inherit(List, INR.fn.editabletypes.abstractinput);
+    $.fn.editableutils.inherit(List, $.fn.editabletypes.abstractinput);
 
-    INR.extend(List.prototype, {
+    $.extend(List.prototype, {
         render: function () {
-            var deferred = INR.Deferred();
+            var deferred = $.Deferred();
 
             this.error = null;
             this.onSourceReady(function () {
@@ -2574,7 +2574,7 @@ List - abstract class for inputs that have source option loaded from js array or
         },
         
         value2html: function (value, element, display, response) {
-            var deferred = INR.Deferred(),
+            var deferred = $.Deferred(),
                 success = function () {
                     if(typeof display === 'function') {
                         //custom display method
@@ -2600,7 +2600,7 @@ List - abstract class for inputs that have source option loaded from js array or
         onSourceReady: function (success, error) {
             //run source if it function
             var source;
-            if (INR.isFunction(this.options.source)) {
+            if ($.isFunction(this.options.source)) {
                 source = this.options.source.call(this.options.scope);
                 this.sourceData = null;
                 //note: if function returns the same source as URL - sourceData will be taken from cahce and no extra request performed
@@ -2609,14 +2609,14 @@ List - abstract class for inputs that have source option loaded from js array or
             }            
             
             //if allready loaded just call success
-            if(this.options.sourceCache && INR.isArray(this.sourceData)) {
+            if(this.options.sourceCache && $.isArray(this.sourceData)) {
                 success.call(this);
                 return; 
             }
 
             //try parse json in single quotes (for double quotes jquery does automatically)
             try {
-                source = INR.fn.editableutils.tryParseJson(source, false);
+                source = $.fn.editableutils.tryParseJson(source, false);
             } catch (e) {
                 error.call(this);
                 return;
@@ -2629,10 +2629,10 @@ List - abstract class for inputs that have source option loaded from js array or
                     var cacheID = source,
                     cache;
 
-                    if (!INR(document).data(cacheID)) {
-                        INR(document).data(cacheID, {});
+                    if (!$(document).data(cacheID)) {
+                        $(document).data(cacheID, {});
                     }
-                    cache = INR(document).data(cacheID);
+                    cache = $(document).data(cacheID);
 
                     //check for cached data
                     if (cache.loading === false && cache.sourceData) { //take source from cache
@@ -2641,14 +2641,14 @@ List - abstract class for inputs that have source option loaded from js array or
                         success.call(this);
                         return;
                     } else if (cache.loading === true) { //cache is loading, put callback in stack to be called later
-                        cache.callbacks.push(INR.proxy(function () {
+                        cache.callbacks.push($.proxy(function () {
                             this.sourceData = cache.sourceData;
                             this.doPrepend();
                             success.call(this);
                         }, this));
 
                         //also collecting error callbacks
-                        cache.err_callbacks.push(INR.proxy(error, this));
+                        cache.err_callbacks.push($.proxy(error, this));
                         return;
                     } else { //no cache yet, activate it
                         cache.loading = true;
@@ -2658,22 +2658,22 @@ List - abstract class for inputs that have source option loaded from js array or
                 }
                 
                 //ajaxOptions for source. Can be overwritten bt options.sourceOptions
-                var ajaxOptions = INR.extend({
+                var ajaxOptions = $.extend({
                     url: source,
                     type: 'get',
                     cache: false,
                     dataType: 'json',
-                    success: INR.proxy(function (data) {
+                    success: $.proxy(function (data) {
                         if(cache) {
                             cache.loading = false;
                         }
                         this.sourceData = this.makeArray(data);
-                        if(INR.isArray(this.sourceData)) {
+                        if($.isArray(this.sourceData)) {
                             if(cache) {
                                 //store result in cache
                                 cache.sourceData = this.sourceData;
                                 //run success callbacks for other fields waiting for this source
-                                INR.each(cache.callbacks, function () { this.call(); }); 
+                                $.each(cache.callbacks, function () { this.call(); }); 
                             }
                             this.doPrepend();
                             success.call(this);
@@ -2681,27 +2681,27 @@ List - abstract class for inputs that have source option loaded from js array or
                             error.call(this);
                             if(cache) {
                                 //run error callbacks for other fields waiting for this source
-                                INR.each(cache.err_callbacks, function () { this.call(); }); 
+                                $.each(cache.err_callbacks, function () { this.call(); }); 
                             }
                         }
                     }, this),
-                    error: INR.proxy(function () {
+                    error: $.proxy(function () {
                         error.call(this);
                         if(cache) {
                              cache.loading = false;
                              //run error callbacks for other fields
-                             INR.each(cache.err_callbacks, function () { this.call(); }); 
+                             $.each(cache.err_callbacks, function () { this.call(); }); 
                         }
                     }, this)
                 }, this.options.sourceOptions);
                 
                 //loading sourceData from server
-                INR.ajax(ajaxOptions);
+                $.ajax(ajaxOptions);
                 
             } else { //options as json/array
                 this.sourceData = this.makeArray(source);
                     
-                if(INR.isArray(this.sourceData)) {
+                if($.isArray(this.sourceData)) {
                     this.doPrepend();
                     success.call(this);   
                 } else {
@@ -2715,14 +2715,14 @@ List - abstract class for inputs that have source option loaded from js array or
                 return;  
             }
             
-            if(!INR.isArray(this.prependData)) {
+            if(!$.isArray(this.prependData)) {
                 //run prepend if it is function (once)
-                if (INR.isFunction(this.options.prepend)) {
+                if ($.isFunction(this.options.prepend)) {
                     this.options.prepend = this.options.prepend.call(this.options.scope);
                 }
               
                 //try parse json in single quotes
-                this.options.prepend = INR.fn.editableutils.tryParseJson(this.options.prepend, true);
+                this.options.prepend = $.fn.editableutils.tryParseJson(this.options.prepend, true);
                 
                 //convert prepend from string to object
                 if (typeof this.options.prepend === 'string') {
@@ -2732,7 +2732,7 @@ List - abstract class for inputs that have source option loaded from js array or
                 this.prependData = this.makeArray(this.options.prepend);
             }
 
-            if(INR.isArray(this.prependData) && INR.isArray(this.sourceData)) {
+            if($.isArray(this.prependData) && $.isArray(this.sourceData)) {
                 this.sourceData = this.prependData.concat(this.sourceData);
             }
         },
@@ -2760,7 +2760,7 @@ List - abstract class for inputs that have source option loaded from js array or
                 return null; 
             }
 
-            if(INR.isArray(data)) { //array
+            if($.isArray(data)) { //array
                 /* 
                    function to iterate inside item of array if item is object.
                    Caclulates count of keys in item and store in obj. 
@@ -2776,7 +2776,7 @@ List - abstract class for inputs that have source option loaded from js array or
                     item = data[i]; 
                     if(typeof item === 'object') {
                         count = 0; //count of keys inside item
-                        INR.each(item, iterateItem);
+                        $.each(item, iterateItem);
                         //case: [{val1: 'text1'}, {val2: 'text2} ...]
                         if(count === 1) { 
                             result.push(obj); 
@@ -2794,7 +2794,7 @@ List - abstract class for inputs that have source option loaded from js array or
                     }
                 }
             } else {  //case: {val1: 'text1', val2: 'text2, ...}
-                INR.each(data, function (k, v) {
+                $.each(data, function (k, v) {
                     result.push({value: k, text: v});
                 });  
             }
@@ -2813,7 +2813,7 @@ List - abstract class for inputs that have source option loaded from js array or
 
     });      
 
-    List.defaults = INR.extend({}, INR.fn.editabletypes.abstractinput.defaults, {
+    List.defaults = $.extend({}, $.fn.editabletypes.abstractinput.defaults, {
         /**
         Source data for list.  
         If **array** - it should be in format: `[{value: 1, text: "text1"}, {value: 2, text: "text2"}, ...]`  
@@ -2859,7 +2859,7 @@ List - abstract class for inputs that have source option loaded from js array or
         **/        
         sourceCache: true,
         /**
-        Additional ajax options to be used in INR.ajax() when loading list from server.
+        Additional ajax options to be used in $.ajax() when loading list from server.
         Useful to send extra parameters (`data` key) or change request method (`type` key).
         
         @property sourceOptions 
@@ -2870,7 +2870,7 @@ List - abstract class for inputs that have source option loaded from js array or
         sourceOptions: null
     });
 
-    INR.fn.editabletypes.list = List;      
+    $.fn.editabletypes.list = List;      
 
 }(window.jQuery));
 
@@ -2883,24 +2883,24 @@ Text input
 @example
 <a href="#" id="username" data-type="text" data-pk="1">awesome</a>
 <script>
-INR(function(){
-    INR('#username').editable({
+$(function(){
+    $('#username').editable({
         url: '/post',
         title: 'Enter username'
     });
 });
 </script>
 **/
-(function (INR) {
+(function ($) {
     "use strict";
     
     var Text = function (options) {
         this.init('text', options, Text.defaults);
     };
 
-    INR.fn.editableutils.inherit(Text, INR.fn.editabletypes.abstractinput);
+    $.fn.editableutils.inherit(Text, $.fn.editabletypes.abstractinput);
 
-    INR.extend(Text.prototype, {
+    $.extend(Text.prototype, {
         render: function() {
            this.renderClear();
            this.setClass();
@@ -2908,9 +2908,9 @@ INR(function(){
         },
         
         activate: function() {
-            if(this.INRinput.is(':visible')) {
-                this.INRinput.focus();
-                INR.fn.editableutils.setCursorPosition(this.INRinput.get(0), this.INRinput.val().length);
+            if(this.$input.is(':visible')) {
+                this.$input.focus();
+                $.fn.editableutils.setCursorPosition(this.$input.get(0), this.$input.val().length);
                 if(this.toggleClear) {
                     this.toggleClear();
                 }
@@ -2920,12 +2920,12 @@ INR(function(){
         //render clear button
         renderClear:  function() {
            if (this.options.clear) {
-               this.INRclear = INR('<span class="editable-clear-x"></span>');
-               this.INRinput.after(this.INRclear)
+               this.$clear = $('<span class="editable-clear-x"></span>');
+               this.$input.after(this.$clear)
                           .css('padding-right', 24)
-                          .keyup(INR.proxy(function(e) {
+                          .keyup($.proxy(function(e) {
                               //arrows, enter, tab, etc
-                              if(~INR.inArray(e.keyCode, [40,38,9,13,27])) {
+                              if(~$.inArray(e.keyCode, [40,38,9,13,27])) {
                                 return;
                               }                            
 
@@ -2938,49 +2938,49 @@ INR(function(){
                           }, this))
                           .parent().css('position', 'relative');
                           
-               this.INRclear.click(INR.proxy(this.clear, this));                       
+               this.$clear.click($.proxy(this.clear, this));                       
            }            
         },
         
         postrender: function() {
             /*
             //now `clear` is positioned via css
-            if(this.INRclear) {
+            if(this.$clear) {
                 //can position clear button only here, when form is shown and height can be calculated
-//                var h = this.INRinput.outerHeight(true) || 20,
-                var h = this.INRclear.parent().height(),
-                    delta = (h - this.INRclear.height()) / 2;
+//                var h = this.$input.outerHeight(true) || 20,
+                var h = this.$clear.parent().height(),
+                    delta = (h - this.$clear.height()) / 2;
                     
-                //this.INRclear.css({bottom: delta, right: delta});
+                //this.$clear.css({bottom: delta, right: delta});
             }
             */ 
         },
         
         //show / hide clear button
         toggleClear: function(e) {
-            if(!this.INRclear) {
+            if(!this.$clear) {
                 return;
             }
             
-            var len = this.INRinput.val().length,
-                visible = this.INRclear.is(':visible');
+            var len = this.$input.val().length,
+                visible = this.$clear.is(':visible');
                  
             if(len && !visible) {
-                this.INRclear.show();
+                this.$clear.show();
             } 
             
             if(!len && visible) {
-                this.INRclear.hide();
+                this.$clear.hide();
             } 
         },
         
         clear: function() {
-           this.INRclear.hide();
-           this.INRinput.val('').focus();
+           this.$clear.hide();
+           this.$input.val('').focus();
         }          
     });
 
-    Text.defaults = INR.extend({}, INR.fn.editabletypes.abstractinput.defaults, {
+    Text.defaults = $.extend({}, $.fn.editabletypes.abstractinput.defaults, {
         /**
         @property tpl 
         @default <input type="text">
@@ -3005,7 +3005,7 @@ INR(function(){
         clear: true
     });
 
-    INR.fn.editabletypes.text = Text;
+    $.fn.editabletypes.text = Text;
 
 }(window.jQuery));
 
@@ -3018,8 +3018,8 @@ Textarea input
 @example
 <a href="#" id="comments" data-type="textarea" data-pk="1">awesome comment!</a>
 <script>
-INR(function(){
-    INR('#comments').editable({
+$(function(){
+    $('#comments').editable({
         url: '/post',
         title: 'Enter comments',
         rows: 10
@@ -3027,25 +3027,25 @@ INR(function(){
 });
 </script>
 **/
-(function (INR) {
+(function ($) {
     "use strict";
     
     var Textarea = function (options) {
         this.init('textarea', options, Textarea.defaults);
     };
 
-    INR.fn.editableutils.inherit(Textarea, INR.fn.editabletypes.abstractinput);
+    $.fn.editableutils.inherit(Textarea, $.fn.editabletypes.abstractinput);
 
-    INR.extend(Textarea.prototype, {
+    $.extend(Textarea.prototype, {
         render: function () {
             this.setClass();
             this.setAttr('placeholder');
             this.setAttr('rows');                        
             
             //ctrl + enter
-            this.INRinput.keydown(function (e) {
+            this.$input.keydown(function (e) {
                 if (e.ctrlKey && e.which === 13) {
-                    INR(this).closest('form').submit();
+                    $(this).closest('form').submit();
                 }
             });
         },
@@ -3057,11 +3057,11 @@ INR(function(){
             if(value) {
                 lines = value.split("\n");
                 for (var i = 0; i < lines.length; i++) {
-                    lines[i] = INR('<div>').text(lines[i]).html();
+                    lines[i] = $('<div>').text(lines[i]).html();
                 }
                 html = lines.join('<br>');
             }
-            INR(element).html(html);
+            $(element).html(html);
         },
        
         html2value: function(html) {
@@ -3072,7 +3072,7 @@ INR(function(){
             var regex = new RegExp(String.fromCharCode(10), 'g');
             var lines = html.split(/<br\s*\/?>/i);
             for (var i = 0; i < lines.length; i++) {
-                var text = INR('<div>').html(lines[i]).text();
+                var text = $('<div>').html(lines[i]).text();
 
                 // Remove newline characters (\n) to avoid them being converted by value2html() method
                 // thus adding extra <br> tags
@@ -3084,11 +3084,11 @@ INR(function(){
         },
          */
         activate: function() {
-            INR.fn.editabletypes.text.prototype.activate.call(this);
+            $.fn.editabletypes.text.prototype.activate.call(this);
         }
     });
 
-    Textarea.defaults = INR.extend({}, INR.fn.editabletypes.abstractinput.defaults, {
+    Textarea.defaults = $.extend({}, $.fn.editabletypes.abstractinput.defaults, {
         /**
         @property tpl
         @default <textarea></textarea>
@@ -3117,7 +3117,7 @@ INR(function(){
         rows: 7        
     });
 
-    INR.fn.editabletypes.textarea = Textarea;
+    $.fn.editabletypes.textarea = Textarea;
 
 }(window.jQuery));
 
@@ -3130,8 +3130,8 @@ Select (dropdown)
 @example
 <a href="#" id="status" data-type="select" data-pk="1" data-url="/post" data-title="Select status"></a>
 <script>
-INR(function(){
-    INR('#status').editable({
+$(function(){
+    $('#status').editable({
         value: 2,    
         source: [
               {value: 1, text: 'Active'},
@@ -3142,71 +3142,71 @@ INR(function(){
 });
 </script>
 **/
-(function (INR) {
+(function ($) {
     "use strict";
     
     var Select = function (options) {
         this.init('select', options, Select.defaults);
     };
 
-    INR.fn.editableutils.inherit(Select, INR.fn.editabletypes.list);
+    $.fn.editableutils.inherit(Select, $.fn.editabletypes.list);
 
-    INR.extend(Select.prototype, {
+    $.extend(Select.prototype, {
         renderList: function() {
-            this.INRinput.empty();
+            this.$input.empty();
 
-            var fillItems = function(INRel, data) {
+            var fillItems = function($el, data) {
                 var attr;
-                if(INR.isArray(data)) {
+                if($.isArray(data)) {
                     for(var i=0; i<data.length; i++) {
                         attr = {};
                         if(data[i].children) {
                             attr.label = data[i].text;
-                            INRel.append(fillItems(INR('<optgroup>', attr), data[i].children)); 
+                            $el.append(fillItems($('<optgroup>', attr), data[i].children)); 
                         } else {
                             attr.value = data[i].value;
                             if(data[i].disabled) {
                                 attr.disabled = true;
                             }
-                            INRel.append(INR('<option>', attr).text(data[i].text)); 
+                            $el.append($('<option>', attr).text(data[i].text)); 
                         }
                     }
                 }
-                return INRel;
+                return $el;
             };        
 
-            fillItems(this.INRinput, this.sourceData);
+            fillItems(this.$input, this.sourceData);
             
             this.setClass();
             
             //enter submit
-            this.INRinput.on('keydown.editable', function (e) {
+            this.$input.on('keydown.editable', function (e) {
                 if (e.which === 13) {
-                    INR(this).closest('form').submit();
+                    $(this).closest('form').submit();
                 }
             });            
         },
        
         value2htmlFinal: function(value, element) {
             var text = '', 
-                items = INR.fn.editableutils.itemsByValue(value, this.sourceData);
+                items = $.fn.editableutils.itemsByValue(value, this.sourceData);
                 
             if(items.length) {
                 text = items[0].text;
             }
             
-            //INR(element).text(text);
-            INR.fn.editabletypes.abstractinput.prototype.value2html.call(this, text, element);
+            //$(element).text(text);
+            $.fn.editabletypes.abstractinput.prototype.value2html.call(this, text, element);
         },
         
         autosubmit: function() {
-            this.INRinput.off('keydown.editable').on('change.editable', function(){
-                INR(this).closest('form').submit();
+            this.$input.off('keydown.editable').on('change.editable', function(){
+                $(this).closest('form').submit();
             });
         }
     });      
 
-    Select.defaults = INR.extend({}, INR.fn.editabletypes.list.defaults, {
+    Select.defaults = $.extend({}, $.fn.editabletypes.list.defaults, {
         /**
         @property tpl 
         @default <select></select>
@@ -3214,7 +3214,7 @@ INR(function(){
         tpl:'<select></select>'
     });
 
-    INR.fn.editabletypes.select = Select;      
+    $.fn.editabletypes.select = Select;      
 
 }(window.jQuery));
 
@@ -3228,8 +3228,8 @@ Internally value stored as javascript array of values.
 @example
 <a href="#" id="options" data-type="checklist" data-pk="1" data-url="/post" data-title="Select options"></a>
 <script>
-INR(function(){
-    INR('#options').editable({
+$(function(){
+    $('#options').editable({
         value: [2, 3],    
         source: [
               {value: 1, text: 'option1'},
@@ -3240,50 +3240,50 @@ INR(function(){
 });
 </script>
 **/
-(function (INR) {
+(function ($) {
     "use strict";
     
     var Checklist = function (options) {
         this.init('checklist', options, Checklist.defaults);
     };
 
-    INR.fn.editableutils.inherit(Checklist, INR.fn.editabletypes.list);
+    $.fn.editableutils.inherit(Checklist, $.fn.editabletypes.list);
 
-    INR.extend(Checklist.prototype, {
+    $.extend(Checklist.prototype, {
         renderList: function() {
-            var INRlabel, INRdiv;
+            var $label, $div;
             
-            this.INRtpl.empty();
+            this.$tpl.empty();
             
-            if(!INR.isArray(this.sourceData)) {
+            if(!$.isArray(this.sourceData)) {
                 return;
             }
 
             for(var i=0; i<this.sourceData.length; i++) {
-                INRlabel = INR('<label>').append(INR('<input>', {
+                $label = $('<label>').append($('<input>', {
                                            type: 'checkbox',
                                            value: this.sourceData[i].value 
                                      }))
-                                     .append(INR('<span>').text(' '+this.sourceData[i].text));
+                                     .append($('<span>').text(' '+this.sourceData[i].text));
                 
-                INR('<div>').append(INRlabel).appendTo(this.INRtpl);
+                $('<div>').append($label).appendTo(this.$tpl);
             }
             
-            this.INRinput = this.INRtpl.find('input[type="checkbox"]');
+            this.$input = this.$tpl.find('input[type="checkbox"]');
             this.setClass();
         },
        
        value2str: function(value) {
-           return INR.isArray(value) ? value.sort().join(INR.trim(this.options.separator)) : '';
+           return $.isArray(value) ? value.sort().join($.trim(this.options.separator)) : '';
        },  
        
        //parse separated string
         str2value: function(str) {
            var reg, value = null;
            if(typeof str === 'string' && str.length) {
-               reg = new RegExp('\\s*'+INR.trim(this.options.separator)+'\\s*');
+               reg = new RegExp('\\s*'+$.trim(this.options.separator)+'\\s*');
                value = str.split(reg);
-           } else if(INR.isArray(str)) {
+           } else if($.isArray(str)) {
                value = str; 
            } else {
                value = [str];
@@ -3293,16 +3293,16 @@ INR(function(){
        
        //set checked on required checkboxes
        value2input: function(value) {
-            this.INRinput.prop('checked', false);
-            if(INR.isArray(value) && value.length) {
-               this.INRinput.each(function(i, el) {
-                   var INRel = INR(el);
-                   // cannot use INR.inArray as it performs strict comparison
-                   INR.each(value, function(j, val){
+            this.$input.prop('checked', false);
+            if($.isArray(value) && value.length) {
+               this.$input.each(function(i, el) {
+                   var $el = $(el);
+                   // cannot use $.inArray as it performs strict comparison
+                   $.each(value, function(j, val){
                        /*jslint eqeq: true*/
-                       if(INRel.val() == val) {
+                       if($el.val() == val) {
                        /*jslint eqeq: false*/                           
-                           INRel.prop('checked', true);
+                           $el.prop('checked', true);
                        }
                    });
                }); 
@@ -3311,8 +3311,8 @@ INR(function(){
         
        input2value: function() { 
            var checked = [];
-           this.INRinput.filter(':checked').each(function(i, el) {
-               checked.push(INR(el).val());
+           this.$input.filter(':checked').each(function(i, el) {
+               checked.push($(el).val());
            });
            return checked;
        },            
@@ -3320,34 +3320,34 @@ INR(function(){
        //collect text of checked boxes
         value2htmlFinal: function(value, element) {
            var html = [],
-               checked = INR.fn.editableutils.itemsByValue(value, this.sourceData),
+               checked = $.fn.editableutils.itemsByValue(value, this.sourceData),
                escape = this.options.escape;
                
            if(checked.length) {
-               INR.each(checked, function(i, v) {
-                   var text = escape ? INR.fn.editableutils.escape(v.text) : v.text; 
+               $.each(checked, function(i, v) {
+                   var text = escape ? $.fn.editableutils.escape(v.text) : v.text; 
                    html.push(text); 
                });
-               INR(element).html(html.join('<br>'));
+               $(element).html(html.join('<br>'));
            } else {
-               INR(element).empty(); 
+               $(element).empty(); 
            }
         },
         
        activate: function() {
-           this.INRinput.first().focus();
+           this.$input.first().focus();
        },
        
        autosubmit: function() {
-           this.INRinput.on('keydown', function(e){
+           this.$input.on('keydown', function(e){
                if (e.which === 13) {
-                   INR(this).closest('form').submit();
+                   $(this).closest('form').submit();
                }
            });
        }
     });      
 
-    Checklist.defaults = INR.extend({}, INR.fn.editabletypes.list.defaults, {
+    Checklist.defaults = $.extend({}, $.fn.editabletypes.list.defaults, {
         /**
         @property tpl 
         @default <div></div>
@@ -3371,7 +3371,7 @@ INR(function(){
         separator: ','
     });
 
-    INR.fn.editabletypes.checklist = Checklist;      
+    $.fn.editabletypes.checklist = Checklist;      
 
 }(window.jQuery));
 
@@ -3399,8 +3399,8 @@ https://developer.mozilla.org/en-US/docs/HTML/Element/Input
 @example
 <a href="#" id="email" data-type="email" data-pk="1">admin@example.com</a>
 <script>
-INR(function(){
-    INR('#email').editable({
+$(function(){
+    $('#email').editable({
         url: '/post',
         title: 'Enter email'
     });
@@ -3416,20 +3416,20 @@ INR(function(){
 /*
 Password
 */
-(function (INR) {
+(function ($) {
     "use strict";
     
     var Password = function (options) {
         this.init('password', options, Password.defaults);
     };
-    INR.fn.editableutils.inherit(Password, INR.fn.editabletypes.text);
-    INR.extend(Password.prototype, {
+    $.fn.editableutils.inherit(Password, $.fn.editabletypes.text);
+    $.extend(Password.prototype, {
        //do not display password, show '[hidden]' instead
        value2html: function(value, element) {
            if(value) {
-               INR(element).text('[hidden]');
+               $(element).text('[hidden]');
            } else {
-               INR(element).empty(); 
+               $(element).empty(); 
            }
        },
        //as password not displayed, should not set value by html
@@ -3437,75 +3437,75 @@ Password
            return null;
        }       
     });    
-    Password.defaults = INR.extend({}, INR.fn.editabletypes.text.defaults, {
+    Password.defaults = $.extend({}, $.fn.editabletypes.text.defaults, {
         tpl: '<input type="password">'
     });
-    INR.fn.editabletypes.password = Password;
+    $.fn.editabletypes.password = Password;
 }(window.jQuery));
 
 
 /*
 Email
 */
-(function (INR) {
+(function ($) {
     "use strict";
     
     var Email = function (options) {
         this.init('email', options, Email.defaults);
     };
-    INR.fn.editableutils.inherit(Email, INR.fn.editabletypes.text);
-    Email.defaults = INR.extend({}, INR.fn.editabletypes.text.defaults, {
+    $.fn.editableutils.inherit(Email, $.fn.editabletypes.text);
+    Email.defaults = $.extend({}, $.fn.editabletypes.text.defaults, {
         tpl: '<input type="email">'
     });
-    INR.fn.editabletypes.email = Email;
+    $.fn.editabletypes.email = Email;
 }(window.jQuery));
 
 
 /*
 Url
 */
-(function (INR) {
+(function ($) {
     "use strict";
     
     var Url = function (options) {
         this.init('url', options, Url.defaults);
     };
-    INR.fn.editableutils.inherit(Url, INR.fn.editabletypes.text);
-    Url.defaults = INR.extend({}, INR.fn.editabletypes.text.defaults, {
+    $.fn.editableutils.inherit(Url, $.fn.editabletypes.text);
+    Url.defaults = $.extend({}, $.fn.editabletypes.text.defaults, {
         tpl: '<input type="url">'
     });
-    INR.fn.editabletypes.url = Url;
+    $.fn.editabletypes.url = Url;
 }(window.jQuery));
 
 
 /*
 Tel
 */
-(function (INR) {
+(function ($) {
     "use strict";
     
     var Tel = function (options) {
         this.init('tel', options, Tel.defaults);
     };
-    INR.fn.editableutils.inherit(Tel, INR.fn.editabletypes.text);
-    Tel.defaults = INR.extend({}, INR.fn.editabletypes.text.defaults, {
+    $.fn.editableutils.inherit(Tel, $.fn.editabletypes.text);
+    Tel.defaults = $.extend({}, $.fn.editabletypes.text.defaults, {
         tpl: '<input type="tel">'
     });
-    INR.fn.editabletypes.tel = Tel;
+    $.fn.editabletypes.tel = Tel;
 }(window.jQuery));
 
 
 /*
 Number
 */
-(function (INR) {
+(function ($) {
     "use strict";
     
     var NumberInput = function (options) {
         this.init('number', options, NumberInput.defaults);
     };
-    INR.fn.editableutils.inherit(NumberInput, INR.fn.editabletypes.text);
-    INR.extend(NumberInput.prototype, {
+    $.fn.editableutils.inherit(NumberInput, $.fn.editabletypes.text);
+    $.extend(NumberInput.prototype, {
          render: function () {
             NumberInput.superclass.render.call(this);
             this.setAttr('min');
@@ -3513,85 +3513,85 @@ Number
             this.setAttr('step');
         },
         postrender: function() {
-            if(this.INRclear) {
+            if(this.$clear) {
                 //increase right ffset  for up/down arrows
-                this.INRclear.css({right: 24});
+                this.$clear.css({right: 24});
                 /*
                 //can position clear button only here, when form is shown and height can be calculated
-                var h = this.INRinput.outerHeight(true) || 20,
-                    delta = (h - this.INRclear.height()) / 2;
+                var h = this.$input.outerHeight(true) || 20,
+                    delta = (h - this.$clear.height()) / 2;
                 
                 //add 12px to offset right for up/down arrows    
-                this.INRclear.css({top: delta, right: delta + 16});
+                this.$clear.css({top: delta, right: delta + 16});
                 */
             } 
         }        
     });     
-    NumberInput.defaults = INR.extend({}, INR.fn.editabletypes.text.defaults, {
+    NumberInput.defaults = $.extend({}, $.fn.editabletypes.text.defaults, {
         tpl: '<input type="number">',
         inputclass: 'input-mini',
         min: null,
         max: null,
         step: null
     });
-    INR.fn.editabletypes.number = NumberInput;
+    $.fn.editabletypes.number = NumberInput;
 }(window.jQuery));
 
 
 /*
 Range (inherit from number)
 */
-(function (INR) {
+(function ($) {
     "use strict";
     
     var Range = function (options) {
         this.init('range', options, Range.defaults);
     };
-    INR.fn.editableutils.inherit(Range, INR.fn.editabletypes.number);
-    INR.extend(Range.prototype, {
+    $.fn.editableutils.inherit(Range, $.fn.editabletypes.number);
+    $.extend(Range.prototype, {
         render: function () {
-            this.INRinput = this.INRtpl.filter('input');
+            this.$input = this.$tpl.filter('input');
             
             this.setClass();
             this.setAttr('min');
             this.setAttr('max');
             this.setAttr('step');           
             
-            this.INRinput.on('input', function(){
-                INR(this).siblings('output').text(INR(this).val()); 
+            this.$input.on('input', function(){
+                $(this).siblings('output').text($(this).val()); 
             });  
         },
         activate: function() {
-            this.INRinput.focus();
+            this.$input.focus();
         }         
     });
-    Range.defaults = INR.extend({}, INR.fn.editabletypes.number.defaults, {
+    Range.defaults = $.extend({}, $.fn.editabletypes.number.defaults, {
         tpl: '<input type="range"><output style="width: 30px; display: inline-block"></output>',
         inputclass: 'input-medium'
     });
-    INR.fn.editabletypes.range = Range;
+    $.fn.editabletypes.range = Range;
 }(window.jQuery));
 
 /*
 Time
 */
-(function (INR) {
+(function ($) {
     "use strict";
 
     var Time = function (options) {
         this.init('time', options, Time.defaults);
     };
     //inherit from abstract, as inheritance from text gives selection error.
-    INR.fn.editableutils.inherit(Time, INR.fn.editabletypes.abstractinput);
-    INR.extend(Time.prototype, {
+    $.fn.editableutils.inherit(Time, $.fn.editabletypes.abstractinput);
+    $.extend(Time.prototype, {
         render: function() {
            this.setClass();
         }        
     });
-    Time.defaults = INR.extend({}, INR.fn.editabletypes.abstractinput.defaults, {
+    Time.defaults = $.extend({}, $.fn.editabletypes.abstractinput.defaults, {
         tpl: '<input type="time">'
     });
-    INR.fn.editabletypes.time = Time;
+    $.fn.editabletypes.time = Time;
 }(window.jQuery));
 
 /**
@@ -3620,9 +3620,9 @@ You need initially put both `data-value` and element's text youself:
 @example
 <a href="#" id="country" data-type="select2" data-pk="1" data-value="ru" data-url="/post" data-title="Select country"></a>
 <script>
-INR(function(){
+$(function(){
     //local source
-    INR('#country').editable({
+    $('#country').editable({
         source: [
               {id: 'gb', text: 'Great Britain'},
               {id: 'us', text: 'United States'},
@@ -3633,7 +3633,7 @@ INR(function(){
         }
     });
     //remote source (simple)
-    INR('#country').editable({
+    $('#country').editable({
         source: '/getCountries',
         select2: {
             placeholder: 'Select Country',
@@ -3641,7 +3641,7 @@ INR(function(){
         }
     });
     //remote source (advanced)
-    INR('#country').editable({
+    $('#country').editable({
         select2: {
             placeholder: 'Select Country',
             allowClear: true,
@@ -3666,7 +3666,7 @@ INR(function(){
                 return item.CountryName;
             },
             initSelection: function (element, callback) {
-                return INR.get('/getCountryById', { query: element.val() }, function (data) {
+                return $.get('/getCountryById', { query: element.val() }, function (data) {
                     callback(data);
                 });
             } 
@@ -3675,7 +3675,7 @@ INR(function(){
 });
 </script>
 **/
-(function (INR) {
+(function ($) {
     "use strict";
     
     var Constructor = function (options) {
@@ -3694,7 +3694,7 @@ INR(function(){
         if(!options.select2.tags && options.source) {
             var source = options.source;
             //if source is function, call it (once!)
-            if (INR.isFunction(options.source)) {
+            if ($.isFunction(options.source)) {
                 source = options.source.call(options.scope);
             }               
 
@@ -3716,7 +3716,7 @@ INR(function(){
         } 
 
         //overriding objects in config (as by default jQuery extend() is not recursive)
-        this.options.select2 = INR.extend({}, Constructor.defaults.select2, options.select2);
+        this.options.select2 = $.extend({}, Constructor.defaults.select2, options.select2);
 
         //detect whether it is multi-valued
         this.isMultiple = this.options.select2.tags || this.options.select2.multiple;
@@ -3737,29 +3737,29 @@ INR(function(){
         }
     };
 
-    INR.fn.editableutils.inherit(Constructor, INR.fn.editabletypes.abstractinput);
+    $.fn.editableutils.inherit(Constructor, $.fn.editabletypes.abstractinput);
 
-    INR.extend(Constructor.prototype, {
+    $.extend(Constructor.prototype, {
         render: function() {
             this.setClass();
 
             //can not apply select2 here as it calls initSelection 
             //over input that does not have correct value yet.
             //apply select2 only in value2input
-            //this.INRinput.select2(this.options.select2);
+            //this.$input.select2(this.options.select2);
 
             //when data is loaded via ajax, we need to know when it's done to populate listData
             if(this.isRemote) {
                 //listen to loaded event to populate data
-                this.INRinput.on('select2-loaded', INR.proxy(function(e) {
+                this.$input.on('select2-loaded', $.proxy(function(e) {
                     this.sourceData = e.items.results;
                 }, this));
             }
 
             //trigger resize of editableform to re-position container in multi-valued mode
             if(this.isMultiple) {
-               this.INRinput.on('change', function() {
-                   INR(this).closest('form').parent().triggerHandler('resize');
+               this.$input.on('change', function() {
+                   $(this).closest('form').parent().triggerHandler('resize');
                });
             }
        },
@@ -3770,28 +3770,28 @@ INR(function(){
 
            if(this.options.select2.tags) { //in tags mode just assign value
               data = value; 
-              //data = INR.fn.editableutils.itemsByValue(value, this.options.select2.tags, this.idFunc);
+              //data = $.fn.editableutils.itemsByValue(value, this.options.select2.tags, this.idFunc);
            } else if(this.sourceData) {
-              data = INR.fn.editableutils.itemsByValue(value, this.sourceData, this.idFunc); 
+              data = $.fn.editableutils.itemsByValue(value, this.sourceData, this.idFunc); 
            } else {
               //can not get list of possible values 
               //(e.g. autotext for select2 with ajax source)
            }
 
            //data may be array (when multiple values allowed)
-           if(INR.isArray(data)) {
+           if($.isArray(data)) {
                //collect selected data and show with separator
                text = [];
-               INR.each(data, function(k, v){
+               $.each(data, function(k, v){
                    text.push(v && typeof v === 'object' ? that.formatSelection(v) : v);
                });
            } else if(data) {
                text = that.formatSelection(data);
            }
 
-           text = INR.isArray(text) ? text.join(this.options.viewseparator) : text;
+           text = $.isArray(text) ? text.join(this.options.viewseparator) : text;
 
-           //INR(element).text(text);
+           //$(element).text(text);
            Constructor.superclass.value2html.call(this, text, element); 
        },
 
@@ -3801,20 +3801,20 @@ INR(function(){
 
        value2input: function(value) {
            // if value array => join it anyway
-           if(INR.isArray(value)) {
+           if($.isArray(value)) {
               value = value.join(this.getSeparator());
            }
 
            //for remote source just set value, text is updated by initSelection
-           if(!this.INRinput.data('select2')) {
-               this.INRinput.val(value);
-               this.INRinput.select2(this.options.select2);
+           if(!this.$input.data('select2')) {
+               this.$input.val(value);
+               this.$input.select2(this.options.select2);
            } else {
                //second argument needed to separate initial change from user's click (for autosubmit)   
-               this.INRinput.val(value).trigger('change', true); 
+               this.$input.val(value).trigger('change', true); 
 
                //Uncaught Error: cannot call val() if initSelection() is not defined
-               //this.INRinput.select2('val', value);
+               //this.$input.select2('val', value);
            }
 
            // if defined remote source AND no multiple mode AND no user's initSelection provided --> 
@@ -3828,17 +3828,17 @@ INR(function(){
                    customText = this.options.select2.formatSelection;
 
                if(!customId && !customText) {
-                   var INRel = INR(this.options.scope);
-                   if (!INRel.data('editable').isEmpty) {
-                       var data = {id: value, text: INRel.text()};
-                       this.INRinput.select2('data', data); 
+                   var $el = $(this.options.scope);
+                   if (!$el.data('editable').isEmpty) {
+                       var data = {id: value, text: $el.text()};
+                       this.$input.select2('data', data); 
                    }
                }
            }
        },
        
        input2value: function() { 
-           return this.INRinput.select2('val');
+           return this.$input.select2('val');
        },
 
        str2value: function(str, separator) {
@@ -3855,22 +3855,22 @@ INR(function(){
             }
             val = str.split(separator);
             for (i = 0, l = val.length; i < l; i = i + 1) {
-                val[i] = INR.trim(val[i]);
+                val[i] = $.trim(val[i]);
             }
 
             return val;
        },
 
         autosubmit: function() {
-            this.INRinput.on('change', function(e, isInitial){
+            this.$input.on('change', function(e, isInitial){
                 if(!isInitial) {
-                  INR(this).closest('form').submit();
+                  $(this).closest('form').submit();
                 }
             });
         },
 
         getSeparator: function() {
-            return this.options.select2.separator || INR.fn.select2.defaults.separator;
+            return this.options.select2.separator || $.fn.select2.defaults.separator;
         },
 
         /*
@@ -3878,7 +3878,7 @@ INR(function(){
         select2 format: {id: 1, text: "1"}
         */
         convertSource: function(source) {
-            if(INR.isArray(source) && source.length && source[0].value !== undefined) {
+            if($.isArray(source) && source.length && source[0].value !== undefined) {
                 for(var i = 0; i<source.length; i++) {
                     if(source[i].value !== undefined) {
                         source[i].id = source[i].value;
@@ -3890,14 +3890,14 @@ INR(function(){
         },
         
         destroy: function() {
-            if(this.INRinput.data('select2')) {
-                this.INRinput.select2('destroy');
+            if(this.$input.data('select2')) {
+                this.$input.select2('destroy');
             }
         }
         
     });
 
-    Constructor.defaults = INR.extend({}, INR.fn.editabletypes.abstractinput.defaults, {
+    Constructor.defaults = $.extend({}, $.fn.editabletypes.abstractinput.defaults, {
         /**
         @property tpl 
         @default <input type="hidden">
@@ -3939,7 +3939,7 @@ INR(function(){
         viewseparator: ', '
     });
 
-    INR.fn.editabletypes.select2 = Constructor;
+    $.fn.editabletypes.select2 = Constructor;
 
 }(window.jQuery));
 
@@ -3964,15 +3964,15 @@ INR(function(){
 * Project page: http://github.com/vitalets/combodate
 * Copyright (c) 2012 Vitaliy Potapov. Released under MIT License.
 **/
-(function (INR) {
+(function ($) {
 
     var Combodate = function (element, options) {
-        this.INRelement = INR(element);
-        if(!this.INRelement.is('input')) {
-            INR.error('Combodate should be applied to INPUT element');
+        this.$element = $(element);
+        if(!this.$element.is('input')) {
+            $.error('Combodate should be applied to INPUT element');
             return;
         }
-        this.options = INR.extend({}, INR.fn.combodate.defaults, options, this.INRelement.data());
+        this.options = $.extend({}, $.fn.combodate.defaults, options, this.$element.data());
         this.init();  
      };
 
@@ -3990,28 +3990,28 @@ INR(function(){
                 ampm:   ['[Aa]', ''] 
             };
             
-            this.INRwidget = INR('<span class="combodate"></span>').html(this.getTemplate());
+            this.$widget = $('<span class="combodate"></span>').html(this.getTemplate());
                       
             this.initCombos();
             
             //update original input on change 
-            this.INRwidget.on('change', 'select', INR.proxy(function(e) {
-                this.INRelement.val(this.getValue()).change();
+            this.$widget.on('change', 'select', $.proxy(function(e) {
+                this.$element.val(this.getValue()).change();
                 // update days count if month or year changes
                 if (this.options.smartDays) {
-                    if (INR(e.target).is('.month') || INR(e.target).is('.year')) {
+                    if ($(e.target).is('.month') || $(e.target).is('.year')) {
                         this.fillCombo('day');
                     }
                 }
             }, this));
             
-            this.INRwidget.find('select').css('width', 'auto');
+            this.$widget.find('select').css('width', 'auto');
                                        
             // hide original input and insert widget                                       
-            this.INRelement.hide().after(this.INRwidget);
+            this.$element.hide().after(this.$widget);
             
             // set initial value
-            this.setValue(this.INRelement.val() || this.options.value);
+            this.setValue(this.$element.val() || this.options.value);
         },
         
         /*
@@ -4021,7 +4021,7 @@ INR(function(){
             var tpl = this.options.template;
 
             //first pass
-            INR.each(this.map, function(k, v) {
+            $.each(this.map, function(k, v) {
                 v = v[0]; 
                 var r = new RegExp(v+'+'),
                     token = v.length > 1 ? v.substring(1, 2) : v;
@@ -4033,7 +4033,7 @@ INR(function(){
             tpl = tpl.replace(/ /g, '&nbsp;');
 
             //second pass
-            INR.each(this.map, function(k, v) {
+            $.each(this.map, function(k, v) {
                 v = v[0];
                 var token = v.length > 1 ? v.substring(1, 2) : v;
                     
@@ -4048,9 +4048,9 @@ INR(function(){
         */        
         initCombos: function() {
             for (var k in this.map) {
-                var INRc = this.INRwidget.find('.'+k);
-                // set properties like this.INRday, this.INRmonth etc.
-                this['INR'+k] = INRc.length ? INRc : null;
+                var $c = this.$widget.find('.'+k);
+                // set properties like this.$day, this.$month etc.
+                this['$'+k] = $c.length ? $c : null;
                 // fill with items
                 this.fillCombo(k);
             }
@@ -4060,22 +4060,22 @@ INR(function(){
          Fill combo with items 
         */        
         fillCombo: function(k) {
-            var INRcombo = this['INR'+k];
-            if (!INRcombo) {
+            var $combo = this['$'+k];
+            if (!$combo) {
                 return;
             }
 
             // define method name to fill items, e.g `fillDays`
             var f = 'fill' + k.charAt(0).toUpperCase() + k.slice(1); 
             var items = this[f]();
-            var value = INRcombo.val();
+            var value = $combo.val();
 
-            INRcombo.empty();
+            $combo.empty();
             for(var i=0; i<items.length; i++) {
-                INRcombo.append('<option value="'+items[i][0]+'">'+items[i][1]+'</option>');
+                $combo.append('<option value="'+items[i][0]+'">'+items[i][1]+'</option>');
             }
 
-            INRcombo.val(value);
+            $combo.val(value);
         },
 
         /*
@@ -4109,9 +4109,9 @@ INR(function(){
 
             // detect days count (depends on month and year)
             // originally https://github.com/vitalets/combodate/pull/7
-            if (this.options.smartDays && this.INRmonth && this.INRyear) {
-                var month = parseInt(this.INRmonth.val(), 10);
-                var year = parseInt(this.INRyear.val(), 10);
+            if (this.options.smartDays && this.$month && this.$year) {
+                var month = parseInt(this.$month.val(), 10);
+                var year = parseInt(this.$year.val(), 10);
 
                 if (!isNaN(month) && !isNaN(year)) {
                     daysCount = moment([year, month]).daysInMonth();
@@ -4237,13 +4237,13 @@ INR(function(){
                 notSelected = false;
                 
             //getting selected values    
-            INR.each(this.map, function(k, v) {
+            $.each(this.map, function(k, v) {
                 if(k === 'ampm') {
                     return;
                 }
                 var def = k === 'day' ? 1 : 0;
                   
-                values[k] = that['INR'+k] ? parseInt(that['INR'+k].val(), 10) : def; 
+                values[k] = that['$'+k] ? parseInt(that['$'+k].val(), 10) : def; 
                 
                 if(isNaN(values[k])) {
                    notSelected = true;
@@ -4257,12 +4257,12 @@ INR(function(){
             }
             
             //convert hours 12h --> 24h 
-            if(this.INRampm) {
+            if(this.$ampm) {
                 //12:00 pm --> 12:00 (24-h format, midday), 12:00 am --> 00:00 (24-h format, midnight, start of day)
                 if(values.hour === 12) {
-                    values.hour = this.INRampm.val() === 'am' ? 0 : 12;                    
+                    values.hour = this.$ampm.val() === 'am' ? 0 : 12;                    
                 } else {
-                    values.hour = this.INRampm.val() === 'am' ? values.hour : values.hour+12;
+                    values.hour = this.$ampm.val() === 'am' ? values.hour : values.hour+12;
                 }
             }    
             
@@ -4289,10 +4289,10 @@ INR(function(){
                 values = {};
             
             //function to find nearest value in select options
-            function getNearest(INRselect, value) {
+            function getNearest($select, value) {
                 var delta = {};
-                INRselect.children('option').each(function(i, opt){
-                    var optValue = INR(opt).attr('value'),
+                $select.children('option').each(function(i, opt){
+                    var optValue = $(opt).attr('value'),
                     distance;
 
                     if(optValue === '') return;
@@ -4306,14 +4306,14 @@ INR(function(){
             
             if(dt.isValid()) {
                 //read values from date object
-                INR.each(this.map, function(k, v) {
+                $.each(this.map, function(k, v) {
                     if(k === 'ampm') {
                        return; 
                     }
                     values[k] = dt[v[1]]();
                 });
                
-                if(this.INRampm) {
+                if(this.$ampm) {
                     //12:00 pm --> 12:00 (24-h format, midday), 12:00 am --> 00:00 (24-h format, midnight, start of day)
                     if(values.hour >= 12) {
                         values.ampm = 'pm';
@@ -4328,19 +4328,19 @@ INR(function(){
                     } 
                 }
                
-                INR.each(values, function(k, v) {
-                    //call val() for each existing combo, e.g. this.INRhour.val()
-                    if(that['INR'+k]) {
+                $.each(values, function(k, v) {
+                    //call val() for each existing combo, e.g. this.$hour.val()
+                    if(that['$'+k]) {
                        
                         if(k === 'minute' && that.options.minuteStep > 1 && that.options.roundTime) {
-                           v = getNearest(that['INR'+k], v);
+                           v = getNearest(that['$'+k], v);
                         }
                        
                         if(k === 'second' && that.options.secondStep > 1 && that.options.roundTime) {
-                           v = getNearest(that['INR'+k], v);
+                           v = getNearest(that['$'+k], v);
                         }                       
                        
-                        that['INR'+k].val(v);
+                        that['$'+k].val(v);
                     }
                 });
 
@@ -4349,7 +4349,7 @@ INR(function(){
                     this.fillCombo('day');
                 }
                
-               this.INRelement.val(dt.format(this.options.format)).change();
+               this.$element.val(dt.format(this.options.format)).change();
             }
         },
         
@@ -4359,19 +4359,19 @@ INR(function(){
         highlight: function(dt) {
             if(!dt.isValid()) {
                 if(this.options.errorClass) {
-                    this.INRwidget.addClass(this.options.errorClass);
+                    this.$widget.addClass(this.options.errorClass);
                 } else {
                     //store original border color
                     if(!this.borderColor) {
-                        this.borderColor = this.INRwidget.find('select').css('border-color'); 
+                        this.borderColor = this.$widget.find('select').css('border-color'); 
                     }
-                    this.INRwidget.find('select').css('border-color', 'red');
+                    this.$widget.find('select').css('border-color', 'red');
                 } 
             } else {
                 if(this.options.errorClass) {
-                    this.INRwidget.removeClass(this.options.errorClass);
+                    this.$widget.removeClass(this.options.errorClass);
                 } else {
-                    this.INRwidget.find('select').css('border-color', this.borderColor);
+                    this.$widget.find('select').css('border-color', this.borderColor);
                 }  
             }
         },
@@ -4381,14 +4381,14 @@ INR(function(){
         },
         
         destroy: function() {
-            this.INRwidget.remove();
-            this.INRelement.removeData('combodate').show();
+            this.$widget.remove();
+            this.$element.removeData('combodate').show();
         }
         
         //todo: clear method        
     };
 
-    INR.fn.combodate = function ( option ) {
+    $.fn.combodate = function ( option ) {
         var d, args = Array.apply(null, arguments);
         args.shift();
 
@@ -4398,11 +4398,11 @@ INR(function(){
         }        
         
         return this.each(function () {
-            var INRthis = INR(this),
-            data = INRthis.data('combodate'),
+            var $this = $(this),
+            data = $this.data('combodate'),
             options = typeof option == 'object' && option;
             if (!data) {
-                INRthis.data('combodate', (data = new Combodate(this, options)));
+                $this.data('combodate', (data = new Combodate(this, options)));
             }
             if (typeof option == 'string' && typeof data[option] == 'function') {
                 data[option].apply(data, args);
@@ -4410,7 +4410,7 @@ INR(function(){
         });
     };  
     
-    INR.fn.combodate.defaults = {
+    $.fn.combodate.defaults = {
          //in this format value stored in original input
         format: 'DD-MM-YYYY HH:mm',      
         //in this format items in dropdowns are displayed
@@ -4451,8 +4451,8 @@ Internally value stored as `momentjs` object.
 @example
 <a href="#" id="dob" data-type="combodate" data-pk="1" data-url="/post" data-value="1984-05-15" data-title="Select date"></a>
 <script>
-INR(function(){
-    INR('#dob').editable({
+$(function(){
+    $('#dob').editable({
         format: 'YYYY-MM-DD',    
         viewformat: 'DD.MM.YYYY',    
         template: 'D / MMMM / YYYY',    
@@ -4469,7 +4469,7 @@ INR(function(){
 
 /*global moment*/
 
-(function (INR) {
+(function ($) {
     "use strict";
     
     var Constructor = function (options) {
@@ -4481,45 +4481,45 @@ INR(function(){
         }        
         
         //try parse combodate config defined as json string in data-combodate
-        options.combodate = INR.fn.editableutils.tryParseJson(options.combodate, true);
+        options.combodate = $.fn.editableutils.tryParseJson(options.combodate, true);
 
         //overriding combodate config (as by default jQuery extend() is not recursive)
-        this.options.combodate = INR.extend({}, Constructor.defaults.combodate, options.combodate, {
+        this.options.combodate = $.extend({}, Constructor.defaults.combodate, options.combodate, {
             format: this.options.format,
             template: this.options.template
         });
     };
 
-    INR.fn.editableutils.inherit(Constructor, INR.fn.editabletypes.abstractinput);    
+    $.fn.editableutils.inherit(Constructor, $.fn.editabletypes.abstractinput);    
     
-    INR.extend(Constructor.prototype, {
+    $.extend(Constructor.prototype, {
         render: function () {
-            this.INRinput.combodate(this.options.combodate);
+            this.$input.combodate(this.options.combodate);
                     
-            if(INR.fn.editableform.engine === 'bs3') {
-                this.INRinput.siblings().find('select').addClass('form-control');
+            if($.fn.editableform.engine === 'bs3') {
+                this.$input.siblings().find('select').addClass('form-control');
             }
             
             if(this.options.inputclass) {
-                this.INRinput.siblings().find('select').addClass(this.options.inputclass);
+                this.$input.siblings().find('select').addClass(this.options.inputclass);
             }            
             //"clear" link
             /*
             if(this.options.clear) {
-                this.INRclear = INR('<a href="#"></a>').html(this.options.clear).click(INR.proxy(function(e){
+                this.$clear = $('<a href="#"></a>').html(this.options.clear).click($.proxy(function(e){
                     e.preventDefault();
                     e.stopPropagation();
                     this.clear();
                 }, this));
                 
-                this.INRtpl.parent().append(INR('<div class="editable-clear">').append(this.INRclear));  
+                this.$tpl.parent().append($('<div class="editable-clear">').append(this.$clear));  
             } 
             */               
         },
         
         value2html: function(value, element) {
             var text = value ? value.format(this.options.viewformat) : '';
-            //INR(element).text(text);
+            //$(element).text(text);
             Constructor.superclass.value2html.call(this, text, element);  
         },
 
@@ -4540,21 +4540,21 @@ INR(function(){
        },                    
 
        value2input: function(value) {
-           this.INRinput.combodate('setValue', value);
+           this.$input.combodate('setValue', value);
        },
         
        input2value: function() { 
-           return this.INRinput.combodate('getValue', null);
+           return this.$input.combodate('getValue', null);
        },       
        
        activate: function() {
-           this.INRinput.siblings('.combodate').find('select').eq(0).focus();
+           this.$input.siblings('.combodate').find('select').eq(0).focus();
        },
        
        /*
        clear:  function() {
-          this.INRinput.data('datepicker').date = null;
-          this.INRinput.find('.active').removeClass('active');
+          this.$input.data('datepicker').date = null;
+          this.$input.find('.active').removeClass('active');
        },
        */
        
@@ -4564,7 +4564,7 @@ INR(function(){
 
     });
     
-    Constructor.defaults = INR.extend({}, INR.fn.editabletypes.abstractinput.defaults, {
+    Constructor.defaults = $.extend({}, $.fn.editabletypes.abstractinput.defaults, {
         /**
         @property tpl 
         @default <input type="text">
@@ -4623,24 +4623,24 @@ INR(function(){
         //clear: '&times; clear'
     });   
 
-    INR.fn.editabletypes.combodate = Constructor;
+    $.fn.editabletypes.combodate = Constructor;
 
 }(window.jQuery));
 
 /*
 Editableform based on Twitter Bootstrap 3
 */
-(function (INR) {
+(function ($) {
     "use strict";
     
     //store parent methods
-    var pInitInput = INR.fn.editableform.Constructor.prototype.initInput;
+    var pInitInput = $.fn.editableform.Constructor.prototype.initInput;
     
-    INR.extend(INR.fn.editableform.Constructor.prototype, {
+    $.extend($.fn.editableform.Constructor.prototype, {
         initTemplate: function() {
-            this.INRform = INR(INR.fn.editableform.template); 
-            this.INRform.find('.control-group').addClass('form-group');
-            this.INRform.find('.editable-error-block').addClass('help-block');
+            this.$form = $($.fn.editableform.template); 
+            this.$form.find('.control-group').addClass('form-group');
+            this.$form.find('.editable-error-block').addClass('help-block');
         },
         initInput: function() {  
             pInitInput.apply(this);
@@ -4651,33 +4651,33 @@ Editableform based on Twitter Bootstrap 3
             
             //bs3 add `form-control` class to standard inputs
             var stdtypes = 'text,select,textarea,password,email,url,tel,number,range,time,typeaheadjs'.split(','); 
-            if(~INR.inArray(this.input.type, stdtypes)) {
-                this.input.INRinput.addClass('form-control');
+            if(~$.inArray(this.input.type, stdtypes)) {
+                this.input.$input.addClass('form-control');
                 if(emptyInputClass) {
                     this.input.options.inputclass = defaultClass;
-                    this.input.INRinput.addClass(defaultClass);
+                    this.input.$input.addClass(defaultClass);
                 }
             }             
         
             //apply bs3 size class also to buttons (to fit size of control)
-            var INRbtn = this.INRform.find('.editable-buttons');
+            var $btn = this.$form.find('.editable-buttons');
             var classes = emptyInputClass ? [defaultClass] : this.input.options.inputclass.split(' ');
             for(var i=0; i<classes.length; i++) {
                 // `btn-sm` is default now
                 /*
                 if(classes[i].toLowerCase() === 'input-sm') { 
-                    INRbtn.find('button').addClass('btn-sm');  
+                    $btn.find('button').addClass('btn-sm');  
                 }
                 */
                 if(classes[i].toLowerCase() === 'input-lg') {
-                    INRbtn.find('button').removeClass('btn-sm').addClass('btn-lg'); 
+                    $btn.find('button').removeClass('btn-sm').addClass('btn-lg'); 
                 }
             }
         }
     });    
     
     //buttons
-    INR.fn.editableform.buttons = 
+    $.fn.editableform.buttons = 
       '<button type="submit" class="btn btn-primary btn-sm editable-submit">'+
         '<i class="glyphicon glyphicon-ok"></i>'+
       '</button>'+
@@ -4686,28 +4686,28 @@ Editableform based on Twitter Bootstrap 3
       '</button>';         
     
     //error classes
-    INR.fn.editableform.errorGroupClass = 'has-error';
-    INR.fn.editableform.errorBlockClass = null;  
+    $.fn.editableform.errorGroupClass = 'has-error';
+    $.fn.editableform.errorBlockClass = null;  
     //engine
-    INR.fn.editableform.engine = 'bs3';  
+    $.fn.editableform.engine = 'bs3';  
 }(window.jQuery));
 /**
 * Editable Popover3 (for Bootstrap 3) 
 * ---------------------
 * requires bootstrap-popover.js
 */
-(function (INR) {
+(function ($) {
     "use strict";
 
     //extend methods
-    INR.extend(INR.fn.editableContainer.Popup.prototype, {
+    $.extend($.fn.editableContainer.Popup.prototype, {
         containerName: 'popover',
         containerDataName: 'bs.popover',
         innerCss: '.popover-content',
-        defaults: INR.fn.popover.Constructor.DEFAULTS,
+        defaults: $.fn.popover.Constructor.DEFAULTS,
 
         initContainer: function(){
-            INR.extend(this.containerOptions, {
+            $.extend(this.containerOptions, {
                 trigger: 'manual',
                 selector: false,
                 content: ' ',
@@ -4716,16 +4716,16 @@ Editableform based on Twitter Bootstrap 3
             
             //as template property is used in inputs, hide it from popover
             var t;
-            if(this.INRelement.data('template')) {
-               t = this.INRelement.data('template');
-               this.INRelement.removeData('template');  
+            if(this.$element.data('template')) {
+               t = this.$element.data('template');
+               this.$element.removeData('template');  
             } 
             
             this.call(this.containerOptions);
             
             if(t) {
                //restore data('template')
-               this.INRelement.data('template', t); 
+               this.$element.data('template', t); 
             }
         }, 
         
@@ -4756,7 +4756,7 @@ Editableform based on Twitter Bootstrap 3
 
             (function() {
             /*    
-                var INRtip = this.tip()
+                var $tip = this.tip()
                 , inside
                 , pos
                 , actualWidth
@@ -4769,22 +4769,22 @@ Editableform based on Twitter Bootstrap 3
                 , tpr;
 
                 placement = typeof this.options.placement === 'function' ?
-                this.options.placement.call(this, INRtip[0], this.INRelement[0]) :
+                this.options.placement.call(this, $tip[0], this.$element[0]) :
                 this.options.placement;
 
                 inside = /in/.test(placement);
                
-                INRtip
+                $tip
               //  .detach()
               //vitalets: remove any placement class because otherwise they dont influence on re-positioning of visible popover
                 .removeClass('top right bottom left')
                 .css({ top: 0, left: 0, display: 'block' });
-              //  .insertAfter(this.INRelement);
+              //  .insertAfter(this.$element);
                
                 pos = this.getPosition(inside);
 
-                actualWidth = INRtip[0].offsetWidth;
-                actualHeight = INRtip[0].offsetHeight;
+                actualWidth = $tip[0].offsetWidth;
+                actualHeight = $tip[0].offsetHeight;
 
                 placement = inside ? placement.split(' ')[1] : placement;
 
@@ -4795,12 +4795,12 @@ Editableform based on Twitter Bootstrap 3
 
                 switch (placement) {
                     case 'bottom':
-                        if ((tpb.top + actualHeight) > (INR(window).scrollTop() + INR(window).height())) {
-                            if (tpt.top > INR(window).scrollTop()) {
+                        if ((tpb.top + actualHeight) > ($(window).scrollTop() + $(window).height())) {
+                            if (tpt.top > $(window).scrollTop()) {
                                 placement = 'top';
-                            } else if ((tpr.left + actualWidth) < (INR(window).scrollLeft() + INR(window).width())) {
+                            } else if ((tpr.left + actualWidth) < ($(window).scrollLeft() + $(window).width())) {
                                 placement = 'right';
-                            } else if (tpl.left > INR(window).scrollLeft()) {
+                            } else if (tpl.left > $(window).scrollLeft()) {
                                 placement = 'left';
                             } else {
                                 placement = 'right';
@@ -4808,12 +4808,12 @@ Editableform based on Twitter Bootstrap 3
                         }
                         break;
                     case 'top':
-                        if (tpt.top < INR(window).scrollTop()) {
-                            if ((tpb.top + actualHeight) < (INR(window).scrollTop() + INR(window).height())) {
+                        if (tpt.top < $(window).scrollTop()) {
+                            if ((tpb.top + actualHeight) < ($(window).scrollTop() + $(window).height())) {
                                 placement = 'bottom';
-                            } else if ((tpr.left + actualWidth) < (INR(window).scrollLeft() + INR(window).width())) {
+                            } else if ((tpr.left + actualWidth) < ($(window).scrollLeft() + $(window).width())) {
                                 placement = 'right';
-                            } else if (tpl.left > INR(window).scrollLeft()) {
+                            } else if (tpl.left > $(window).scrollLeft()) {
                                 placement = 'left';
                             } else {
                                 placement = 'right';
@@ -4821,12 +4821,12 @@ Editableform based on Twitter Bootstrap 3
                         }
                         break;
                     case 'left':
-                        if (tpl.left < INR(window).scrollLeft()) {
-                            if ((tpr.left + actualWidth) < (INR(window).scrollLeft() + INR(window).width())) {
+                        if (tpl.left < $(window).scrollLeft()) {
+                            if ((tpr.left + actualWidth) < ($(window).scrollLeft() + $(window).width())) {
                                 placement = 'right';
-                            } else if (tpt.top > INR(window).scrollTop()) {
+                            } else if (tpt.top > $(window).scrollTop()) {
                                 placement = 'top';
-                            } else if (tpt.top > INR(window).scrollTop()) {
+                            } else if (tpt.top > $(window).scrollTop()) {
                                 placement = 'bottom';
                             } else {
                                 placement = 'right';
@@ -4834,12 +4834,12 @@ Editableform based on Twitter Bootstrap 3
                         }
                         break;
                     case 'right':
-                        if ((tpr.left + actualWidth) > (INR(window).scrollLeft() + INR(window).width())) {
-                            if (tpl.left > INR(window).scrollLeft()) {
+                        if ((tpr.left + actualWidth) > ($(window).scrollLeft() + $(window).width())) {
+                            if (tpl.left > $(window).scrollLeft()) {
                                 placement = 'left';
-                            } else if (tpt.top > INR(window).scrollTop()) {
+                            } else if (tpt.top > $(window).scrollTop()) {
                                 placement = 'top';
-                            } else if (tpt.top > INR(window).scrollTop()) {
+                            } else if (tpt.top > $(window).scrollTop()) {
                                 placement = 'bottom';
                             }
                         }
@@ -4861,17 +4861,17 @@ Editableform based on Twitter Bootstrap 3
                         break;
                 }
 
-                INRtip
+                $tip
                 .offset(tp)
                 .addClass(placement)
                 .addClass('in');
            */
                      
            
-            var INRtip = this.tip();
+            var $tip = this.tip();
             
             var placement = typeof this.options.placement == 'function' ?
-                this.options.placement.call(this, INRtip[0], this.INRelement[0]) :
+                this.options.placement.call(this, $tip[0], this.$element[0]) :
                 this.options.placement;            
 
             var autoToken = /\s?auto?\s?/i;
@@ -4882,17 +4882,17 @@ Editableform based on Twitter Bootstrap 3
             
             
             var pos = this.getPosition();
-            var actualWidth = INRtip[0].offsetWidth;
-            var actualHeight = INRtip[0].offsetHeight;
+            var actualWidth = $tip[0].offsetWidth;
+            var actualHeight = $tip[0].offsetHeight;
 
             if (autoPlace) {
-                var INRparent = this.INRelement.parent();
+                var $parent = this.$element.parent();
 
                 var orgPlacement = placement;
                 var docScroll    = document.documentElement.scrollTop || document.body.scrollTop;
-                var parentWidth  = this.options.container == 'body' ? window.innerWidth  : INRparent.outerWidth();
-                var parentHeight = this.options.container == 'body' ? window.innerHeight : INRparent.outerHeight();
-                var parentLeft   = this.options.container == 'body' ? 0 : INRparent.offset().left;
+                var parentWidth  = this.options.container == 'body' ? window.innerWidth  : $parent.outerWidth();
+                var parentHeight = this.options.container == 'body' ? window.innerHeight : $parent.outerHeight();
+                var parentLeft   = this.options.container == 'body' ? 0 : $parent.offset().left;
 
                 placement = placement == 'bottom' && pos.top   + pos.height  + actualHeight - docScroll > parentHeight  ? 'top'    :
                             placement == 'top'    && pos.top   - docScroll   - actualHeight < 0                         ? 'bottom' :
@@ -4900,7 +4900,7 @@ Editableform based on Twitter Bootstrap 3
                             placement == 'left'   && pos.left  - actualWidth < parentLeft                               ? 'right'  :
                             placement;
 
-                INRtip
+                $tip
                   .removeClass(orgPlacement)
                   .addClass(placement);
             }
@@ -4938,7 +4938,7 @@ Editableform based on Twitter Bootstrap 3
  * limitations under the License.
  * ========================================================= */
 
-(function( INR ) {
+(function( $ ) {
 
 	function UTCDate(){
 		return new Date(Date.UTC.apply(Date, arguments));
@@ -4955,7 +4955,7 @@ Editableform based on Twitter Bootstrap 3
 
 		this._process_options(options);
 
-		this.element = INR(element);
+		this.element = $(element);
 		this.isInline = false;
 		this.isInput = this.element.is('input');
 		this.component = this.element.is('.date') ? this.element.find('.add-on, .btn') : false;
@@ -4963,7 +4963,7 @@ Editableform based on Twitter Bootstrap 3
 		if(this.component && this.component.length === 0)
 			this.component = false;
 
-		this.picker = INR(DPGlobal.template);
+		this.picker = $(DPGlobal.template);
 		this._buildEvents();
 		this._attachEvents();
 
@@ -5012,9 +5012,9 @@ Editableform based on Twitter Bootstrap 3
 
 		_process_options: function(opts){
 			// Store raw options for reference
-			this._o = INR.extend({}, this._o, opts);
+			this._o = $.extend({}, this._o, opts);
 			// Processed options
-			var o = this.o = INR.extend({}, this._o);
+			var o = this.o = $.extend({}, this._o);
 
 			// Check if "de-DE" style date is available, if not language should
 			// fallback to 2 letter code eg "de"
@@ -5066,9 +5066,9 @@ Editableform based on Twitter Bootstrap 3
 			}
 
 			o.daysOfWeekDisabled = o.daysOfWeekDisabled||[];
-			if (!INR.isArray(o.daysOfWeekDisabled))
+			if (!$.isArray(o.daysOfWeekDisabled))
 				o.daysOfWeekDisabled = o.daysOfWeekDisabled.split(/[,\s]*/);
-			o.daysOfWeekDisabled = INR.map(o.daysOfWeekDisabled, function (d) {
+			o.daysOfWeekDisabled = $.map(o.daysOfWeekDisabled, function (d) {
 				return parseInt(d, 10);
 			});
 		},
@@ -5092,9 +5092,9 @@ Editableform based on Twitter Bootstrap 3
 			if (this.isInput) { // single input
 				this._events = [
 					[this.element, {
-						focus: INR.proxy(this.show, this),
-						keyup: INR.proxy(this.update, this),
-						keydown: INR.proxy(this.keydown, this)
+						focus: $.proxy(this.show, this),
+						keyup: $.proxy(this.update, this),
+						keydown: $.proxy(this.keydown, this)
 					}]
 				];
 			}
@@ -5102,12 +5102,12 @@ Editableform based on Twitter Bootstrap 3
 				this._events = [
 					// For components that are not readonly, allow keyboard nav
 					[this.element.find('input'), {
-						focus: INR.proxy(this.show, this),
-						keyup: INR.proxy(this.update, this),
-						keydown: INR.proxy(this.keydown, this)
+						focus: $.proxy(this.show, this),
+						keyup: $.proxy(this.update, this),
+						keydown: $.proxy(this.keydown, this)
 					}],
 					[this.component, {
-						click: INR.proxy(this.show, this)
+						click: $.proxy(this.show, this)
 					}]
 				];
 			}
@@ -5117,20 +5117,20 @@ Editableform based on Twitter Bootstrap 3
 			else {
 				this._events = [
 					[this.element, {
-						click: INR.proxy(this.show, this)
+						click: $.proxy(this.show, this)
 					}]
 				];
 			}
 
 			this._secondaryEvents = [
 				[this.picker, {
-					click: INR.proxy(this.click, this)
+					click: $.proxy(this.click, this)
 				}],
-				[INR(window), {
-					resize: INR.proxy(this.place, this)
+				[$(window), {
+					resize: $.proxy(this.place, this)
 				}],
-				[INR(document), {
-					mousedown: INR.proxy(function (e) {
+				[$(document), {
+					mousedown: $.proxy(function (e) {
 						// Clicked outside the datepicker, hide it
 						if (!(
 							this.element.is(e.target) ||
@@ -5165,7 +5165,7 @@ Editableform based on Twitter Bootstrap 3
 			this.element.trigger({
 				type: event,
 				date: local_date,
-				format: INR.proxy(function(altformat){
+				format: $.proxy(function(altformat){
 					var format = altformat || this.o.format;
 					return DPGlobal.formatDate(date, format, this.o.language);
 				}, this)
@@ -5271,7 +5271,7 @@ Editableform based on Twitter Bootstrap 3
 		place: function(){
 						if(this.isInline) return;
 			var zIndex = parseInt(this.element.parents().filter(function() {
-							return INR(this).css('z-index') != 'auto';
+							return $(this).css('z-index') != 'auto';
 						}).first().css('z-index'))+10;
 			var offset = this.component ? this.component.parent().offset() : this.element.offset();
 			var height = this.component ? this.component.outerHeight(true) : this.element.outerHeight(true);
@@ -5337,7 +5337,7 @@ Editableform based on Twitter Bootstrap 3
 			if (!range || !range.length)
 				delete this.range;
 			else
-				this.range = INR.map(range, function(d){ return d.valueOf(); });
+				this.range = $.map(range, function(d){ return d.valueOf(); });
 			this.fill();
 		},
 
@@ -5363,14 +5363,14 @@ Editableform based on Twitter Bootstrap 3
 				cls.push('active');
 			}
 			if (date.valueOf() < this.o.startDate || date.valueOf() > this.o.endDate ||
-				INR.inArray(date.getUTCDay(), this.o.daysOfWeekDisabled) !== -1) {
+				$.inArray(date.getUTCDay(), this.o.daysOfWeekDisabled) !== -1) {
 				cls.push('disabled');
 			}
 			if (this.range){
 				if (date > this.range[0] && date < this.range[this.range.length-1]){
 					cls.push('range');
 				}
-				if (INR.inArray(date.valueOf(), this.range) != -1){
+				if ($.inArray(date.valueOf(), this.range) != -1){
 					cls.push('selected');
 				}
 			}
@@ -5442,7 +5442,7 @@ Editableform based on Twitter Bootstrap 3
 				if (before.tooltip)
 					tooltip = before.tooltip;
 
-				clsName = INR.unique(clsName);
+				clsName = $.unique(clsName);
 				html.push('<td class="'+clsName.join(' ')+'"' + (tooltip ? ' title="'+tooltip+'"' : '') + '>'+prevMonth.getUTCDate() + '</td>');
 				if (prevMonth.getUTCDay() == this.o.weekEnd) {
 					html.push('</tr>');
@@ -5522,7 +5522,7 @@ Editableform based on Twitter Bootstrap 3
 
 		click: function(e) {
 			e.preventDefault();
-			var target = INR(e.target).closest('span, td, th');
+			var target = $(e.target).closest('span, td, th');
 			if (target.length == 1) {
 				switch(target[0].nodeName.toLowerCase()) {
 					case 'th':
@@ -5686,7 +5686,7 @@ Editableform based on Twitter Bootstrap 3
 			return this.moveMonth(date, dir*12);
 		},
 
-		dateWithinRange: function(date){
+		dateWith$ange: function(date){
 			return date >= this.o.startDate && date <= this.o.endDate;
 		},
 
@@ -5720,7 +5720,7 @@ Editableform based on Twitter Bootstrap 3
 						newViewDate = new Date(this.viewDate);
 						newViewDate.setUTCDate(this.viewDate.getUTCDate() + dir);
 					}
-					if (this.dateWithinRange(newDate)){
+					if (this.dateWith$ange(newDate)){
 						this.date = newDate;
 						this.viewDate = newViewDate;
 						this.setValue();
@@ -5745,7 +5745,7 @@ Editableform based on Twitter Bootstrap 3
 						newViewDate = new Date(this.viewDate);
 						newViewDate.setUTCDate(this.viewDate.getUTCDate() + dir * 7);
 					}
-					if (this.dateWithinRange(newDate)){
+					if (this.dateWith$ange(newDate)){
 						this.date = newDate;
 						this.viewDate = newViewDate;
 						this.setValue();
@@ -5796,32 +5796,32 @@ Editableform based on Twitter Bootstrap 3
 	};
 
 	var DateRangePicker = function(element, options){
-		this.element = INR(element);
-		this.inputs = INR.map(options.inputs, function(i){ return i.jquery ? i[0] : i; });
+		this.element = $(element);
+		this.inputs = $.map(options.inputs, function(i){ return i.jquery ? i[0] : i; });
 		delete options.inputs;
 
-		INR(this.inputs)
+		$(this.inputs)
 			.datepicker(options)
-			.bind('changeDate', INR.proxy(this.dateUpdated, this));
+			.bind('changeDate', $.proxy(this.dateUpdated, this));
 
-		this.pickers = INR.map(this.inputs, function(i){ return INR(i).data('datepicker'); });
+		this.pickers = $.map(this.inputs, function(i){ return $(i).data('datepicker'); });
 		this.updateDates();
 	};
 	DateRangePicker.prototype = {
 		updateDates: function(){
-			this.dates = INR.map(this.pickers, function(i){ return i.date; });
+			this.dates = $.map(this.pickers, function(i){ return i.date; });
 			this.updateRanges();
 		},
 		updateRanges: function(){
-			var range = INR.map(this.dates, function(d){ return d.valueOf(); });
-			INR.each(this.pickers, function(i, p){
+			var range = $.map(this.dates, function(d){ return d.valueOf(); });
+			$.each(this.pickers, function(i, p){
 				p.setRange(range);
 			});
 		},
 		dateUpdated: function(e){
-			var dp = INR(e.target).data('datepicker'),
+			var dp = $(e.target).data('datepicker'),
 				new_date = dp.getUTCDate(),
-				i = INR.inArray(e.target, this.inputs),
+				i = $.inArray(e.target, this.inputs),
 				l = this.inputs.length;
 			if (i == -1) return;
 
@@ -5840,14 +5840,14 @@ Editableform based on Twitter Bootstrap 3
 			this.updateDates();
 		},
 		remove: function(){
-			INR.map(this.pickers, function(p){ p.remove(); });
+			$.map(this.pickers, function(p){ p.remove(); });
 			delete this.element.data().datepicker;
 		}
 	};
 
 	function opts_from_el(el, prefix){
 		// Derive options from element data-attrs
-		var data = INR(el).data(),
+		var data = $(el).data(),
 			out = {}, inkey,
 			replace = new RegExp('^' + prefix.toLowerCase() + '([A-Z])'),
 			prefix = new RegExp('^' + prefix.toLowerCase());
@@ -5870,38 +5870,38 @@ Editableform based on Twitter Bootstrap 3
 				return;
 		}
 		var d = dates[lang];
-		INR.each(locale_opts, function(i,k){
+		$.each(locale_opts, function(i,k){
 			if (k in d)
 				out[k] = d[k];
 		});
 		return out;
 	}
 
-	var old = INR.fn.datepicker;
-	var datepicker = INR.fn.datepicker = function ( option ) {
+	var old = $.fn.datepicker;
+	var datepicker = $.fn.datepicker = function ( option ) {
 		var args = Array.apply(null, arguments);
 		args.shift();
 		var internal_return,
 			this_return;
 		this.each(function () {
-			var INRthis = INR(this),
-				data = INRthis.data('datepicker'),
+			var $this = $(this),
+				data = $this.data('datepicker'),
 				options = typeof option == 'object' && option;
 			if (!data) {
 				var elopts = opts_from_el(this, 'date'),
 					// Preliminary otions
-					xopts = INR.extend({}, defaults, elopts, options),
+					xopts = $.extend({}, defaults, elopts, options),
 					locopts = opts_from_locale(xopts.language),
 					// Options priority: js args, data-attrs, locales, defaults
-					opts = INR.extend({}, defaults, locopts, elopts, options);
-				if (INRthis.is('.input-daterange') || opts.inputs){
+					opts = $.extend({}, defaults, locopts, elopts, options);
+				if ($this.is('.input-daterange') || opts.inputs){
 					var ropts = {
-						inputs: opts.inputs || INRthis.find('input').toArray()
+						inputs: opts.inputs || $this.find('input').toArray()
 					};
-					INRthis.data('datepicker', (data = new DateRangePicker(this, INR.extend(opts, ropts))));
+					$this.data('datepicker', (data = new DateRangePicker(this, $.extend(opts, ropts))));
 				}
 				else{
-					INRthis.data('datepicker', (data = new Datepicker(this, opts)));
+					$this.data('datepicker', (data = new Datepicker(this, opts)));
 				}
 			}
 			if (typeof option == 'string' && typeof data[option] == 'function') {
@@ -5916,9 +5916,9 @@ Editableform based on Twitter Bootstrap 3
 			return this;
 	};
 
-	var defaults = INR.fn.datepicker.defaults = {
+	var defaults = $.fn.datepicker.defaults = {
 		autoclose: false,
-		beforeShowDay: INR.noop,
+		beforeShowDay: $.noop,
 		calendarWeeks: false,
 		clearBtn: false,
 		daysOfWeekDisabled: [],
@@ -5935,13 +5935,13 @@ Editableform based on Twitter Bootstrap 3
 		todayHighlight: false,
 		weekStart: 0
 	};
-	var locale_opts = INR.fn.datepicker.locale_opts = [
+	var locale_opts = $.fn.datepicker.locale_opts = [
 		'format',
 		'rtl',
 		'weekStart'
 	];
-	INR.fn.datepicker.Constructor = Datepicker;
-	var dates = INR.fn.datepicker.dates = {
+	$.fn.datepicker.Constructor = Datepicker;
+	var dates = $.fn.datepicker.dates = {
 		en: {
 			days: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
 			daysShort: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
@@ -5992,7 +5992,7 @@ Editableform based on Twitter Bootstrap 3
 			if (date instanceof Date) return date;
 			if (typeof format === 'string')
 				format = DPGlobal.parseFormat(format);
-			if (/^[\-+]\d+[dmwy]([\s,]+[\-+]\d+[dmwy])*INR/.test(date)) {
+			if (/^[\-+]\d+[dmwy]([\s,]+[\-+]\d+[dmwy])*$/.test(date)) {
 				var part_re = /([\-+]\d+)([dmwy])/,
 					parts = date.match(/([\-+]\d+)([dmwy])/g),
 					part, dir;
@@ -6042,8 +6042,8 @@ Editableform based on Twitter Bootstrap 3
 			var fparts = format.parts.slice();
 			// Remove noop parts
 			if (parts.length != fparts.length) {
-				fparts = INR(fparts).filter(function(i,p){
-					return INR.inArray(p, setters_order) !== -1;
+				fparts = $(fparts).filter(function(i,p){
+					return $.inArray(p, setters_order) !== -1;
 				}).toArray();
 			}
 			// Process remainder
@@ -6054,20 +6054,20 @@ Editableform based on Twitter Bootstrap 3
 					if (isNaN(val)) {
 						switch(part) {
 							case 'MM':
-								filtered = INR(dates[language].months).filter(function(){
+								filtered = $(dates[language].months).filter(function(){
 									var m = this.slice(0, parts[i].length),
 										p = parts[i].slice(0, m.length);
 									return m == p;
 								});
-								val = INR.inArray(filtered[0], dates[language].months) + 1;
+								val = $.inArray(filtered[0], dates[language].months) + 1;
 								break;
 							case 'M':
-								filtered = INR(dates[language].monthsShort).filter(function(){
+								filtered = $(dates[language].monthsShort).filter(function(){
 									var m = this.slice(0, parts[i].length),
 										p = parts[i].slice(0, m.length);
 									return m == p;
 								});
-								val = INR.inArray(filtered[0], dates[language].monthsShort) + 1;
+								val = $.inArray(filtered[0], dates[language].monthsShort) + 1;
 								break;
 						}
 					}
@@ -6097,7 +6097,7 @@ Editableform based on Twitter Bootstrap 3
 			val.dd = (val.d < 10 ? '0' : '') + val.d;
 			val.mm = (val.m < 10 ? '0' : '') + val.m;
 			var date = [],
-				seps = INR.extend([], format.separators);
+				seps = $.extend([], format.separators);
 			for (var i=0, cnt = format.parts.length; i <= cnt; i++) {
 				if (seps.length)
 					date.push(seps.shift());
@@ -6139,14 +6139,14 @@ Editableform based on Twitter Bootstrap 3
 							'</div>'+
 						'</div>';
 
-	INR.fn.datepicker.DPGlobal = DPGlobal;
+	$.fn.datepicker.DPGlobal = DPGlobal;
 
 
 	/* DATEPICKER NO CONFLICT
 	* =================== */
 
-	INR.fn.datepicker.noConflict = function(){
-		INR.fn.datepicker = old;
+	$.fn.datepicker.noConflict = function(){
+		$.fn.datepicker = old;
 		return this;
 	};
 
@@ -6154,21 +6154,21 @@ Editableform based on Twitter Bootstrap 3
 	/* DATEPICKER DATA-API
 	* ================== */
 
-	INR(document).on(
+	$(document).on(
 		'focus.datepicker.data-api click.datepicker.data-api',
 		'[data-provide="datepicker"]',
 		function(e){
-			var INRthis = INR(this);
-			if (INRthis.data('datepicker')) return;
+			var $this = $(this);
+			if ($this.data('datepicker')) return;
 			e.preventDefault();
 			// component click requires us to explicitly show it
-			datepicker.call(INRthis, 'show');
+			datepicker.call($this, 'show');
 		}
 	);
-	INR(function(){
-		//INR('[data-provide="datepicker-inline"]').datepicker();
+	$(function(){
+		//$('[data-provide="datepicker-inline"]').datepicker();
         //vit: changed to support noConflict()
-        datepicker.call(INR('[data-provide="datepicker-inline"]'));
+        datepicker.call($('[data-provide="datepicker-inline"]'));
 	});
 
 }( window.jQuery ));
@@ -6186,8 +6186,8 @@ Since 1.4.0 date has different appearance in **popup** and **inline** modes.
 @example
 <a href="#" id="dob" data-type="date" data-pk="1" data-url="/post" data-title="Select date">15/05/1984</a>
 <script>
-INR(function(){
-    INR('#dob').editable({
+$(function(){
+    $('#dob').editable({
         format: 'yyyy-mm-dd',    
         viewformat: 'dd/mm/yyyy',    
         datepicker: {
@@ -6198,13 +6198,13 @@ INR(function(){
 });
 </script>
 **/
-(function (INR) {
+(function ($) {
     "use strict";
     
     //store bootstrap-datepicker as bdateicker to exclude conflict with jQuery UI one
-    INR.fn.bdatepicker = INR.fn.datepicker.noConflict();
-    if(!INR.fn.datepicker) { //if there were no other datepickers, keep also original name
-        INR.fn.datepicker = INR.fn.bdatepicker;    
+    $.fn.bdatepicker = $.fn.datepicker.noConflict();
+    if(!$.fn.datepicker) { //if there were no other datepickers, keep also original name
+        $.fn.datepicker = $.fn.bdatepicker;    
     }    
     
     var Date = function (options) {
@@ -6212,9 +6212,9 @@ INR(function(){
         this.initPicker(options, Date.defaults);
     };
 
-    INR.fn.editableutils.inherit(Date, INR.fn.editabletypes.abstractinput);    
+    $.fn.editableutils.inherit(Date, $.fn.editabletypes.abstractinput);    
     
-    INR.extend(Date.prototype, {
+    $.extend(Date.prototype, {
         initPicker: function(options, defaults) {
             //'format' is set directly from settings or data-* attributes
 
@@ -6224,11 +6224,11 @@ INR(function(){
             }
             
             //try parse datepicker config defined as json string in data-datepicker
-            options.datepicker = INR.fn.editableutils.tryParseJson(options.datepicker, true);
+            options.datepicker = $.fn.editableutils.tryParseJson(options.datepicker, true);
             
             //overriding datepicker config (as by default jQuery extend() is not recursive)
             //since 1.4 datepicker internally uses viewformat instead of format. Format is for submit only
-            this.options.datepicker = INR.extend({}, defaults.datepicker, options.datepicker, {
+            this.options.datepicker = $.extend({}, defaults.datepicker, options.datepicker, {
                 format: this.options.viewformat
             });
             
@@ -6236,7 +6236,7 @@ INR(function(){
             this.options.datepicker.language = this.options.datepicker.language || 'en'; 
 
             //store DPglobal
-            this.dpg = INR.fn.bdatepicker.DPGlobal; 
+            this.dpg = $.fn.bdatepicker.DPGlobal; 
 
             //store parsed formats
             this.parsedFormat = this.dpg.parseFormat(this.options.format);
@@ -6244,17 +6244,17 @@ INR(function(){
         },
         
         render: function () {
-            this.INRinput.bdatepicker(this.options.datepicker);
+            this.$input.bdatepicker(this.options.datepicker);
             
             //"clear" link
             if(this.options.clear) {
-                this.INRclear = INR('<a href="#"></a>').html(this.options.clear).click(INR.proxy(function(e){
+                this.$clear = $('<a href="#"></a>').html(this.options.clear).click($.proxy(function(e){
                     e.preventDefault();
                     e.stopPropagation();
                     this.clear();
                 }, this));
                 
-                this.INRtpl.parent().append(INR('<div class="editable-clear">').append(this.INRclear));  
+                this.$tpl.parent().append($('<div class="editable-clear">').append(this.$clear));  
             }                
         },
         
@@ -6280,40 +6280,40 @@ INR(function(){
         },                    
 
         value2input: function(value) {
-            this.INRinput.bdatepicker('update', value);
+            this.$input.bdatepicker('update', value);
         },
 
         input2value: function() { 
-            return this.INRinput.data('datepicker').date;
+            return this.$input.data('datepicker').date;
         },       
 
         activate: function() {
         },
 
         clear:  function() {
-            this.INRinput.data('datepicker').date = null;
-            this.INRinput.find('.active').removeClass('active');
+            this.$input.data('datepicker').date = null;
+            this.$input.find('.active').removeClass('active');
             if(!this.options.showbuttons) {
-                this.INRinput.closest('form').submit(); 
+                this.$input.closest('form').submit(); 
             }
         },
 
         autosubmit: function() {
-            this.INRinput.on('mouseup', '.day', function(e){
-                if(INR(e.currentTarget).is('.old') || INR(e.currentTarget).is('.new')) {
+            this.$input.on('mouseup', '.day', function(e){
+                if($(e.currentTarget).is('.old') || $(e.currentTarget).is('.new')) {
                     return;
                 }
-                var INRform = INR(this).closest('form');
+                var $form = $(this).closest('form');
                 setTimeout(function() {
-                    INRform.submit();
+                    $form.submit();
                 }, 200);
             });
            //changedate is not suitable as it triggered when showing datepicker. see #149
            /*
-           this.INRinput.on('changeDate', function(e){
-               var INRform = INR(this).closest('form');
+           this.$input.on('changeDate', function(e){
+               var $form = $(this).closest('form');
                setTimeout(function() {
-                   INRform.submit();
+                   $form.submit();
                }, 200);
            });
            */
@@ -6340,7 +6340,7 @@ INR(function(){
 
     });
 
-    Date.defaults = INR.extend({}, INR.fn.editabletypes.abstractinput.defaults, {
+    Date.defaults = $.extend({}, $.fn.editabletypes.abstractinput.defaults, {
         /**
         @property tpl 
         @default <div></div>
@@ -6399,7 +6399,7 @@ INR(function(){
         clear: '&times; clear'
     });
 
-    INR.fn.editabletypes.date = Date;
+    $.fn.editabletypes.date = Date;
 
 }(window.jQuery));
 
@@ -6413,7 +6413,7 @@ Automatically shown in inline mode.
 
 @since 1.4.0
 **/
-(function (INR) {
+(function ($) {
     "use strict";
     
     var DateField = function (options) {
@@ -6421,39 +6421,39 @@ Automatically shown in inline mode.
         this.initPicker(options, DateField.defaults);
     };
 
-    INR.fn.editableutils.inherit(DateField, INR.fn.editabletypes.date);    
+    $.fn.editableutils.inherit(DateField, $.fn.editabletypes.date);    
     
-    INR.extend(DateField.prototype, {
+    $.extend(DateField.prototype, {
         render: function () {
-            this.INRinput = this.INRtpl.find('input');
+            this.$input = this.$tpl.find('input');
             this.setClass();
             this.setAttr('placeholder');
     
             //bootstrap-datepicker is set `bdateicker` to exclude conflict with jQuery UI one. (in date.js)        
-            this.INRtpl.bdatepicker(this.options.datepicker);
+            this.$tpl.bdatepicker(this.options.datepicker);
             
             //need to disable original event handlers
-            this.INRinput.off('focus keydown');
+            this.$input.off('focus keydown');
             
             //update value of datepicker
-            this.INRinput.keyup(INR.proxy(function(){
-               this.INRtpl.removeData('date');
-               this.INRtpl.bdatepicker('update');
+            this.$input.keyup($.proxy(function(){
+               this.$tpl.removeData('date');
+               this.$tpl.bdatepicker('update');
             }, this));
             
         },   
         
        value2input: function(value) {
-           this.INRinput.val(value ? this.dpg.formatDate(value, this.parsedViewFormat, this.options.datepicker.language) : '');
-           this.INRtpl.bdatepicker('update');
+           this.$input.val(value ? this.dpg.formatDate(value, this.parsedViewFormat, this.options.datepicker.language) : '');
+           this.$tpl.bdatepicker('update');
        },
         
        input2value: function() { 
-           return this.html2value(this.INRinput.val());
+           return this.html2value(this.$input.val());
        },              
         
        activate: function() {
-           INR.fn.editabletypes.text.prototype.activate.call(this);
+           $.fn.editabletypes.text.prototype.activate.call(this);
        },
        
        autosubmit: function() {
@@ -6461,7 +6461,7 @@ Automatically shown in inline mode.
        }
     });
     
-    DateField.defaults = INR.extend({}, INR.fn.editabletypes.date.defaults, {
+    DateField.defaults = $.extend({}, $.fn.editabletypes.date.defaults, {
         /**
         @property tpl 
         **/         
@@ -6481,7 +6481,7 @@ Automatically shown in inline mode.
         }
     });
     
-    INR.fn.editabletypes.datefield = DateField;
+    $.fn.editabletypes.datefield = DateField;
 
 }(window.jQuery));
 /**
@@ -6502,8 +6502,8 @@ and set `language` option.
 @example
 <a href="#" id="last_seen" data-type="datetime" data-pk="1" data-url="/post" title="Select date & time">15/03/2013 12:45</a>
 <script>
-INR(function(){
-    INR('#last_seen').editable({
+$(function(){
+    $('#last_seen').editable({
         format: 'yyyy-mm-dd hh:ii',    
         viewformat: 'dd/mm/yyyy hh:ii',    
         datetimepicker: {
@@ -6514,7 +6514,7 @@ INR(function(){
 });
 </script>
 **/
-(function (INR) {
+(function ($) {
     "use strict";
 
     var DateTime = function (options) {
@@ -6522,9 +6522,9 @@ INR(function(){
         this.initPicker(options, DateTime.defaults);
     };
 
-    INR.fn.editableutils.inherit(DateTime, INR.fn.editabletypes.abstractinput);
+    $.fn.editableutils.inherit(DateTime, $.fn.editabletypes.abstractinput);
 
-    INR.extend(DateTime.prototype, {
+    $.extend(DateTime.prototype, {
         initPicker: function(options, defaults) {
             //'format' is set directly from settings or data-* attributes
 
@@ -6534,11 +6534,11 @@ INR(function(){
             }
             
             //try parse datetimepicker config defined as json string in data-datetimepicker
-            options.datetimepicker = INR.fn.editableutils.tryParseJson(options.datetimepicker, true);
+            options.datetimepicker = $.fn.editableutils.tryParseJson(options.datetimepicker, true);
 
             //overriding datetimepicker config (as by default jQuery extend() is not recursive)
             //since 1.4 datetimepicker internally uses viewformat instead of format. Format is for submit only
-            this.options.datetimepicker = INR.extend({}, defaults.datetimepicker, options.datetimepicker, {
+            this.options.datetimepicker = $.extend({}, defaults.datetimepicker, options.datetimepicker, {
                 format: this.options.viewformat
             });
 
@@ -6546,7 +6546,7 @@ INR(function(){
             this.options.datetimepicker.language = this.options.datetimepicker.language || 'en'; 
 
             //store DPglobal
-            this.dpg = INR.fn.datetimepicker.DPGlobal; 
+            this.dpg = $.fn.datetimepicker.DPGlobal; 
 
             //store parsed formats
             this.parsedFormat = this.dpg.parseFormat(this.options.format, this.options.formatType);
@@ -6554,12 +6554,12 @@ INR(function(){
         },
 
         render: function () {
-            this.INRinput.datetimepicker(this.options.datetimepicker);
+            this.$input.datetimepicker(this.options.datetimepicker);
 
             //adjust container position when viewMode changes
             //see https://github.com/smalot/bootstrap-datetimepicker/pull/80
-            this.INRinput.on('changeMode', function(e) {
-                var f = INR(this).closest('form').parent();
+            this.$input.on('changeMode', function(e) {
+                var f = $(this).closest('form').parent();
                 //timeout here, otherwise container changes position before form has new size
                 setTimeout(function(){
                     f.triggerHandler('resize');
@@ -6568,13 +6568,13 @@ INR(function(){
 
             //"clear" link
             if(this.options.clear) {
-                this.INRclear = INR('<a href="#"></a>').html(this.options.clear).click(INR.proxy(function(e){
+                this.$clear = $('<a href="#"></a>').html(this.options.clear).click($.proxy(function(e){
                     e.preventDefault();
                     e.stopPropagation();
                     this.clear();
                 }, this));
 
-                this.INRtpl.parent().append(INR('<div class="editable-clear">').append(this.INRclear));  
+                this.$tpl.parent().append($('<div class="editable-clear">').append(this.$clear));  
             }
         },
 
@@ -6611,13 +6611,13 @@ INR(function(){
 
        value2input: function(value) {
            if(value) {
-             this.INRinput.data('datetimepicker').setDate(value);
+             this.$input.data('datetimepicker').setDate(value);
            }
        },
 
        input2value: function() { 
            //date may be cleared, in that case getDate() triggers error
-           var dt = this.INRinput.data('datetimepicker');
+           var dt = this.$input.data('datetimepicker');
            return dt.date ? dt.getDate() : null;
        },
 
@@ -6625,18 +6625,18 @@ INR(function(){
        },
 
        clear: function() {
-          this.INRinput.data('datetimepicker').date = null;
-          this.INRinput.find('.active').removeClass('active');
+          this.$input.data('datetimepicker').date = null;
+          this.$input.find('.active').removeClass('active');
           if(!this.options.showbuttons) {
-             this.INRinput.closest('form').submit(); 
+             this.$input.closest('form').submit(); 
           }          
        },
 
        autosubmit: function() {
-           this.INRinput.on('mouseup', '.minute', function(e){
-               var INRform = INR(this).closest('form');
+           this.$input.on('mouseup', '.minute', function(e){
+               var $form = $(this).closest('form');
                setTimeout(function() {
-                   INRform.submit();
+                   $form.submit();
                }, 200);
            });
        },
@@ -6672,7 +6672,7 @@ INR(function(){
 
     });
 
-    DateTime.defaults = INR.extend({}, INR.fn.editabletypes.abstractinput.defaults, {
+    DateTime.defaults = $.extend({}, $.fn.editabletypes.abstractinput.defaults, {
         /**
         @property tpl 
         @default <div></div>
@@ -6725,7 +6725,7 @@ INR(function(){
         clear: '&times; clear'
     });
 
-    INR.fn.editabletypes.datetime = DateTime;
+    $.fn.editabletypes.datetime = DateTime;
 
 }(window.jQuery));
 /**
@@ -6737,7 +6737,7 @@ Automatically shown in inline mode.
 @extends datetime
 
 **/
-(function (INR) {
+(function ($) {
     "use strict";
     
     var DateTimeField = function (options) {
@@ -6745,38 +6745,38 @@ Automatically shown in inline mode.
         this.initPicker(options, DateTimeField.defaults);
     };
 
-    INR.fn.editableutils.inherit(DateTimeField, INR.fn.editabletypes.datetime);
+    $.fn.editableutils.inherit(DateTimeField, $.fn.editabletypes.datetime);
     
-    INR.extend(DateTimeField.prototype, {
+    $.extend(DateTimeField.prototype, {
         render: function () {
-            this.INRinput = this.INRtpl.find('input');
+            this.$input = this.$tpl.find('input');
             this.setClass();
             this.setAttr('placeholder');
             
-            this.INRtpl.datetimepicker(this.options.datetimepicker);
+            this.$tpl.datetimepicker(this.options.datetimepicker);
             
             //need to disable original event handlers
-            this.INRinput.off('focus keydown');
+            this.$input.off('focus keydown');
             
             //update value of datepicker
-            this.INRinput.keyup(INR.proxy(function(){
-               this.INRtpl.removeData('date');
-               this.INRtpl.datetimepicker('update');
+            this.$input.keyup($.proxy(function(){
+               this.$tpl.removeData('date');
+               this.$tpl.datetimepicker('update');
             }, this));
             
         },   
       
        value2input: function(value) {
-           this.INRinput.val(this.value2html(value));
-           this.INRtpl.datetimepicker('update');
+           this.$input.val(this.value2html(value));
+           this.$tpl.datetimepicker('update');
        },
         
        input2value: function() { 
-           return this.html2value(this.INRinput.val());
+           return this.html2value(this.$input.val());
        },              
         
        activate: function() {
-           INR.fn.editabletypes.text.prototype.activate.call(this);
+           $.fn.editabletypes.text.prototype.activate.call(this);
        },
        
        autosubmit: function() {
@@ -6784,7 +6784,7 @@ Automatically shown in inline mode.
        }
     });
     
-    DateTimeField.defaults = INR.extend({}, INR.fn.editabletypes.datetime.defaults, {
+    DateTimeField.defaults = $.extend({}, $.fn.editabletypes.datetime.defaults, {
         /**
         @property tpl 
         **/         
@@ -6802,6 +6802,6 @@ Automatically shown in inline mode.
         }
     });
     
-    INR.fn.editabletypes.datetimefield = DateTimeField;
+    $.fn.editabletypes.datetimefield = DateTimeField;
 
 }(window.jQuery));

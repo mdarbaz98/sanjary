@@ -18,10 +18,10 @@ Licensed under the MIT license.
  *
  * Examples:
  *
- *   INR.color.parse("#fff").scale('rgb', 0.25).add('a', -0.5).toString()
- *   var c = INR.color.extract(INR("#mydiv"), 'background-color');
+ *   $.color.parse("#fff").scale('rgb', 0.25).add('a', -0.5).toString()
+ *   var c = $.color.extract($("#mydiv"), 'background-color');
  *   console.log(c.r, c.g, c.b, c.a);
- *   INR.color.make(100, 50, 25, 0.4).toString() // returns "rgba(100,50,25,0.4)"
+ *   $.color.make(100, 50, 25, 0.4).toString() // returns "rgba(100,50,25,0.4)"
  *
  * Note that .scale() and .add() return the same modified object
  * instead of making a new one.
@@ -29,10 +29,10 @@ Licensed under the MIT license.
  * V. 1.1: Fix error handling so e.g. parsing an empty string does
  * produce a color rather than just crashing.
  */
-(function(INR){INR.color={};INR.color.make=function(r,g,b,a){var o={};o.r=r||0;o.g=g||0;o.b=b||0;o.a=a!=null?a:1;o.add=function(c,d){for(var i=0;i<c.length;++i)o[c.charAt(i)]+=d;return o.normalize()};o.scale=function(c,f){for(var i=0;i<c.length;++i)o[c.charAt(i)]*=f;return o.normalize()};o.toString=function(){if(o.a>=1){return"rgb("+[o.r,o.g,o.b].join(",")+")"}else{return"rgba("+[o.r,o.g,o.b,o.a].join(",")+")"}};o.normalize=function(){function clamp(min,value,max){return value<min?min:value>max?max:value}o.r=clamp(0,parseInt(o.r),255);o.g=clamp(0,parseInt(o.g),255);o.b=clamp(0,parseInt(o.b),255);o.a=clamp(0,o.a,1);return o};o.clone=function(){return INR.color.make(o.r,o.b,o.g,o.a)};return o.normalize()};INR.color.extract=function(elem,css){var c;do{c=elem.css(css).toLowerCase();if(c!=""&&c!="transparent")break;elem=elem.parent()}while(elem.length&&!INR.nodeName(elem.get(0),"body"));if(c=="rgba(0, 0, 0, 0)")c="transparent";return INR.color.parse(c)};INR.color.parse=function(str){var res,m=INR.color.make;if(res=/rgb\(\s*([0-9]{1,3})\s*,\s*([0-9]{1,3})\s*,\s*([0-9]{1,3})\s*\)/.exec(str))return m(parseInt(res[1],10),parseInt(res[2],10),parseInt(res[3],10));if(res=/rgba\(\s*([0-9]{1,3})\s*,\s*([0-9]{1,3})\s*,\s*([0-9]{1,3})\s*,\s*([0-9]+(?:\.[0-9]+)?)\s*\)/.exec(str))return m(parseInt(res[1],10),parseInt(res[2],10),parseInt(res[3],10),parseFloat(res[4]));if(res=/rgb\(\s*([0-9]+(?:\.[0-9]+)?)\%\s*,\s*([0-9]+(?:\.[0-9]+)?)\%\s*,\s*([0-9]+(?:\.[0-9]+)?)\%\s*\)/.exec(str))return m(parseFloat(res[1])*2.55,parseFloat(res[2])*2.55,parseFloat(res[3])*2.55);if(res=/rgba\(\s*([0-9]+(?:\.[0-9]+)?)\%\s*,\s*([0-9]+(?:\.[0-9]+)?)\%\s*,\s*([0-9]+(?:\.[0-9]+)?)\%\s*,\s*([0-9]+(?:\.[0-9]+)?)\s*\)/.exec(str))return m(parseFloat(res[1])*2.55,parseFloat(res[2])*2.55,parseFloat(res[3])*2.55,parseFloat(res[4]));if(res=/#([a-fA-F0-9]{2})([a-fA-F0-9]{2})([a-fA-F0-9]{2})/.exec(str))return m(parseInt(res[1],16),parseInt(res[2],16),parseInt(res[3],16));if(res=/#([a-fA-F0-9])([a-fA-F0-9])([a-fA-F0-9])/.exec(str))return m(parseInt(res[1]+res[1],16),parseInt(res[2]+res[2],16),parseInt(res[3]+res[3],16));var name=INR.trim(str).toLowerCase();if(name=="transparent")return m(255,255,255,0);else{res=lookupColors[name]||[0,0,0];return m(res[0],res[1],res[2])}};var lookupColors={aqua:[0,255,255],azure:[240,255,255],beige:[245,245,220],black:[0,0,0],blue:[0,0,255],brown:[165,42,42],cyan:[0,255,255],darkblue:[0,0,139],darkcyan:[0,139,139],darkgrey:[169,169,169],darkgreen:[0,100,0],darkkhaki:[189,183,107],darkmagenta:[139,0,139],darkolivegreen:[85,107,47],darkorange:[255,140,0],darkorchid:[153,50,204],darkred:[139,0,0],darksalmon:[233,150,122],darkviolet:[148,0,211],fuchsia:[255,0,255],gold:[255,215,0],green:[0,128,0],indigo:[75,0,130],khaki:[240,230,140],lightblue:[173,216,230],lightcyan:[224,255,255],lightgreen:[144,238,144],lightgrey:[211,211,211],lightpink:[255,182,193],lightyellow:[255,255,224],lime:[0,255,0],magenta:[255,0,255],maroon:[128,0,0],navy:[0,0,128],olive:[128,128,0],orange:[255,165,0],pink:[255,192,203],purple:[128,0,128],violet:[128,0,128],red:[255,0,0],silver:[192,192,192],white:[255,255,255],yellow:[255,255,0]}})(jQuery);
+(function($){$.color={};$.color.make=function(r,g,b,a){var o={};o.r=r||0;o.g=g||0;o.b=b||0;o.a=a!=null?a:1;o.add=function(c,d){for(var i=0;i<c.length;++i)o[c.charAt(i)]+=d;return o.normalize()};o.scale=function(c,f){for(var i=0;i<c.length;++i)o[c.charAt(i)]*=f;return o.normalize()};o.toString=function(){if(o.a>=1){return"rgb("+[o.r,o.g,o.b].join(",")+")"}else{return"rgba("+[o.r,o.g,o.b,o.a].join(",")+")"}};o.normalize=function(){function clamp(min,value,max){return value<min?min:value>max?max:value}o.r=clamp(0,parseInt(o.r),255);o.g=clamp(0,parseInt(o.g),255);o.b=clamp(0,parseInt(o.b),255);o.a=clamp(0,o.a,1);return o};o.clone=function(){return $.color.make(o.r,o.b,o.g,o.a)};return o.normalize()};$.color.extract=function(elem,css){var c;do{c=elem.css(css).toLowerCase();if(c!=""&&c!="transparent")break;elem=elem.parent()}while(elem.length&&!$.nodeName(elem.get(0),"body"));if(c=="rgba(0, 0, 0, 0)")c="transparent";return $.color.parse(c)};$.color.parse=function(str){var res,m=$.color.make;if(res=/rgb\(\s*([0-9]{1,3})\s*,\s*([0-9]{1,3})\s*,\s*([0-9]{1,3})\s*\)/.exec(str))return m(parseInt(res[1],10),parseInt(res[2],10),parseInt(res[3],10));if(res=/rgba\(\s*([0-9]{1,3})\s*,\s*([0-9]{1,3})\s*,\s*([0-9]{1,3})\s*,\s*([0-9]+(?:\.[0-9]+)?)\s*\)/.exec(str))return m(parseInt(res[1],10),parseInt(res[2],10),parseInt(res[3],10),parseFloat(res[4]));if(res=/rgb\(\s*([0-9]+(?:\.[0-9]+)?)\%\s*,\s*([0-9]+(?:\.[0-9]+)?)\%\s*,\s*([0-9]+(?:\.[0-9]+)?)\%\s*\)/.exec(str))return m(parseFloat(res[1])*2.55,parseFloat(res[2])*2.55,parseFloat(res[3])*2.55);if(res=/rgba\(\s*([0-9]+(?:\.[0-9]+)?)\%\s*,\s*([0-9]+(?:\.[0-9]+)?)\%\s*,\s*([0-9]+(?:\.[0-9]+)?)\%\s*,\s*([0-9]+(?:\.[0-9]+)?)\s*\)/.exec(str))return m(parseFloat(res[1])*2.55,parseFloat(res[2])*2.55,parseFloat(res[3])*2.55,parseFloat(res[4]));if(res=/#([a-fA-F0-9]{2})([a-fA-F0-9]{2})([a-fA-F0-9]{2})/.exec(str))return m(parseInt(res[1],16),parseInt(res[2],16),parseInt(res[3],16));if(res=/#([a-fA-F0-9])([a-fA-F0-9])([a-fA-F0-9])/.exec(str))return m(parseInt(res[1]+res[1],16),parseInt(res[2]+res[2],16),parseInt(res[3]+res[3],16));var name=$.trim(str).toLowerCase();if(name=="transparent")return m(255,255,255,0);else{res=lookupColors[name]||[0,0,0];return m(res[0],res[1],res[2])}};var lookupColors={aqua:[0,255,255],azure:[240,255,255],beige:[245,245,220],black:[0,0,0],blue:[0,0,255],brown:[165,42,42],cyan:[0,255,255],darkblue:[0,0,139],darkcyan:[0,139,139],darkgrey:[169,169,169],darkgreen:[0,100,0],darkkhaki:[189,183,107],darkmagenta:[139,0,139],darkolivegreen:[85,107,47],darkorange:[255,140,0],darkorchid:[153,50,204],darkred:[139,0,0],darksalmon:[233,150,122],darkviolet:[148,0,211],fuchsia:[255,0,255],gold:[255,215,0],green:[0,128,0],indigo:[75,0,130],khaki:[240,230,140],lightblue:[173,216,230],lightcyan:[224,255,255],lightgreen:[144,238,144],lightgrey:[211,211,211],lightpink:[255,182,193],lightyellow:[255,255,224],lime:[0,255,0],magenta:[255,0,255],maroon:[128,0,0],navy:[0,0,128],olive:[128,128,0],orange:[255,165,0],pink:[255,192,203],purple:[128,0,128],violet:[128,0,128],red:[255,0,0],silver:[192,192,192],white:[255,255,255],yellow:[255,255,0]}})(jQuery);
 
 // the actual Flot code
-(function(INR) {
+(function($) {
 
 	// Cache the prototype hasOwnProperty for faster access
 
@@ -44,8 +44,8 @@ Licensed under the MIT license.
 
     // Do not merge this into Flot 0.9, since it requires jQuery 1.4.4+.
 
-    if (!INR.fn.detach) {
-        INR.fn.detach = function() {
+    if (!$.fn.detach) {
+        $.fn.detach = function() {
             return this.each(function() {
                 if (this.parentNode) {
                     this.parentNode.removeChild( this );
@@ -73,7 +73,7 @@ Licensed under the MIT license.
 			element = document.createElement("canvas");
 			element.className = cls;
 
-			INR(element).css({ direction: "ltr", position: "absolute", left: 0, top: 0 })
+			$(element).css({ direction: "ltr", position: "absolute", left: 0, top: 0 })
 				.appendTo(container);
 
 			// If HTML5 Canvas isn't available, fall back to [Ex|Flash]canvas
@@ -247,7 +247,7 @@ Licensed under the MIT license.
 			// Create the text layer container, if it doesn't exist
 
 			if (this.textContainer == null) {
-				this.textContainer = INR("<div class='flot-text'></div>")
+				this.textContainer = $("<div class='flot-text'></div>")
 					.css({
 						position: "absolute",
 						top: 0,
@@ -260,7 +260,7 @@ Licensed under the MIT license.
 					.insertAfter(this.element);
 			}
 
-			layer = this.text[classes] = INR("<div></div>")
+			layer = this.text[classes] = $("<div></div>")
 				.addClass(classes)
 				.css({
 					position: "absolute",
@@ -351,7 +351,7 @@ Licensed under the MIT license.
 
 		if (info == null) {
 
-			var element = INR("<div></div>").html(text)
+			var element = $("<div></div>").html(text)
 				.css({
 					position: "absolute",
 					'max-width': width,
@@ -653,7 +653,7 @@ Licensed under the MIT license.
         plot.getData = function () { return series; };
         plot.getAxes = function () {
             var res = {}, i;
-            INR.each(xaxes.concat(yaxes), function (_, axis) {
+            $.each(xaxes.concat(yaxes), function (_, axis) {
                 if (axis)
                     res[axis.direction + (axis.n != 1 ? axis.n : "") + "axis"] = axis;
             });
@@ -729,15 +729,15 @@ Licensed under the MIT license.
                 var p = plugins[i];
                 p.init(plot, classes);
                 if (p.options)
-                    INR.extend(true, options, p.options);
+                    $.extend(true, options, p.options);
             }
         }
 
         function parseOptions(opts) {
 
-            INR.extend(true, options, opts);
+            $.extend(true, options, opts);
 
-            // INR.extend merges arrays, rather than replacing them.  When less
+            // $.extend merges arrays, rather than replacing them.  When less
             // colors are provided than the size of the default palette, we
             // end up with those colors plus the remaining defaults, which is
             // not expected behavior; avoid it by replacing them here.
@@ -747,9 +747,9 @@ Licensed under the MIT license.
             }
 
             if (options.xaxis.color == null)
-                options.xaxis.color = INR.color.parse(options.grid.color).scale('a', 0.22).toString();
+                options.xaxis.color = $.color.parse(options.grid.color).scale('a', 0.22).toString();
             if (options.yaxis.color == null)
-                options.yaxis.color = INR.color.parse(options.grid.color).scale('a', 0.22).toString();
+                options.yaxis.color = $.color.parse(options.grid.color).scale('a', 0.22).toString();
 
             if (options.xaxis.tickColor == null) // grid.tickColor for back-compatibility
                 options.xaxis.tickColor = options.grid.tickColor || options.xaxis.color;
@@ -759,7 +759,7 @@ Licensed under the MIT license.
             if (options.grid.borderColor == null)
                 options.grid.borderColor = options.grid.color;
             if (options.grid.tickColor == null)
-                options.grid.tickColor = INR.color.parse(options.grid.color).scale('a', 0.22).toString();
+                options.grid.tickColor = $.color.parse(options.grid.color).scale('a', 0.22).toString();
 
             // Fill in defaults for axis options, including any unspecified
             // font-spec fields, if a font-spec was provided.
@@ -786,11 +786,11 @@ Licensed under the MIT license.
                     axisOptions.tickColor = axisOptions.color;
                 }
 
-                axisOptions = INR.extend(true, {}, options.xaxis, axisOptions);
+                axisOptions = $.extend(true, {}, options.xaxis, axisOptions);
                 options.xaxes[i] = axisOptions;
 
                 if (axisOptions.font) {
-                    axisOptions.font = INR.extend({}, fontDefaults, axisOptions.font);
+                    axisOptions.font = $.extend({}, fontDefaults, axisOptions.font);
                     if (!axisOptions.font.color) {
                         axisOptions.font.color = axisOptions.color;
                     }
@@ -808,11 +808,11 @@ Licensed under the MIT license.
                     axisOptions.tickColor = axisOptions.color;
                 }
 
-                axisOptions = INR.extend(true, {}, options.yaxis, axisOptions);
+                axisOptions = $.extend(true, {}, options.yaxis, axisOptions);
                 options.yaxes[i] = axisOptions;
 
                 if (axisOptions.font) {
-                    axisOptions.font = INR.extend({}, fontDefaults, axisOptions.font);
+                    axisOptions.font = $.extend({}, fontDefaults, axisOptions.font);
                     if (!axisOptions.font.color) {
                         axisOptions.font.color = axisOptions.color;
                     }
@@ -828,7 +828,7 @@ Licensed under the MIT license.
             if (options.yaxis.noTicks && options.yaxis.ticks == null)
                 options.yaxis.ticks = options.yaxis.noTicks;
             if (options.x2axis) {
-                options.xaxes[1] = INR.extend(true, {}, options.xaxis, options.x2axis);
+                options.xaxes[1] = $.extend(true, {}, options.xaxis, options.x2axis);
                 options.xaxes[1].position = "top";
                 // Override the inherit to allow the axis to auto-scale
                 if (options.x2axis.min == null) {
@@ -839,7 +839,7 @@ Licensed under the MIT license.
                 }
             }
             if (options.y2axis) {
-                options.yaxes[1] = INR.extend(true, {}, options.yaxis, options.y2axis);
+                options.yaxes[1] = $.extend(true, {}, options.yaxis, options.y2axis);
                 options.yaxes[1].position = "right";
                 // Override the inherit to allow the axis to auto-scale
                 if (options.y2axis.min == null) {
@@ -854,11 +854,11 @@ Licensed under the MIT license.
             if (options.grid.coloredAreasColor)
                 options.grid.markingsColor = options.grid.coloredAreasColor;
             if (options.lines)
-                INR.extend(true, options.series.lines, options.lines);
+                $.extend(true, options.series.lines, options.lines);
             if (options.points)
-                INR.extend(true, options.series.points, options.points);
+                $.extend(true, options.series.points, options.points);
             if (options.bars)
-                INR.extend(true, options.series.bars, options.bars);
+                $.extend(true, options.series.bars, options.bars);
             if (options.shadowSize != null)
                 options.series.shadowSize = options.shadowSize;
             if (options.highlightColor != null)
@@ -887,13 +887,13 @@ Licensed under the MIT license.
         function parseData(d) {
             var res = [];
             for (var i = 0; i < d.length; ++i) {
-                var s = INR.extend(true, {}, options.series);
+                var s = $.extend(true, {}, options.series);
 
                 if (d[i].data != null) {
                     s.data = d[i].data; // move the data instead of deep-copy
                     delete d[i].data;
 
-                    INR.extend(true, s, d[i]);
+                    $.extend(true, s, d[i]);
 
                     d[i].data = s.data;
                 }
@@ -916,7 +916,7 @@ Licensed under the MIT license.
 
         function allAxes() {
             // return flat array without annoying null entries
-            return INR.grep(xaxes.concat(yaxes), function (a) { return a; });
+            return $.grep(xaxes.concat(yaxes), function (a) { return a; });
         }
 
         function canvasToAxisCoords(pos) {
@@ -982,7 +982,7 @@ Licensed under the MIT license.
                 axes[number - 1] = {
                     n: number, // save the number for future reference
                     direction: axes == xaxes ? "x" : "y",
-                    options: INR.extend(true, {}, axes == xaxes ? options.xaxis : options.yaxis)
+                    options: $.extend(true, {}, axes == xaxes ? options.xaxis : options.yaxis)
                 };
 
             return axes[number - 1];
@@ -1020,7 +1020,7 @@ Licensed under the MIT license.
 
             for (i = 0; i < neededColors; i++) {
 
-                c = INR.color.parse(colorPool[i % colorPoolSize] || "#666");
+                c = $.color.parse(colorPool[i % colorPoolSize] || "#666");
 
                 // Each time we exhaust the colors in the pool we adjust
                 // a scaling factor used to produce more variations on
@@ -1095,7 +1095,7 @@ Licensed under the MIT license.
                     axis.datamax = max;
             }
 
-            INR.each(allAxes(), function (_, axis) {
+            $.each(allAxes(), function (_, axis) {
                 // init axis
                 axis.datamin = topSentry;
                 axis.datamax = bottomSentry;
@@ -1289,7 +1289,7 @@ Licensed under the MIT license.
                 updateAxis(s.yaxis, ymin, ymax);
             }
 
-            INR.each(allAxes(), function (_, axis) {
+            $.each(allAxes(), function (_, axis) {
                 if (axis.datamin == topSentry)
                     axis.datamin = null;
                 if (axis.datamax == bottomSentry)
@@ -1304,7 +1304,7 @@ Licensed under the MIT license.
 
             placeholder.css("padding", 0) // padding messes up the positioning
                 .children().filter(function(){
-                    return !INR(this).hasClass("flot-overlay") && !INR(this).hasClass('flot-base');
+                    return !$(this).hasClass("flot-overlay") && !$(this).hasClass('flot-base');
                 }).remove();
 
             if (placeholder.css("position") == 'static')
@@ -1317,7 +1317,7 @@ Licensed under the MIT license.
             octx = overlay.context;
 
             // define which element we're listening for events on
-            eventHolder = INR(overlay.element).unbind();
+            eventHolder = $(overlay.element).unbind();
 
             // If we're re-using a plot object, shut down the old one
 
@@ -1445,7 +1445,7 @@ Licensed under the MIT license.
 
             // Determine the axis's position in its direction and on its side
 
-            INR.each(isXAxis ? xaxes : yaxes, function(i, a) {
+            $.each(isXAxis ? xaxes : yaxes, function(i, a) {
                 if (a && (a.show || a.reserveSpace)) {
                     if (a === axis) {
                         found = true;
@@ -1548,7 +1548,7 @@ Licensed under the MIT license.
             // check axis labels, note we don't check the actual
             // labels but instead use the overall width/height to not
             // jump as much around with replots
-            INR.each(allAxes(), function (_, axis) {
+            $.each(allAxes(), function (_, axis) {
                 if (axis.reserveSpace && axis.ticks && axis.ticks.length) {
                     if (axis.direction === "x") {
                         margins.left = Math.max(margins.left, axis.labelWidth / 2);
@@ -1589,7 +1589,7 @@ Licensed under the MIT license.
                 }
             }
 
-            INR.each(axes, function (_, axis) {
+            $.each(axes, function (_, axis) {
                 var axisOpts = axis.options;
                 axis.show = axisOpts.show == null ? axis.used : axisOpts.show;
                 axis.reserveSpace = axisOpts.reserveSpace == null ? axis.show : axisOpts.reserveSpace;
@@ -1598,11 +1598,11 @@ Licensed under the MIT license.
 
             if (showGrid) {
 
-                var allocatedAxes = INR.grep(axes, function (axis) {
+                var allocatedAxes = $.grep(axes, function (axis) {
                     return axis.show || axis.reserveSpace;
                 });
 
-                INR.each(allocatedAxes, function (_, axis) {
+                $.each(allocatedAxes, function (_, axis) {
                     // make the ticks
                     setupTickGeneration(axis);
                     setTicks(axis);
@@ -1621,7 +1621,7 @@ Licensed under the MIT license.
                 // might stick out
                 adjustLayoutForThingsStickingOut();
 
-                INR.each(allocatedAxes, function (_, axis) {
+                $.each(allocatedAxes, function (_, axis) {
                     allocateAxisBoxSecondPhase(axis);
                 });
             }
@@ -1630,7 +1630,7 @@ Licensed under the MIT license.
             plotHeight = surface.height - plotOffset.bottom - plotOffset.top;
 
             // now we got the proper plot dimensions, we can compute the scaling
-            INR.each(axes, function (_, axis) {
+            $.each(axes, function (_, axis) {
                 setTransformationHelpers(axis);
             });
 
@@ -1778,7 +1778,7 @@ Licensed under the MIT license.
                 };
             }
 
-            if (INR.isFunction(opts.tickFormatter))
+            if ($.isFunction(opts.tickFormatter))
                 axis.tickFormatter = function (v, axis) { return "" + opts.tickFormatter(v, axis); };
 
             if (opts.alignTicksWithAxis != null) {
@@ -1813,7 +1813,7 @@ Licensed under the MIT license.
                         // only proceed if the tick interval rounded
                         // with an extra decimal doesn't give us a
                         // zero at end
-                        if (!(ts.length > 1 && /\..*0INR/.test((ts[1] - ts[0]).toFixed(extraDec))))
+                        if (!(ts.length > 1 && /\..*0$/.test((ts[1] - ts[0]).toFixed(extraDec))))
                             axis.tickDecimals = extraDec;
                     }
                 }
@@ -1825,7 +1825,7 @@ Licensed under the MIT license.
             if (oticks == null || (typeof oticks == "number" && oticks > 0))
                 ticks = axis.tickGenerator(axis);
             else if (oticks) {
-                if (INR.isFunction(oticks))
+                if ($.isFunction(oticks))
                     // generate the ticks
                     ticks = oticks(axis);
                 else
@@ -1949,7 +1949,7 @@ Licensed under the MIT license.
             // draw markings
             var markings = options.grid.markings;
             if (markings) {
-                if (INR.isFunction(markings)) {
+                if ($.isFunction(markings)) {
                     axes = plot.getAxes();
                     // xmin etc. is backwards compatibility, to be
                     // removed in the future
@@ -2181,7 +2181,7 @@ Licensed under the MIT license.
 
         function drawAxisLabels() {
 
-            INR.each(allAxes(), function (_, axis) {
+            $.each(allAxes(), function (_, axis) {
                 var box = axis.box,
                     legacyStyles = axis.direction + "Axis " + axis.direction + axis.n + "Axis",
                     layer = "flot-" + axis.direction + "-axis flot-" + axis.direction + axis.n + "-axis " + legacyStyles,
@@ -2703,7 +2703,7 @@ Licensed under the MIT license.
             if (filloptions.fillColor)
                 return getColorOrGradient(filloptions.fillColor, bottom, top, seriesColor);
 
-            var c = INR.color.parse(seriesColor);
+            var c = $.color.parse(seriesColor);
             c.a = typeof fill == "number" ? fill : 0.4;
             c.normalize();
             return c.toString();
@@ -2712,7 +2712,7 @@ Licensed under the MIT license.
         function insertLegend() {
 
             if (options.legend.container != null) {
-                INR(options.legend.container).html("");
+                $(options.legend.container).html("");
             } else {
                 placeholder.find(".legend").remove();
             }
@@ -2742,7 +2742,7 @@ Licensed under the MIT license.
             // Sort the legend using either the default or a custom comparator
 
             if (options.legend.sorted) {
-                if (INR.isFunction(options.legend.sorted)) {
+                if ($.isFunction(options.legend.sorted)) {
                     entries.sort(options.legend.sorted);
                 } else if (options.legend.sorted == "reverse") {
                 	entries.reverse();
@@ -2783,7 +2783,7 @@ Licensed under the MIT license.
 
             var table = '<table style="font-size:smaller;color:' + options.grid.color + '">' + fragments.join("") + '</table>';
             if (options.legend.container != null)
-                INR(options.legend.container).html(table);
+                $(options.legend.container).html(table);
             else {
                 var pos = "",
                     p = options.legend.position,
@@ -2798,7 +2798,7 @@ Licensed under the MIT license.
                     pos += 'right:' + (m[0] + plotOffset.right) + 'px;';
                 else if (p.charAt(1) == "w")
                     pos += 'left:' + (m[0] + plotOffset.left) + 'px;';
-                var legend = INR('<div class="legend">' + table.replace('style="', 'style="position:absolute;' + pos +';') + '</div>').appendTo(placeholder);
+                var legend = $('<div class="legend">' + table.replace('style="', 'style="position:absolute;' + pos +';') + '</div>').appendTo(placeholder);
                 if (options.legend.backgroundOpacity != 0.0) {
                     // put in the transparent background
                     // separately to avoid blended labels and
@@ -2807,14 +2807,14 @@ Licensed under the MIT license.
                     if (c == null) {
                         c = options.grid.backgroundColor;
                         if (c && typeof c == "string")
-                            c = INR.color.parse(c);
+                            c = $.color.parse(c);
                         else
-                            c = INR.color.extract(legend, 'background-color');
+                            c = $.color.extract(legend, 'background-color');
                         c.a = 1;
                         c = c.toString();
                     }
                     var div = legend.children();
-                    INR('<div style="position:absolute;width:' + div.width() + 'px;height:' + div.height() + 'px;' + pos +'background-color:' + c + ';"> </div>').prependTo(legend).css('opacity', options.legend.backgroundOpacity);
+                    $('<div style="position:absolute;width:' + div.width() + 'px;height:' + div.height() + 'px;' + pos +'background-color:' + c + ';"> </div>').prependTo(legend).css('opacity', options.legend.backgroundOpacity);
                 }
             }
         }
@@ -3068,7 +3068,7 @@ Licensed under the MIT license.
         function drawPointHighlight(series, point) {
             var x = point[0], y = point[1],
                 axisx = series.xaxis, axisy = series.yaxis,
-                highlightColor = (typeof series.highlightColor === "string") ? series.highlightColor : INR.color.parse(series.color).scale('a', 0.5).toString();
+                highlightColor = (typeof series.highlightColor === "string") ? series.highlightColor : $.color.parse(series.color).scale('a', 0.5).toString();
 
             if (x < axisx.min || x > axisx.max || y < axisy.min || y > axisy.max)
                 return;
@@ -3090,7 +3090,7 @@ Licensed under the MIT license.
         }
 
         function drawBarHighlight(series, point) {
-            var highlightColor = (typeof series.highlightColor === "string") ? series.highlightColor : INR.color.parse(series.color).scale('a', 0.5).toString(),
+            var highlightColor = (typeof series.highlightColor === "string") ? series.highlightColor : $.color.parse(series.color).scale('a', 0.5).toString(),
                 fillStyle = highlightColor,
                 barLeft;
 
@@ -3124,7 +3124,7 @@ Licensed under the MIT license.
                 for (var i = 0, l = spec.colors.length; i < l; ++i) {
                     var c = spec.colors[i];
                     if (typeof c != "string") {
-                        var co = INR.color.parse(defaultColor);
+                        var co = $.color.parse(defaultColor);
                         if (c.brightness != null)
                             co = co.scale('rgb', c.brightness);
                         if (c.opacity != null)
@@ -3141,22 +3141,22 @@ Licensed under the MIT license.
 
     // Add the plot function to the top level of the jQuery object
 
-    INR.plot = function(placeholder, data, options) {
+    $.plot = function(placeholder, data, options) {
         //var t0 = new Date();
-        var plot = new Plot(INR(placeholder), data, options, INR.plot.plugins);
+        var plot = new Plot($(placeholder), data, options, $.plot.plugins);
         //(window.console ? console.log : alert)("time used (msecs): " + ((new Date()).getTime() - t0.getTime()));
         return plot;
     };
 
-    INR.plot.version = "0.8.3";
+    $.plot.version = "0.8.3";
 
-    INR.plot.plugins = [];
+    $.plot.plugins = [];
 
     // Also add the plot function as a chainable property
 
-    INR.fn.plot = function(data, options) {
+    $.fn.plot = function(data, options) {
         return this.each(function() {
-            INR.plot(this, data, options);
+            $.plot(this, data, options);
         });
     };
 

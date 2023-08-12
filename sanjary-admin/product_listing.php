@@ -3,7 +3,7 @@ include('include/header.php');
 include('include/sidenav.php');
 include('include/config.php');
 ?>
-<?php if (!empty (INR_SESSION['admin_is_login'])){ ?>
+<?php if (!empty ($_SESSION['admin_is_login'])){ ?>
 	<div class="main-content">
 		<div class="page-content">
 			<div class="container-fluid">
@@ -57,86 +57,86 @@ include('include/config.php');
 											</thead>
 											<tbody>
 												<?php
-													  	INRper_page = 10;
-															INRstmt = INRconn->prepare("SELECT * FROM `product` ORDER BY id DESC");
-															INRstmt->execute();
-															INRnumber_of_rows = INRstmt->fetchColumn();
-															INRpage = ceil(INRnumber_of_rows/INRper_page);
-															INRstart=0;	
-															INRcurrent_page=1;
-															if(isset(INR_GET['start'])){
-																INRstart= INR_GET['start'];
-																INRcurrent_page=INRstart;	
-																INRstart--;
-																INRstart = INRstart*INRper_page;
+													  	$per_page = 10;
+															$stmt = $conn->prepare("SELECT * FROM `product` ORDER BY id DESC");
+															$stmt->execute();
+															$number_of_rows = $stmt->fetchColumn();
+															$page = ceil($number_of_rows/$per_page);
+															$start=0;	
+															$current_page=1;
+															if(isset($_GET['start'])){
+																$start= $_GET['start'];
+																$current_page=$start;	
+																$start--;
+																$start = $start*$per_page;
 															}
-                                INRsql = "SELECT * FROM `product` ORDER BY id DESC LIMIT INRstart,INRper_page";
-                                INRstmt = INRconn->prepare(INRsql);
-                                INRstmt->execute();
-                                INRi=1;
-                                INRdata = INRstmt->fetchAll(PDO::FETCH_ASSOC);
-                                if (!empty(INRdata)) {
-                                foreach (INRdata as INRdata)
+                                $sql = "SELECT * FROM `product` ORDER BY id DESC LIMIT $start,$per_page";
+                                $stmt = $conn->prepare($sql);
+                                $stmt->execute();
+                                $i=1;
+                                $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                                if (!empty($data)) {
+                                foreach ($data as $data)
 								{
 
-									INRimage_id = INRdata['img_id'];
+									$image_id = $data['img_id'];
 					// echo "<pre>";
-					// print_r(INRrow);
+					// print_r($row);
 					// echo "</pre>";
 
-					if(!empty(INRimage_id)){
-						INRimage_id=INRimage_id;
-						//INRpost_image="https://druggist.b-cdn.net/".INRpost_data_image['path'];
+					if(!empty($image_id)){
+						$image_id=$image_id;
+						//$post_image="https://druggist.b-cdn.net/".$post_data_image['path'];
 					}else{
-						  INRimage_id=1;
+						  $image_id=1;
 					}
 					// for image get
-					INRselect_stmtPost_img=INRconn->prepare("SELECT * FROM images WHERE id='".INRimage_id."'");
-					INRselect_stmtPost_img->execute();
-					INRpost_data_image=INRselect_stmtPost_img->fetch(PDO::FETCH_ASSOC);
-					if(!empty(INRpost_data_image['path'])){
-						INRimage=INRpost_data_image['path'];
-						INRalt=INRpost_data_image['alt'];
+					$select_stmtPost_img=$conn->prepare("SELECT * FROM images WHERE id='".$image_id."'");
+					$select_stmtPost_img->execute();
+					$post_data_image=$select_stmtPost_img->fetch(PDO::FETCH_ASSOC);
+					if(!empty($post_data_image['path'])){
+						$image=$post_data_image['path'];
+						$alt=$post_data_image['alt'];
 						}else{
-						INRimage="https://i.ibb.co/4fz1F7f/Getty-Images-974371976.jpg";
+						$image="https://i.ibb.co/4fz1F7f/Getty-Images-974371976.jpg";
 						}
 
 ?>
 													<tr class="odd">
 														<td class="sorting_1 dtr-control" tabindex="0">
-															<?php echo INRi; ?>
+															<?php echo $i; ?>
 														</td>
-														<td><img src="<?php echo INRimage ?>" class="custome_img"></td>
-														<td><?php echo INRdata['product_name'] ?>
-														</td>
-														<td>
-															<?php echo INRdata['prc'] ?>
+														<td><img src="<?php echo $image ?>" class="custome_img"></td>
+														<td><?php echo $data['product_name'] ?>
 														</td>
 														<td>
-														<?php echo INRdata['category'] ?>
+															<?php echo $data['prc'] ?>
+														</td>
+														<td>
+														<?php echo $data['category'] ?>
 														</td>
 								 <td><a href="javascript:void(0)" class="btn btn-info"><i class="fa-solid fa-eye"></i></td>
-								 <td><a href="product_update.php?id=<?php echo INRdata['id']; ?>" class="btn btn-success"><i class="fas fa-edit"></i></td>                                   
-                                 <td><a class="btn btn-danger" href="javascript:void(0)" onclick="trashProduct(<?php echo INRdata['id']; ?>)"><i class="fas fa-trash-alt"></i></a></td>
+								 <td><a href="product_update.php?id=<?php echo $data['id']; ?>" class="btn btn-success"><i class="fas fa-edit"></i></td>                                   
+                                 <td><a class="btn btn-danger" href="javascript:void(0)" onclick="trashProduct(<?php echo $data['id']; ?>)"><i class="fas fa-trash-alt"></i></a></td>
 													</tr>
-													<?php INRi++; } }?>
+													<?php $i++; } }?>
 											</tbody>
 										</table>
 									</div>
 									<p class="pagination_status">Showing 1 to 10 of 10 entries</p>
 									<ul class="pagination pagination justify-content-end mt-3">
-										<li class="page-item <?php if(INRcurrent_page <= 1){ echo 'disabled'; } ?>"><a class="page-link" href="product_listing.php?start=<?php echo INRcurrent_page-1 ?>" class='button'>Previous</a></li>
-										<?php for(INRj=1; INRj<=INRpage; INRj++){
-													    INRclass="";
-													    if(INRcurrent_page == INRj){
-														  INRclass = "active";?>
-											<li class="page-item <?php echo INRclass; ?>">
-												<a class="page-link" href="product_listing.php?start=<?php echo INRj; ?>">
-													<?php echo INRj ?>
+										<li class="page-item <?php if($current_page <= 1){ echo 'disabled'; } ?>"><a class="page-link" href="product_listing.php?start=<?php echo $current_page-1 ?>" class='button'>Previous</a></li>
+										<?php for($j=1; $j<=$page; $j++){
+													    $class="";
+													    if($current_page == $j){
+														  $class = "active";?>
+											<li class="page-item <?php echo $class; ?>">
+												<a class="page-link" href="product_listing.php?start=<?php echo $j; ?>">
+													<?php echo $j ?>
 												</a>
 											</li>
 											<?php } }?>
-												<li class="page-item <?php if(INRcurrent_page >= INRpage) { echo 'disabled'; } ?>"><a class="page-link" href="product_listing.php?start=<?php echo INRcurrent_page+1 ?>" class='button'>NEXT</a></li>
+												<li class="page-item <?php if($current_page >= $page) { echo 'disabled'; } ?>"><a class="page-link" href="product_listing.php?start=<?php echo $current_page+1 ?>" class='button'>NEXT</a></li>
 									</ul>
 								</div>
 							</div>

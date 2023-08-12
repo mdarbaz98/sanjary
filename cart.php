@@ -51,7 +51,7 @@
 																</tr>
 																<tr>
 																	<td class="text-left">Order Total</td>
-																	<td class="text-end final_cartTotal">INR170.00</td>
+																	<td class="text-end final_cartTotal">$170.00</td>
 																</tr>
 															</tbody>
 														</table>
@@ -135,7 +135,7 @@
 												</div>
 												<div class="single-order-info">
 													<h4 class="title-1 text-uppercase text-light-black mb-0">Total</h4>
-													<p class="text-uppercase text-light-black mb-0"><strong>INR 170.00</strong></p>
+													<p class="text-uppercase text-light-black mb-0"><strong>$ 170.00</strong></p>
 												</div>
 												<div class="single-order-info">
 													<h4 class="title-1 text-uppercase text-light-black mb-0">payment method</h4>
@@ -157,27 +157,27 @@
 																<tbody>
 																	<tr>
 																		<td>Dummy Product Name  x 2</td>
-																		<td class="text-end">INR86.00</td>
+																		<td class="text-end">$86.00</td>
 																	</tr>
 																	<tr>
 																		<td>Dummy Product Name  x 1</td>
-																		<td class="text-end">INR69.00</td>
+																		<td class="text-end">$69.00</td>
 																	</tr>
 																	<tr>
 																		<td>Cart Subtotal</td>
-																		<td class="text-end">INR155.00</td>
+																		<td class="text-end">$155.00</td>
 																	</tr>
 																	<tr>
 																		<td>Shipping and Handing</td>
-																		<td class="text-end">INR15.00</td>
+																		<td class="text-end">$15.00</td>
 																	</tr>
 																	<tr>
 																		<td>Vat</td>
-																		<td class="text-end">INR00.00</td>
+																		<td class="text-end">$00.00</td>
 																	</tr>
 																	<tr>
 																		<td>Order Total</td>
-																		<td class="text-end">INR170.00</td>
+																		<td class="text-end">$170.00</td>
 																	</tr>
 																</tbody>
 															</table>

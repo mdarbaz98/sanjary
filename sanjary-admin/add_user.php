@@ -3,7 +3,7 @@ include('include/header.php');
 include('include/sidenav.php');
 include('include/config.php');
 ?>
-<?php if (!empty (INR_SESSION['admin_is_login'])){ ?>
+<?php if (!empty ($_SESSION['admin_is_login'])){ ?>
 	<div class="main-content">
 		<div class="page-content">
 			<div class="container-fluid product_page">
@@ -70,7 +70,7 @@ include('include/config.php');
 	<!-- End Page-content -->
 	<script>
 	function blog_img_pathUrl(input) {
-		INR('#blog-img_url')[0].src = (window.URL ? URL : webkitURL).createObjectURL(input.files[0]);
+		$('#blog-img_url')[0].src = (window.URL ? URL : webkitURL).createObjectURL(input.files[0]);
 	}
 	</script>
 	<?php
