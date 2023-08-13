@@ -81,40 +81,7 @@ include("include/header.php"); ?>
 				</div>
 			</section>
 			<!-- SLIDER-AREA END -->
-			<!-- BANNER-AREA START -->
-			<div class="banner-area pt-80">
-				<div class="container">
-					<div class="row">
-						<div class="col-md-5">
-							<!-- Single-banner start -->
-							<div class="single-banner banner-1 banner-4">
-								<a class="banner-thumb" href="#"><img src="img/banner/3.jpg" alt="" /></a>
-								<span class="pro-label new-label">new</span>
-								<span class="price">$50.00</span>
-								<div class="banner-brief">
-									<h2 class="banner-title"><a href="#">Product name</a></h2>
-									<p class="mb-0">Furniture</p>
-								</div>
-								<a href="#" class="button-one font-16px" data-text="Buy now">Buy now</a>
-							</div>
-							<!-- Single-banner end -->					
-						</div>
-						<div class="col-md-7">
-							<!-- Single-banner start -->
-							<div class="single-banner banner-3">
-								<a class="banner-thumb" href="#"><img src="img/banner/4.jpg" alt="" /></a>
-								<div class="banner-brief">
-									<h2 class="banner-title">
-										<a class="text-uppercase" href="#">design by <br />hurst <br />modern <br /><span>-2021</span></a>
-									</h2>
-								</div>
-							</div>
-							<!-- Single-banner end -->								
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- BANNER-AREA END -->
+			
 			<!-- PRODUCT-AREA START -->
 			<div class="product-area pt-80 pb-30 product-style-2">
 				<div class="container">
@@ -130,6 +97,8 @@ include("include/header.php"); ?>
                  $i=0;
                     while ($row = $product->fetch(PDO::FETCH_ASSOC)){
                         $prod_id = $row['id'];
+						$product_name = $row['product_name'];
+						$category = $row['category'];
                     $stmt_img = $conn->prepare("SELECT * FROM `images` WHERE status=1 AND id=?");
 					$stmt_img->execute([$row['front_img']]);
 					$img_data = $stmt_img->fetchAll(PDO::FETCH_ASSOC);
@@ -183,251 +152,22 @@ include("include/header.php"); ?>
 												</span>
 											</div>
 											<div class="product-action clearfix">
-												<a href="wishlist.html" data-bs-toggle="tooltip" data-placement="top" title="Wishlist"><i class="zmdi zmdi-favorite-outline"></i></a>
-												<a href="#" data-bs-toggle="modal"  data-bs-target="#productModal" title="Quick View"><i class="zmdi zmdi-zoom-in"></i></a>
-												<a href="#" data-bs-toggle="tooltip" data-placement="top" title="Compare"><i class="zmdi zmdi-refresh"></i></a>
-												<a href="cart.html" data-bs-toggle="tooltip" data-placement="top" title="Add To Cart"><i class="zmdi zmdi-shopping-cart-plus"></i></a>
+												<a href="javascript:void(0)" data-bs-toggle="tooltip" data-placement="top" title="Wishlist"><i class="zmdi zmdi-favorite-outline"></i></a>
+												<a href="javascript:void(0)" onclick="addProductToCart(this)" data-pro_id="<?php echo $prod_id ?>" data-pro_name="<?php echo $product_name ?>" data-category="<?php echo $category ?>"
+													data-image="<?php echo $image ?>" data-price="<?php echo $price ?>" data-size="<?php echo $size ?>"  data-bs-toggle="tooltip" data-placement="top" title="Add To Cart"><i class="zmdi zmdi-shopping-cart-plus"></i></a>
 											</div>
 										</div>
 									</div>
 								</div>
 <?php } ?>
 								
-                                <!-- <div class="col-12">
-									<div class="single-product">
-										<div class="product-img">
-											<span class="pro-label sale-label">Sale</span>
-											<span class="pro-price-2">$ 56.20</span>
-											<a href="single-product.html"><img src="img/product/5.jpg" alt="" /></a>
-										</div>
-										<div class="product-info clearfix text-center">
-											<div class="fix">
-												<h4 class="post-title"><a href="#">dummy Product name</a></h4>
-											</div>
-											<div class="fix">
-												<span class="pro-rating">
-													<a href="#"><i class="zmdi zmdi-star"></i></a>
-													<a href="#"><i class="zmdi zmdi-star"></i></a>
-													<a href="#"><i class="zmdi zmdi-star"></i></a>
-													<a href="#"><i class="zmdi zmdi-star-half"></i></a>
-													<a href="#"><i class="zmdi zmdi-star-half"></i></a>
-												</span>
-											</div>
-											<div class="product-action clearfix">
-												<a href="wishlist.html" data-bs-toggle="tooltip" data-placement="top" title="Wishlist"><i class="zmdi zmdi-favorite-outline"></i></a>
-												<a href="#" data-bs-toggle="modal"  data-bs-target="#productModal" title="Quick View"><i class="zmdi zmdi-zoom-in"></i></a>
-												<a href="#" data-bs-toggle="tooltip" data-placement="top" title="Compare"><i class="zmdi zmdi-refresh"></i></a>
-												<a href="cart.html" data-bs-toggle="tooltip" data-placement="top" title="Add To Cart"><i class="zmdi zmdi-shopping-cart-plus"></i></a>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-12">
-									<div class="single-product">
-										<div class="product-img">
-											<span class="pro-label new-label">new</span>
-											<span class="pro-price-2">$ 56.20</span>
-											<a href="single-product.html"><img src="img/product/12.jpg" alt="" /></a>
-										</div>
-										<div class="product-info clearfix text-center">
-											<div class="fix">
-												<h4 class="post-title"><a href="#">dummy Product name</a></h4>
-											</div>
-											<div class="fix">
-												<span class="pro-rating">
-													<a href="#"><i class="zmdi zmdi-star"></i></a>
-													<a href="#"><i class="zmdi zmdi-star"></i></a>
-													<a href="#"><i class="zmdi zmdi-star"></i></a>
-													<a href="#"><i class="zmdi zmdi-star-half"></i></a>
-													<a href="#"><i class="zmdi zmdi-star-half"></i></a>
-												</span>
-											</div>
-											<div class="product-action clearfix">
-												<a href="wishlist.html" data-bs-toggle="tooltip" data-placement="top" title="Wishlist"><i class="zmdi zmdi-favorite-outline"></i></a>
-												<a href="#" data-bs-toggle="modal"  data-bs-target="#productModal" title="Quick View"><i class="zmdi zmdi-zoom-in"></i></a>
-												<a href="#" data-bs-toggle="tooltip" data-placement="top" title="Compare"><i class="zmdi zmdi-refresh"></i></a>
-												<a href="cart.html" data-bs-toggle="tooltip" data-placement="top" title="Add To Cart"><i class="zmdi zmdi-shopping-cart-plus"></i></a>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-12">
-									<div class="single-product">
-										<div class="product-img">
-											<span class="pro-label new-label">new</span>
-											<span class="pro-price-2">$ 56.20</span>
-											<a href="single-product.html"><img src="img/product/6.jpg" alt="" /></a>
-										</div>
-										<div class="product-info clearfix text-center">
-											<div class="fix">
-												<h4 class="post-title"><a href="#">dummy Product name</a></h4>
-											</div>
-											<div class="fix">
-												<span class="pro-rating">
-													<a href="#"><i class="zmdi zmdi-star"></i></a>
-													<a href="#"><i class="zmdi zmdi-star"></i></a>
-													<a href="#"><i class="zmdi zmdi-star"></i></a>
-													<a href="#"><i class="zmdi zmdi-star-half"></i></a>
-													<a href="#"><i class="zmdi zmdi-star-half"></i></a>
-												</span>
-											</div>
-											<div class="product-action clearfix">
-												<a href="wishlist.html" data-bs-toggle="tooltip" data-placement="top" title="Wishlist"><i class="zmdi zmdi-favorite-outline"></i></a>
-												<a href="#" data-bs-toggle="modal"  data-bs-target="#productModal" title="Quick View"><i class="zmdi zmdi-zoom-in"></i></a>
-												<a href="#" data-bs-toggle="tooltip" data-placement="top" title="Compare"><i class="zmdi zmdi-refresh"></i></a>
-												<a href="cart.html" data-bs-toggle="tooltip" data-placement="top" title="Add To Cart"><i class="zmdi zmdi-shopping-cart-plus"></i></a>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-12">
-									<div class="single-product">
-										<div class="product-img">
-											<span class="pro-label sale-label">sale</span>
-											<span class="pro-price-2">$ 56.20</span>
-											<a href="single-product.html"><img src="img/product/8.jpg" alt="" /></a>
-										</div>
-										<div class="product-info clearfix text-center">
-											<div class="fix">
-												<h4 class="post-title"><a href="#">dummy Product name</a></h4>
-											</div>
-											<div class="fix">
-												<span class="pro-rating">
-													<a href="#"><i class="zmdi zmdi-star"></i></a>
-													<a href="#"><i class="zmdi zmdi-star"></i></a>
-													<a href="#"><i class="zmdi zmdi-star"></i></a>
-													<a href="#"><i class="zmdi zmdi-star-half"></i></a>
-													<a href="#"><i class="zmdi zmdi-star-half"></i></a>
-												</span>
-											</div>
-											<div class="product-action clearfix">
-												<a href="wishlist.html" data-bs-toggle="tooltip" data-placement="top" title="Wishlist"><i class="zmdi zmdi-favorite-outline"></i></a>
-												<a href="#" data-bs-toggle="modal"  data-bs-target="#productModal" title="Quick View"><i class="zmdi zmdi-zoom-in"></i></a>
-												<a href="#" data-bs-toggle="tooltip" data-placement="top" title="Compare"><i class="zmdi zmdi-refresh"></i></a>
-												<a href="cart.html" data-bs-toggle="tooltip" data-placement="top" title="Add To Cart"><i class="zmdi zmdi-shopping-cart-plus"></i></a>
-											</div>
-										</div>
-									</div>
-								</div> -->
-
+                                
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 			<!-- PRODUCT-AREA END -->
-			<!-- DISCOUNT-PRODUCT START -->
-			<div class="discount-product-area discount-2">
-				<div class="container">
-					<div class="row">
-						<div class="col-lg-8 col-md-8">
-							<div class="row">
-								<div class="discount-product-slider dots-bottom-right">
-									<!-- single-discount-product start -->
-									<div class="col-lg-12">
-										<div class="discount-product">
-											<div class="row">
-												<div class="col-lg-5 col-md-5 col-sm-6">
-													<a href="single-blog.html">
-														<img src="img/discount/5.jpg" alt="" />
-													</a>
-												</div>
-												<div class="col-lg-7 col-md-7 col-sm-6">
-													<div class="discount-info"> 
-														<h1 class="text-dark-red">Discount 50%</h1>
-														<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed does eiusmodes tempor incididunt ut labore labore et labore et dolore magna aliqua. Ut enim ad minim venim.</p>
-														<a class="button-2 text-dark-red text-uppercase" href="#">GET DISCOUNT <i class="zmdi zmdi-long-arrow-right"></i></a>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-									<!-- single-discount-product end -->
-									<!-- single-discount-product start -->
-									<div class="col-lg-12">
-										<div class="discount-product">
-											<div class="row">
-												<div class="col-lg-5 col-md-5 col-sm-6">
-													<a href="single-blog.html">
-														<img src="img/discount/6.jpg" alt="" />
-													</a>
-												</div>
-												<div class="col-lg-7 col-md-7 col-sm-6">
-													<div class="discount-info"> 
-														<h1 class="text-dark-red">Discount 50%</h1>
-														<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed does eiusmodes tempor incididunt ut labore labore et labore et dolore magna aliqua. Ut enim ad minim venim.</p>
-														<a class="button-2 text-dark-red text-uppercase" href="#">GET DISCOUNT <i class="zmdi zmdi-long-arrow-right"></i></a>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-									<!-- single-discount-product end -->
-									<!-- single-discount-product start -->
-									<div class="col-lg-12">
-										<div class="discount-product">
-											<div class="row">
-												<div class="col-lg-5 col-md-5 col-sm-6">
-													<a href="single-blog.html">
-														<img src="img/discount/7.jpg" alt="" />
-													</a>
-												</div>
-												<div class="col-lg-7 col-md-7 col-sm-6">
-													<div class="discount-info"> 
-														<h1 class="text-dark-red">Discount 50%</h1>
-														<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed does eiusmodes tempor incididunt ut labore labore et labore et dolore magna aliqua. Ut enim ad minim venim.</p>
-														<a class="button-2 text-dark-red text-uppercase" href="#">GET DISCOUNT <i class="zmdi zmdi-long-arrow-right"></i></a>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-									<!-- single-discount-product end -->
-									<!-- single-discount-product start -->
-									<div class="col-lg-12">
-										<div class="discount-product">
-											<div class="row">
-												<div class="col-lg-5 col-md-5 col-sm-6">
-													<a href="single-blog.html">
-														<img src="img/discount/8.jpg" alt="" />
-													</a>
-												</div>
-												<div class="col-lg-7 col-md-7 col-sm-6">
-													<div class="discount-info"> 
-														<h1 class="text-dark-red">Discount 50%</h1>
-														<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed does eiusmodes tempor incididunt ut labore labore et labore et dolore magna aliqua. Ut enim ad minim venim.</p>
-														<a class="button-2 text-dark-red text-uppercase" href="#">GET DISCOUNT <i class="zmdi zmdi-long-arrow-right"></i></a>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-									<!-- single-discount-product end -->
-								</div>
-							</div>
-						</div>
-						<!-- up-comming-product start -->
-						<div class="col-lg-4 col-md-4">
-							<div class="up-comming-product">
-								<div class="up-comming-img">
-									<a href="#"><img src="img/product/up-comming.jpg" alt="" /></a>
-								</div>
-								<div class="up-comming-info text-center">
-									<div class="up-comming-brief">
-										<h4 class="post-title"><a href="#">Indoor Furniture</a></h4>
-										<h4 class="comming-pro-price">$ 200.00</h4>
-									</div>
-									<div class="count-down">
-										<div data-countdown="2022/10/08"></div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- up-comming-product end -->
-					</div>
-				</div>
-			</div>
-			<!-- DISCOUNT-PRODUCT END -->
 			<!-- PURCHASE-ONLINE-AREA START -->
 			<div class="purchase-online-area pt-80 product-style-2">
 				<div class="container">
@@ -458,7 +198,9 @@ include("include/header.php"); ?>
                                                  $product->execute();
                                                  $i=0;
                                                     while ($row = $product->fetch(PDO::FETCH_ASSOC)){
-                                                        $prod_id = $row['id'];
+														$prod_id = $row['id'];
+														$product_name = $row['product_name'];
+														$category = $row['category'];
                                                     $stmt_img = $conn->prepare("SELECT * FROM `images` WHERE status=1 AND id=?");
                                                     $stmt_img->execute([$row['front_img']]);
                                                     $img_data = $stmt_img->fetchAll(PDO::FETCH_ASSOC);
@@ -487,7 +229,7 @@ include("include/header.php"); ?>
 											<div class="single-product">
 												<div class="product-img">
 													<span class="pro-label new-label">new</span>
-													<span class="pro-price-2">$ <?php echo $price ?> </span>
+													<span class="pro-price-2">INR <?php echo $price ?> </span>
 													<a href="single-product.html"><img src="sanjary-admin/<?php echo $image ?>" alt="<?php echo $image ?>" /></a>
 												</div>
 												<div class="product-info clearfix text-center">
@@ -504,10 +246,9 @@ include("include/header.php"); ?>
 														</span>
 													</div>
 													<div class="product-action clearfix">
-														<a href="wishlist.html" data-bs-toggle="tooltip" data-placement="top" title="Wishlist"><i class="zmdi zmdi-favorite-outline"></i></a>
-														<a href="#" data-bs-toggle="modal"  data-bs-target="#productModal" title="Quick View"><i class="zmdi zmdi-zoom-in"></i></a>
-														<a href="#" data-bs-toggle="tooltip" data-placement="top" title="Compare"><i class="zmdi zmdi-refresh"></i></a>
-														<a href="cart.html" data-bs-toggle="tooltip" data-placement="top" title="Add To Cart"><i class="zmdi zmdi-shopping-cart-plus"></i></a>
+													<a href="javascript:void(0)" data-bs-toggle="tooltip" data-placement="top" title="Wishlist"><i class="zmdi zmdi-favorite-outline"></i></a>
+													<a href="javascript:void(0)" onclick="addProductToCart(this)" data-pro_id="<?php echo $prod_id ?>" data-pro_name="<?php echo $product_name ?>" data-category="<?php echo $category ?>"
+													data-image="<?php echo $image ?>" data-price="<?php echo $price ?>" data-size="<?php echo $size ?>"  data-bs-toggle="tooltip" data-placement="top" title="Add To Cart"><i class="zmdi zmdi-shopping-cart-plus"></i></a>
 													</div>
 												</div>
 											</div>
@@ -524,7 +265,9 @@ include("include/header.php"); ?>
                                                  $product->execute();
                                                  $i=0;
                                                     while ($row = $product->fetch(PDO::FETCH_ASSOC)){
-                                                        $prod_id = $row['id'];
+														$prod_id = $row['id'];
+														$product_name = $row['product_name'];
+														$category = $row['category'];
                                                     $stmt_img = $conn->prepare("SELECT * FROM `images` WHERE status=1 AND id=?");
                                                     $stmt_img->execute([$row['front_img']]);
                                                     $img_data = $stmt_img->fetchAll(PDO::FETCH_ASSOC);
@@ -552,7 +295,7 @@ include("include/header.php"); ?>
 											<div class="single-product">
 												<div class="product-img">
 													<span class="pro-label new-label">new</span>
-													<span class="pro-price-2">$ <?php echo $price ?></span>
+													<span class="pro-price-2">INR <?php echo $price ?></span>
                                                     <a href="single-product.html"><img src="sanjary-admin/<?php echo $image ?>" alt="<?php echo $image ?>" /></a>
 												</div>
 												<div class="product-info clearfix text-center">
@@ -569,10 +312,9 @@ include("include/header.php"); ?>
 														</span>
 													</div>
 													<div class="product-action clearfix">
-														<a href="wishlist.html" data-bs-toggle="tooltip" data-placement="top" title="Wishlist"><i class="zmdi zmdi-favorite-outline"></i></a>
-														<a href="#" data-bs-toggle="modal"  data-bs-target="#productModal" title="Quick View"><i class="zmdi zmdi-zoom-in"></i></a>
-														<a href="#" data-bs-toggle="tooltip" data-placement="top" title="Compare"><i class="zmdi zmdi-refresh"></i></a>
-														<a href="cart.html" data-bs-toggle="tooltip" data-placement="top" title="Add To Cart"><i class="zmdi zmdi-shopping-cart-plus"></i></a>
+													<a href="javascript:void(0)" data-bs-toggle="tooltip" data-placement="top" title="Wishlist"><i class="zmdi zmdi-favorite-outline"></i></a>
+												<a href="javascript:void(0)" onclick="addProductToCart(this)" data-pro_id="<?php echo $prod_id ?>" data-pro_name="<?php echo $product_name ?>" data-category="<?php echo $category ?>"
+													data-image="<?php echo $image ?>" data-price="<?php echo $price ?>" data-size="<?php echo $size ?>"  data-bs-toggle="tooltip" data-placement="top" title="Add To Cart"><i class="zmdi zmdi-shopping-cart-plus"></i></a>
 													</div>
 												</div>
 											</div>
@@ -588,7 +330,9 @@ include("include/header.php"); ?>
                                                  $product->execute();
                                                  $i=0;
                                                     while ($row = $product->fetch(PDO::FETCH_ASSOC)){
-                                                        $prod_id = $row['id'];
+														$prod_id = $row['id'];
+														$product_name = $row['product_name'];
+														$category = $row['category'];
                                                     $stmt_img = $conn->prepare("SELECT * FROM `images` WHERE status=1 AND id=?");
                                                     $stmt_img->execute([$row['front_img']]);
                                                     $img_data = $stmt_img->fetchAll(PDO::FETCH_ASSOC);
@@ -616,7 +360,7 @@ include("include/header.php"); ?>
 											<div class="single-product">
 												<div class="product-img">
 													<span class="pro-label new-label">new</span>
-													<span class="pro-price-2">$ <?php echo $price ?></span>
+													<span class="pro-price-2">INR <?php echo $price ?></span>
                                                     <a href="single-product.html"><img src="sanjary-admin/<?php echo $image ?>" alt="<?php echo $image ?>" /></a>
 												</div>
 												<div class="product-info clearfix text-center">
@@ -633,10 +377,9 @@ include("include/header.php"); ?>
 														</span>
 													</div>
 													<div class="product-action clearfix">
-														<a href="wishlist.html" data-bs-toggle="tooltip" data-placement="top" title="Wishlist"><i class="zmdi zmdi-favorite-outline"></i></a>
-														<a href="#" data-bs-toggle="modal"  data-bs-target="#productModal" title="Quick View"><i class="zmdi zmdi-zoom-in"></i></a>
-														<a href="#" data-bs-toggle="tooltip" data-placement="top" title="Compare"><i class="zmdi zmdi-refresh"></i></a>
-														<a href="cart.html" data-bs-toggle="tooltip" data-placement="top" title="Add To Cart"><i class="zmdi zmdi-shopping-cart-plus"></i></a>
+													<a href="javascript:void(0)" data-bs-toggle="tooltip" data-placement="top" title="Wishlist"><i class="zmdi zmdi-favorite-outline"></i></a>
+												<a href="javascript:void(0)" onclick="addProductToCart(this)" data-pro_id="<?php echo $prod_id ?>" data-pro_name="<?php echo $product_name ?>" data-category="<?php echo $category ?>"
+													data-image="<?php echo $image ?>" data-price="<?php echo $price ?>" data-size="<?php echo $size ?>"  data-bs-toggle="tooltip" data-placement="top" title="Add To Cart"><i class="zmdi zmdi-shopping-cart-plus"></i></a>
 													</div>
 												</div>
 											</div>
@@ -652,7 +395,9 @@ include("include/header.php"); ?>
                                                  $product->execute();
                                                  $i=0;
                                                     while ($row = $product->fetch(PDO::FETCH_ASSOC)){
-                                                        $prod_id = $row['id'];
+														$prod_id = $row['id'];
+														$product_name = $row['product_name'];
+														$category = $row['category'];
                                                     $stmt_img = $conn->prepare("SELECT * FROM `images` WHERE status=1 AND id=?");
                                                     $stmt_img->execute([$row['front_img']]);
                                                     $img_data = $stmt_img->fetchAll(PDO::FETCH_ASSOC);
@@ -680,7 +425,7 @@ include("include/header.php"); ?>
 											<div class="single-product">
 												<div class="product-img">
 													<span class="pro-label new-label">new</span>
-													<span class="pro-price-2">$ <?php echo $price ?></span>
+													<span class="pro-price-2">INR <?php echo $price ?></span>
                                                     <a href="single-product.html"><img src="sanjary-admin/<?php echo $image ?>" alt="<?php echo $image ?>" /></a>
 												</div>
 												<div class="product-info clearfix text-center">
@@ -697,10 +442,9 @@ include("include/header.php"); ?>
 														</span>
 													</div>
 													<div class="product-action clearfix">
-														<a href="wishlist.html" data-bs-toggle="tooltip" data-placement="top" title="Wishlist"><i class="zmdi zmdi-favorite-outline"></i></a>
-														<a href="#" data-bs-toggle="modal"  data-bs-target="#productModal" title="Quick View"><i class="zmdi zmdi-zoom-in"></i></a>
-														<a href="#" data-bs-toggle="tooltip" data-placement="top" title="Compare"><i class="zmdi zmdi-refresh"></i></a>
-														<a href="cart.html" data-bs-toggle="tooltip" data-placement="top" title="Add To Cart"><i class="zmdi zmdi-shopping-cart-plus"></i></a>
+													<a href="javascript:void(0)" data-bs-toggle="tooltip" data-placement="top" title="Wishlist"><i class="zmdi zmdi-favorite-outline"></i></a>
+												<a href="javascript:void(0)" onclick="addProductToCart(this)" data-pro_id="<?php echo $prod_id ?>" data-pro_name="<?php echo $product_name ?>" data-category="<?php echo $category ?>"
+													data-image="<?php echo $image ?>" data-price="<?php echo $price ?>" data-size="<?php echo $size ?>"  data-bs-toggle="tooltip" data-placement="top" title="Add To Cart"><i class="zmdi zmdi-shopping-cart-plus"></i></a>
 													</div>
 												</div>
 											</div>

@@ -291,7 +291,7 @@ $(function() {
             processData: false,
             success: function (data) {
             alert(data);
-   //             window.location.replace(url);
+   window.location.href ="/ordercomplete";
             
             },
           });

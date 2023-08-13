@@ -5,6 +5,7 @@ RewriteRule ^cart/?$ cart.php?slug=$1
 RewriteRule ^contact/?$ contactus.php?slug=$1
 RewriteRule ^delivery/?$ deliveryandreturns.php?slug=$1
 RewriteRule ^privacy/?$ privacypolicy.php?slug=$1
+RewriteRule ^ordercomplete/?$ order.php?slug=$1
 RewriteRule ^return/?$ returnandrefund.php?slug=$1
 RewriteRule ^cart/?$ cart.php?slug=$1
 RewriteRule ^([^/\.]+)/?$ product.php?slug=$1 [L,QSA]

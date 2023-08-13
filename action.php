@@ -1,4 +1,5 @@
 <?php
+session_start();
 include('include/config.php');
 $userid = $_COOKIE["userID"];
 if ($_POST['btn'] == 'addToCartproduct') {
@@ -360,6 +361,7 @@ if ($_POST['btn'] == 'addUseraddress') {
         $deleteFromCart->execute([$userid]);
     }
     echo "done";
+    $_SESSION['orderId'] = $orderId;
   }
 
 }
