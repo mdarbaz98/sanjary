@@ -230,7 +230,7 @@ include("include/header.php"); ?>
 												<div class="product-img">
 													<span class="pro-label new-label">new</span>
 													<span class="pro-price-2">INR <?php echo $price ?> </span>
-													<a href="single-product.html"><img src="sanjary-admin/<?php echo $image ?>" alt="<?php echo $image ?>" /></a>
+													<a href="<?php echo $row['slug']; ?>"><img src="sanjary-admin/<?php echo $image ?>" alt="<?php echo $image ?>" /></a>
 												</div>
 												<div class="product-info clearfix text-center">
 													<div class="fix">
@@ -296,7 +296,7 @@ include("include/header.php"); ?>
 												<div class="product-img">
 													<span class="pro-label new-label">new</span>
 													<span class="pro-price-2">INR <?php echo $price ?></span>
-                                                    <a href="single-product.html"><img src="sanjary-admin/<?php echo $image ?>" alt="<?php echo $image ?>" /></a>
+                                                    <a href="<?php echo $row['slug']; ?>"><img src="sanjary-admin/<?php echo $image ?>" alt="<?php echo $image ?>" /></a>
 												</div>
 												<div class="product-info clearfix text-center">
 													<div class="fix">
@@ -361,7 +361,7 @@ include("include/header.php"); ?>
 												<div class="product-img">
 													<span class="pro-label new-label">new</span>
 													<span class="pro-price-2">INR <?php echo $price ?></span>
-                                                    <a href="single-product.html"><img src="sanjary-admin/<?php echo $image ?>" alt="<?php echo $image ?>" /></a>
+                                                    <a href="<?php echo $row['slug']; ?>"><img src="sanjary-admin/<?php echo $image ?>" alt="<?php echo $image ?>" /></a>
 												</div>
 												<div class="product-info clearfix text-center">
 													<div class="fix">
@@ -426,7 +426,7 @@ include("include/header.php"); ?>
 												<div class="product-img">
 													<span class="pro-label new-label">new</span>
 													<span class="pro-price-2">INR <?php echo $price ?></span>
-                                                    <a href="single-product.html"><img src="sanjary-admin/<?php echo $image ?>" alt="<?php echo $image ?>" /></a>
+                                                    <a href="<?php echo $row['slug']; ?>"><img src="sanjary-admin/<?php echo $image ?>" alt="<?php echo $image ?>" /></a>
 												</div>
 												<div class="product-info clearfix text-center">
 													<div class="fix">
