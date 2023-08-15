@@ -55,7 +55,7 @@ if ($_POST['btn'] == "load_maincart_data") {
             <td class="product-thumbnail  text-left">
                 <div class="single-product">
                     <div class="product-img">
-                        <a href="single-product.html"><img src="sanjary-admin/'.$pro_img.'" alt="" /></a>
+                        <a href="#1"><img src="sanjary-admin/'.$pro_img.'" alt="" /></a>
                     </div>
                     <div class="product-info">
                         <h4 class="post-title"><a class="text-light-black" href="#">'.$pro_name.'</a></h4>
@@ -64,13 +64,13 @@ if ($_POST['btn'] == "load_maincart_data") {
                     </div>
                 </div>                
             </td>
-            <td class="product-price">$ '.$pro_price.'</td>
+            <td class="product-price">INR '.$pro_price.'</td>
             <td class="product-quantity">
                 <div class="cart-plus-minus">
                     <input type="text" value="01" name="qtybutton" class="cart-plus-minus-box">
                 </div>
             </td>
-            <td class="product-subtotal">$ '.$total.'</td>
+            <td class="product-subtotal">INR '.$total.'</td>
             <td class="product-remove">
                 <a href="javascript:void(0)" onclick="deleteCartproduct('.$cartId.')"><i class="zmdi zmdi-close"></i></a>
             </td>

@@ -66,7 +66,7 @@ while ($row = $product->fetch(PDO::FETCH_ASSOC)){
 										</span>
 									</div>
 									<div class="fix mb-20">
-										<span class="pro-price">$ <?php echo $price ?></span>
+										<span class="pro-price">INR <?php echo $price ?></span>
 									</div>
 									<div class="product-description">
 										<p><?php echo $description ?></p>
