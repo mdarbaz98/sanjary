@@ -38,8 +38,9 @@
 								<div class="single-footer">
 									<h3 class="footer-title  title-border">Contact Us</h3>
 									<ul class="footer-contact">
-										<li><span>Address :</span>28 Green Tower, Street Name,<br>New York City, USA</li>
-										<li><span>Cell-Phone :</span>012345 - 123456789</li>
+										<li><span>Address :</span>Galla No, B-114 Shukla Esate,<br>Singh Compound, Behind Ramleela Ground,<br>Jogeshwari West, Mumbai - 400102 (Gulshan Nagar)
+										</li>
+										<li><span>Cell-Phone :</span>9833463342 - 8454008109</li>
 										<li><span>Email :</span>your-email@gmail.com</li>
 									</ul>
 								</div>
@@ -89,7 +90,7 @@
 						<div class="row">
 							<div class="col-md-6">
 								<div class="copyright">
-									<p class="mb-0">&copy; <a href="https://themeforest.net/user/codecarnival/portfolio" target="_blank">CodeCarnival </a> 2022. All Rights Reserved.</p>
+									<p class="mb-0">&copy; <a href="https://themeforest.net/user/codecarnival/portfolio" target="_blank">Sanjary Furniture </a> All Rights Reserved.</p>
 								</div>
 							</div>
 							<div class="col-md-6">
