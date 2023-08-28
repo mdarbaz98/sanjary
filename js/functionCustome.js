@@ -83,9 +83,9 @@ function getSizeprice(x){
   
           $(".cart_total_product").html(cart_product_count);
           $(".cartProductlisting").html(htmldata);
-          $(".cart_subtotal").html("$ "+product_calculation);
+          $(".cart_subtotal").html("INR "+product_calculation);
           $(".product_shipping").html(shipping_total_price);
-          $(".final_cartTotal").html("$ "+finalTotal);
+          $(".final_cartTotal").html("INR "+finalTotal);
           
           // $(".loader-bg").hide();
         },
